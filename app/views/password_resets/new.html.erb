@@ -1,0 +1,17 @@
+<div class="container">
+  <h1 class="title is-3 has-text-centered">Zresetuj hasło</h1>
+  <%= form_with url: password_resets_path, method: :post, class: "box container is-max-desktop" do |f| %>
+    <div class="field">
+      <label class="label">Email</label>
+      <div class="control">
+        <%= f.email_field :email, class: "input", required: true %>
+      </div>
+    </div>
+
+    <div class="field mt-4 has-text-centered">
+      <div class="control">
+        <%= f.submit "Wyślij link do resetu hasła", class: "button is-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Rozegraj Polskę" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <script type="module">import "application"</script>
+  </head>
+
+  <body class="is-flex is-flex-direction-column min-vh-100" data-controller="presence">
+  <%= render "layouts/navigation" %>
+  <% flash.each do |key, message| %>
+    <% if message.present? %>
+  <% show = 'warning' %>
+  <% show = 'danger' if key == 'alert' %>
+  <% show = 'success' if key == 'notice' %>
+  <% disappear = show == 'warning' || show == 'success' %>
+      <div class="notification is-<%= show %> mx-6 my-1 <%= disappear ? "auto-hide" : "long-auto-hide" %>"><%= message %></div>
+    <% end %>
+  <% end %>
+
+  <main class="flex-grow-1">
+    <%= yield %>
+  </main>
+  <%= render "layouts/footer" %>
+  </body>
+</html>

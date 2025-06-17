@@ -1,0 +1,6 @@
+<h2 class="title is-5">Online Users</h2>
+<ul>
+  <% User.online.each do |user| %>
+    <li><%= user.name %><%= user.last_seen_at %></li>
+  <% end %>
+</ul>

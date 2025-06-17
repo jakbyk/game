@@ -1,0 +1,25 @@
+<h1 class="title is-3 has-text-centered">Logowanie</h1>
+
+<%= form_with model: @user, url: login_path, method: :post, data: { turbo: true }, class: "box container is-max-desktop" do |f| %>
+  <div class="field">
+    <label class="label">Email</label>
+    <div class="control">
+      <%= email_field_tag :email, params[:email], class: "input", required: true %>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Hasło</label>
+    <div class="control">
+      <%= password_field_tag :password, nil, class: "input", required: true %>
+    </div>
+  </div>
+
+  <div class="field mt-4 has-text-centered">
+    <div class="control">
+      <%= submit_tag "Login", class: "button is-primary" %>
+    </div>
+  </div>
+<% end %>
+
+<p class="has-text-centered"><%= link_to "Nie pamiętasz hasła?", new_password_resets_path %></p>
