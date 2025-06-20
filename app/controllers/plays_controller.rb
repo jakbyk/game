@@ -1,6 +1,6 @@
 class PlaysController < ApplicationController
-  before_action :set_play, only: [:show, :budgets_descriptions]
-  before_action :set_chat, only: [:show, :budgets_descriptions]
+  before_action :set_play, only: [ :show, :budgets_descriptions ]
+  before_action :set_chat, only: [ :show, :budgets_descriptions ]
 
   def show
     redirect_to root_path, alert: "Nie jesteś członkiem tej gry" unless @play && PlayUser.find_by(play: @play, user: current_user)
@@ -18,7 +18,7 @@ class PlaysController < ApplicationController
   end
 
   def budgets_descriptions
-    @sample_budget = BudgetCategory.get(name: 'Rolnictwo i łowiectwo')
+    @sample_budget = BudgetCategory.get(name: "Rolnictwo i łowiectwo")
     @budgets = BudgetCategory.all
   end
 

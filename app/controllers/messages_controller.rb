@@ -1,7 +1,7 @@
 class MessagesController < ApplicationController
   before_action :set_chat
-  before_action :set_message, only: [:edit, :update, :destroy]
-  before_action :check_permission, only: [:edit, :update, :destroy]
+  before_action :set_message, only: [ :edit, :update, :destroy ]
+  before_action :check_permission, only: [ :edit, :update, :destroy ]
 
   def create
     @message = @chat.messages.build(message_params.merge(user: current_user))

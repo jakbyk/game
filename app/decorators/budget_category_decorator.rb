@@ -4,6 +4,6 @@ class BudgetCategoryDecorator < Draper::Decorator
   include ActionView::Helpers::NumberHelper
 
   def formatted_start_budget
-    number_with_delimiter(object.start_budget * 1_000, delimiter: ' ') + " zł"
+    number_with_delimiter(object.start_budget * 1_000, delimiter: " ") + " zł"
   end
 end

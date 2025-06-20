@@ -4,22 +4,22 @@ Rails.application.routes.draw do
   get "game/home"
   get "pages/home"
   root "pages#home"
-  resources :users, only: [:new, :create] do
+  resources :users, only: [ :new, :create ] do
     collection do
       get :confirm
     end
   end
   get :online_users, to: "users#online"
 
-  resources :plays, only: [:show, :create] do
-    get 'budgets_descriptions', to: 'plays#budgets_descriptions'
+  resources :plays, only: [ :show, :create ] do
+    get "budgets_descriptions", to: "plays#budgets_descriptions"
   end
 
-  resources :chats, only: [:show] do
-    resources :messages, only: [:create, :edit, :update, :destroy]
+  resources :chats, only: [ :show ] do
+    resources :messages, only: [ :create, :edit, :update, :destroy ]
   end
 
-  resource :password_resets, only: [:new, :create, :edit, :update]
+  resource :password_resets, only: [ :new, :create, :edit, :update ]
 
   get "admin", to: "admin#index"
 
