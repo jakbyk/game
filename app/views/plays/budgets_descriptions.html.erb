@@ -1,0 +1,25 @@
+<%= render 'shared/plays' do %>
+  <table>
+    <tr class="has-text-centered">
+      <td><strong>Nazwa</strong></td>
+      <td><strong>Kwota startowa</strong></td>
+    </tr>
+    <% @budgets.each_with_index do |budget, i| %>
+      <tbody class="budget-group">
+        <tr>
+          <td>
+            <strong><%= budget.name %></strong>
+          </td>
+          <td style="text-align: right;">
+            <%= budget.decorate.formatted_start_budget %>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <%= budget.description %>
+          </td>
+        </tr>
+      </tbody>
+    <% end %>
+  </table>
+<% end %>

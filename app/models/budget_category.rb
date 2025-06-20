@@ -3,7 +3,7 @@ class BudgetCategory < ApplicationRecord
 
   def self.get(name:)
     seed if self.count == 0
-    b = BudgetCategory.find_by(name: name)
+    BudgetCategory.find_by(name: name)
   end
 
   def self.seed
