@@ -1,4 +1,5 @@
 class PasswordResetsController < ApplicationController
+  before_action :load_user, only: [:edit, :update]
   def new
   end
 
@@ -14,18 +15,13 @@ class PasswordResetsController < ApplicationController
   end
 
   def edit
-    @user = User.find_by(reset_password_token: params[:token])
-
-    redirect_to new_password_resets_path, alert: "Link do resetu hasła jest nieprawidłowy lub wygasły." if @user.nil?
-    if @user.nil? || !@user.password_reset_token_valid?
+    if !@user.password_reset_token_valid?
       redirect_to new_password_resets_path, alert: "Link do resetu hasła jest nieprawidłowy lub wygasły."
     end
   end
 
   def update
-    @user = User.find_by(reset_password_token: params[:token])
-
-    if @user.nil? || !@user.password_reset_token_valid?
+    if !@user.password_reset_token_valid?
       redirect_to new_password_resets_path, alert: "Link wygasł, spróbuj ponownie."
     elsif @user.update(password_params)
       @user.clear_password_reset_token!
@@ -39,5 +35,11 @@ class PasswordResetsController < ApplicationController
 
   def password_params
     params.require(:user).permit(:password, :password_confirmation)
+  end
+
+  def load_user
+    @user = params[:token] ? User.find_by(reset_password_token: params[:token]) : nil
+
+    redirect_to root_path, alert: "Link do resetu hasła jest nieprawidłowy lub wygasły." if @user.nil?
   end
 end
