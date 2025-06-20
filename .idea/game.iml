@@ -70,6 +70,7 @@
     <orderEntry type="library" scope="PROVIDED" name="google-protobuf (v4.31.1, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n (v1.14.7, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="importmap-rails (v2.1.0, RVM: ruby-3.3.7) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="iniparse (v1.5.0, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="io-console (v0.8.0, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="irb (v1.15.2, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jbuilder (v2.13.0, RVM: ruby-3.3.7) [gem]" level="application" />
@@ -92,6 +93,7 @@
     <orderEntry type="library" scope="PROVIDED" name="net-smtp (v0.5.1, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nio4r (v2.7.4, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.18.8, RVM: ruby-3.3.7) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="overcommit (v0.67.1, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parallel (v1.27.0, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parser (v3.3.8.0, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pg (v1.5.9, RVM: ruby-3.3.7) [gem]" level="application" />
