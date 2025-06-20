@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Rozegraj Polskę" %></title>
+    <title><%= content_for(:title) || "Gra o Polskę" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
@@ -17,6 +17,8 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <script type="module">import "application"</script>
+    <script>window.currentUserId = <%= current_user&.id %>;</script>
+    <script>window.isAdmin = <%= current_user&.is_admin %>;</script>
   </head>
 
   <body class="is-flex is-flex-direction-column min-vh-100" data-controller="presence">

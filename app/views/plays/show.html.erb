@@ -1,0 +1,33 @@
+<section class="section">
+  <div class="container has-text-centered">
+    <h1 class="title is-2">Gra o Polskę</h1>
+  </div>
+</section>
+<div id="gameboard" class="columns is-gapless" data-controller="fullscreen" data-fullscreen-target="board">
+  <aside class="column is-2 has-background-light p-4">
+    <p class="subtitle is-5 has-text-centered">
+      Zadowolenie społeczne <%= "100" %>%
+    </p>
+    <ul class="menu-list">
+      <li><a class="button is-light" data-action="fullscreen#toggle" data-fullscreen-target="button"></a></li>
+      <li><a class="button is-light">Dashboard</a></li>
+      <li><a class="button is-light">Ustawienia</a></li>
+      <li><a class="button is-light">Statystyki</a></li>
+      <li><a class="button is-light">Wyloguj</a></li>
+    </ul>
+  </aside>
+
+  <main class="column is-10 p-5" style="display: flex; flex-direction: column;">
+    <h1 class="title">Zawartość strony</h1>
+    <p>To jest główna część aplikacji.</p>
+<!--    <p><%#= BudgetCategory.get(name: "Rolnictwo i łowiectwo").name %></p>-->
+<!--    <p><%#= BudgetCategory.get(name: "Rolnictwo i łowiectwo").description %></p>-->
+<!--    <p><%#= BudgetCategory.get(name: "Rolnictwo i łowiectwo").decorate.formatted_start_budget %></p>-->
+    <% if @chat %>
+      <section class="section is-paddingless is-shapeless mt-auto" style="border-top: #f5f5f5 4px solid;">
+        <%= render 'messages/chat' %>
+      </section>
+    <% end %>
+  </main>
+</div>
+

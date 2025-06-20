@@ -1,2 +1,15 @@
-<h1>Game#home</h1>
-<p>Find me in app/views/game/home.html.erb</p>
+<section class="section">
+  <div class="container">
+    <% if @plays.any? %>
+      <% @plays.each do |play| %>
+        <%= link_to "Gra", play_path(play), class: "button is-light" %>
+      <% end %>
+    <% else %>
+      <div class="is-fullwidth has-text-centered">
+        <p>Nie znaleziono żadnych aktywnych rozgrywek, możesz zacząć nową klikając poniższy
+          przycisk.</p>
+        <%= button_to "Stwórz nową grę", plays_path, method: :post, class: "button is-success mt-4", data: {turbo: false} %>
+      </div>
+    <% end %>
+  </div>
+</section>

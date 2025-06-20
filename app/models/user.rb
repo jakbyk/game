@@ -3,6 +3,9 @@ class User < ApplicationRecord
   before_create :generate_confirmation_token
   scope :online, -> { where("last_seen_at > ?", 10.seconds.ago) }
 
+  has_many :play_users, dependent: :destroy
+  has_many :plays, through: :play_users
+
   validates :name, :email, presence: true
   validates :email, uniqueness: true
 

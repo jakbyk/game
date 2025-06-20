@@ -1,11 +1,9 @@
-<h2 class="title is-4"><%= @chat.play ? "Game Chat" : "Global Chat" %></h2>
-
 <%= turbo_stream_from "chat_#{@chat.id}" %>
 
 <div id="messages"
      class="chat-window"
      data-controller="chat-scroll">
-  <%= render @chat.messages.order(:created_at) %>
+  <%= render @chat.messages.order(:created_at), chat: @chat %>
 </div>
 
 <%= render "messages/form",

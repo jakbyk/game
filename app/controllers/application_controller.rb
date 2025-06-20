@@ -14,10 +14,16 @@ class ApplicationController < ActionController::Base
   end
 
   def require_login
-    redirect_to login_path, alert: "You must be logged in to access this page." unless logged_in?
+    redirect_to login_path, alert: "Musisz być zalogowany, aby zobaczyć tą stronę." unless logged_in?
   end
 
   def track_presence
     PresenceTracker.update(current_user)
+  end
+
+  def authenticate_admin!
+    return if logged_in? && current_user.is_admin
+
+    redirect_to root_path, alert: "Musisz być administratorem, aby zobaczyć tą stronę."
   end
 end

@@ -11,15 +11,19 @@ Rails.application.routes.draw do
   end
   get :online_users, to: "users#online"
 
+  resources :plays, only: [:show, :create]
+
   resources :chats, only: [:show] do
-    resources :messages, only: [:create]
+    resources :messages, only: [:create, :edit, :update, :destroy]
   end
 
   resource :password_resets, only: [:new, :create, :edit, :update]
 
+  get "admin", to: "admin#index"
+
   post "/ping", to: "presence#ping"
-  get    "login",  to: "sessions#new"
-  post   "login",  to: "sessions#create"
+  get "login", to: "sessions#new"
+  post "login", to: "sessions#create"
   delete "logout", to: "sessions#destroy"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

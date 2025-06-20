@@ -4,6 +4,15 @@ class Chat < ApplicationRecord
 
   validate :only_one_global_chat
 
+  def have_permission_to_mage_chat(user)
+    return true if user.is_admin
+    return false unless play
+    pu = PlayUser.find_by(user: user, play: play)
+    return false unless pu
+
+    pu.is_leader
+  end
+
   private
 
   def only_one_global_chat

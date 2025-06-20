@@ -10,9 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_06_17_130432) do
+ActiveRecord::Schema[7.2].define(version: 2025_06_18_165652) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "budget_categories", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "start_budget", default: 0
+  end
 
   create_table "chats", force: :cascade do |t|
     t.bigint "play_id"
@@ -36,6 +44,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_17_130432) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_leader", default: false
     t.index ["play_id"], name: "index_play_users_on_play_id"
     t.index ["user_id"], name: "index_play_users_on_user_id"
   end
@@ -57,6 +66,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_17_130432) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "last_seen_at"
+    t.boolean "is_admin", default: false
   end
 
   add_foreign_key "chats", "plays"

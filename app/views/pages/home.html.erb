@@ -23,6 +23,8 @@
       </turbo-frame>
     </div>
 
-    <%= render 'messages/chat' %>
+    <% if current_user&.is_admin %>
+      <%= render 'messages/chat' %>
+    <% end %>
   </div>
 </section>

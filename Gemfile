@@ -62,3 +62,4 @@ end
 gem "bcrypt", "~> 3.1.7"
 gem "sassc-rails"
 gem "bulma-rails"
+gem 'draper'

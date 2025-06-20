@@ -1,7 +1,30 @@
-<div id="message_<%= message.id %>" class="box mb-2">
-  <strong><%= message.user.name %>:</strong>
-  <%= simple_format(message.content) %>
-  <small class="is-size-7 has-text-grey">
-    <%= message.created_at.strftime("%H:%M:%S") %>
-  </small>
+<div id="message_<%= message.id %>" class="box mb-2 has-position-relative">
+  <div class="columns is-multiline">
+    <div class="column is-12">
+      <div class="columns is-flex">
+        <div class="column is-flex-grow-1 pb-0">
+          <strong><%= message.user.name %></strong>
+        </div>
+        <div class="column is-narrow pb-0">
+          <%= message.created_at.strftime("%H:%M:%S") %>
+          <div class="dropdown is-right" data-controller="dropdown message" data-message-author-id-value="<%= message.user_id %>" data-message-target="menu">
+            <div class="dropdown-trigger">
+              <button class="button is-small is-white" aria-haspopup="true" aria-controls="dropdown-menu" data-action="click->dropdown#toggle">
+                <span class="icon is-small">⋮</span>
+              </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu" data-dropdown-target="menu">
+              <div class="dropdown-content">
+                <button class="dropdown-item is-light custom-dropdown-item" data-action="click->message#edit" data-message-id="<%= message.id %>" data-chat-id="<%= chat.id %>">Edit</button>
+                <button class="dropdown-item is-light custom-dropdown-item has-text-danger" data-action="click->message#delete" data-message-id="<%= message.id %>" data-chat-id="<%= chat.id %>">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column is-12 pt-0">
+      <%= simple_format(message.content) %>
+    </div>
+  </div>
 </div>
