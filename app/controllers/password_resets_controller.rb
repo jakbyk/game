@@ -16,6 +16,7 @@ class PasswordResetsController < ApplicationController
   def edit
     @user = User.find_by(reset_password_token: params[:token])
 
+    redirect_to new_password_resets_path, alert: "Link do resetu hasła jest nieprawidłowy lub wygasły." if @user.nil?
     if @user.nil? || !@user.password_reset_token_valid?
       redirect_to new_password_resets_path, alert: "Link do resetu hasła jest nieprawidłowy lub wygasły."
     end
