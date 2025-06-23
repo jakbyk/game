@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   resources :plays, only: [ :show, :create, :destroy ] do
     get "budgets_descriptions", to: "plays#budgets_descriptions"
     delete "archive", to: "plays#archive"
+    patch "proceed", to: "plays#proceed"
+    get "result", to: "plays#result"
   end
 
   resources :chats, only: [ :show ] do

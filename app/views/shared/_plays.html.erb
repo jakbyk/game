@@ -6,6 +6,9 @@
 <div id="gameboard" class="columns is-gapless" data-controller="fullscreen" data-fullscreen-target="board">
   <aside class="column is-2 has-background-light p-4">
     <p class="subtitle is-5 has-text-centered">
+      <%= @play.name_of_current_month %>
+    </p>
+    <p class="subtitle is-5 has-text-centered">
       Zadowolenie społeczne <%= @play.social_satisfaction %>%
     </p>
     <ul class="menu-list">
@@ -27,6 +30,22 @@
           <%= icon_tag("question-mark-circle", options: { class: "menu-icon" }) %>Kategorie budżetowe
         <% end %>
       </li>
+      <% if current_user.allowed_to_proceed_game?(@play) %>
+        <li>
+          <%= button_to play_proceed_path(play_id: @play.id),
+                        method: :patch,
+                        class: "button is-light is-flex is-vcentered is-fullwidth",
+                        data: {
+                          turbo: false,
+                          controller: "confirm",
+                          confirm_target: "confirm",
+                          message: "Czy na pewno chcesz przejść na kolejny miesiąc?",
+                          action: "confirm#confirm"
+                        } do %>
+            <%= icon_tag("clock", options: { class: "menu-icon" }) %> Następny miesiąc
+          <% end %>
+        </li>
+      <% end %>
       <% if current_user.allowed_to_archive_game?(@play) %>
         <li>
           <%= button_to play_archive_path(play_id: @play.id),
