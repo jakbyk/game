@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_06_23_190714) do
+ActiveRecord::Schema[7.2].define(version: 2025_06_23_195642) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,6 +55,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_23_190714) do
     t.datetime "updated_at", null: false
     t.datetime "archived_at"
     t.bigint "archived_by_id"
+    t.float "social_satisfaction", default: 60.0
+    t.integer "current_month"
     t.index ["archived_by_id"], name: "index_plays_on_archived_by_id"
   end
 

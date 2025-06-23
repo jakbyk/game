@@ -23,13 +23,13 @@
             <%= play.id %>
           </div>
           <div class="column">
-            <%= 0 %>
+            <%= play.name_of_current_month %>
           </div>
           <div class="column">
             <%= play.users.count %>
           </div>
           <div class="column">
-            <%= 0 %>%
+            <%= play.social_satisfaction %>%
           </div>
           <div class="column">
             <%= link_to play_path(play), class: "button is-success" do %>
