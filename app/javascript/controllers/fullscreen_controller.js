@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-    static targets = ["board", "button", "main", "scrolled"]
+    static targets = ["board", "minButton", "maxButton", "main", "scrolled"]
 
     connect() {
         this.fullscreen = this.#cookieGet("gameboard_fullscreen") === "true"
@@ -17,7 +17,8 @@ export default class extends Controller {
     #applyFullscreenStyles() {
         if (this.fullscreen) {
             this.boardTarget.classList.add("fullscreen-mode")
-            this.buttonTarget.textContent = "Mały ekran"
+            this.minButtonTarget.classList.remove("is-hidden")
+            this.maxButtonTarget.classList.add("is-hidden")
 
             this.mainTarget.classList.add("is-flex", "is-flex-direction-column")
             this.mainTarget.style.height = "100vh"
@@ -26,7 +27,8 @@ export default class extends Controller {
             this.scrolledTarget.style.flexGrow   = "1"
         } else {
             this.boardTarget.classList.remove("fullscreen-mode")
-            this.buttonTarget.textContent = "Pełny ekran"
+            this.minButtonTarget.classList.add("is-hidden")
+            this.maxButtonTarget.classList.remove("is-hidden")
 
             this.mainTarget.classList.remove("is-flex", "is-flex-direction-column")
             this.mainTarget.style.height = ""

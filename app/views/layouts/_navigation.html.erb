@@ -1,7 +1,7 @@
 <nav class="navbar is-light mb-4" data-controller="navbar">
   <div class="container">
     <div class="navbar-brand">
-      <%= link_to "MyApp", root_path, class: "navbar-item has-text-weight-bold" %>
+      <%= link_to "Gra o Polskę", root_path, class: "navbar-item has-text-weight-bold" %>
 
       <!-- Burger -->
       <a role="button"
@@ -18,24 +18,33 @@
     <div class="navbar-menu" data-navbar-target="menu">
       <div class="navbar-end">
         <% if logged_in? %>
-          <div class="navbar-item">Hello, <%= current_user.name %></div>
           <div class="navbar-item">
-            <%= link_to "Gra", game_home_path, class: "button is-light" %>
+            <%= link_to game_home_path, class: "button is-light" do %>
+              <%= icon_tag("banknotes", options: { class: "menu-icon" }) %> Gra
+            <% end %>
           </div>
           <% if current_user.is_admin %>
             <div class="navbar-item">
-              <%= link_to "Admin", admin_path, class: "button is-light" %>
+              <%= link_to admin_path, class: "button is-light" do %>
+                <%= icon_tag("cog", options: { class: "menu-icon" }) %> Admin
+              <% end %>
             </div>
           <% end %>
           <div class="navbar-item">
-            <%= button_to "Logout", logout_path, method: :delete, class: "button is-light" %>
+            <%= button_to logout_path, method: :delete, class: "button is-light" do %>
+              <%= icon_tag("arrow-left-start-on-rectangle", options: { class: "menu-icon" }) %> Wyloguj
+            <% end %>
           </div>
         <% else %>
           <div class="navbar-item">
-            <%= link_to "Rejestracja", new_user_path, class: "button is-light" %>
+              <%= link_to new_user_path, class: "button is-light" do %>
+                <%= icon_tag("identification", options: { class: "menu-icon" }) %> Rejestracja
+              <% end %>
           </div>
           <div class="navbar-item">
-            <%= link_to "Logowanie", login_path, class: "button is-light" %>
+            <%= link_to login_path, class: "button is-light" do %>
+              <%= icon_tag("arrow-left-end-on-rectangle", options: { class: "menu-icon" }) %> Logowanie
+            <% end %>
           </div>
         <% end %>
       </div>

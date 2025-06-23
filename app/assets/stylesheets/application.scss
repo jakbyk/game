@@ -46,6 +46,7 @@ body {
 
 .auto-hide {
   animation: fadeOutAfterDelay 6s forwards;
+  z-index: 1000;
 }
 
 .long-auto-hide {
@@ -104,11 +105,17 @@ body {
   background-color: $second-background-color;
 }
 
-.budget-group:hover {
+.color-background-on-hover:hover {
   background-color: $third-background-color;
   cursor: default;
 
   tr {
     background-color: $third-background-color;
   }
+}
+
+.menu-icon {
+  margin-bottom: 0px;
+  margin-top: 0px;
+  margin-right: 6px !important;
 }

@@ -11,8 +11,9 @@ Rails.application.routes.draw do
   end
   get :online_users, to: "users#online"
 
-  resources :plays, only: [ :show, :create ] do
+  resources :plays, only: [ :show, :create, :destroy ] do
     get "budgets_descriptions", to: "plays#budgets_descriptions"
+    delete "archive", to: "plays#archive"
   end
 
   resources :chats, only: [ :show ] do

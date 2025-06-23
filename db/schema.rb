@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_06_18_165652) do
+ActiveRecord::Schema[7.2].define(version: 2025_06_23_190714) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,6 +53,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_18_165652) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "archived_at"
+    t.bigint "archived_by_id"
+    t.index ["archived_by_id"], name: "index_plays_on_archived_by_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -74,4 +77,5 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_18_165652) do
   add_foreign_key "messages", "users"
   add_foreign_key "play_users", "plays"
   add_foreign_key "play_users", "users"
+  add_foreign_key "plays", "users", column: "archived_by_id"
 end

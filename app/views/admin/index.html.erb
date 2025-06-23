@@ -1,7 +1,9 @@
 <section class="section">
   <div class="container">
     <p>Hello admin</p>
-    <p>Liczba gier: <%= Play.count %></p>
+    <p>Liczba wszystkich gier: <%= Play.unscoped.count %></p>
+    <p>Liczba aktywnych gier: <%= Play.unarchived.count %></p>
+    <p>Liczba zakończonych gier: <%= Play.unscoped.archived.count %></p>
     <p>Liczba użytkowników: <%= User.count %></p>
     User tab, Game tab
     Side menu

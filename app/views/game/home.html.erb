@@ -1,14 +1,56 @@
 <section class="section">
   <div class="container">
     <% if @plays.any? %>
+      <div class="is-fullwidth columns has-text-centered is-flex is-vcentered">
+        <div class="column">
+          Numer gry
+        </div>
+        <div class="column">
+          Miesiąc gry
+        </div>
+        <div class="column">
+          Ilość graczy
+        </div>
+        <div class="column">
+          Zadowolenie społeczne
+        </div>
+        <div class="column">
+        </div>
+      </div>
       <% @plays.each do |play| %>
-        <%= link_to "Gra", play_path(play), class: "button is-light" %>
+        <div class="is-fullwidth columns has-text-centered color-background-on-hover is-flex is-vcentered">
+          <div class="column">
+            <%= play.id %>
+          </div>
+          <div class="column">
+            <%= 0 %>
+          </div>
+          <div class="column">
+            <%= play.users.count %>
+          </div>
+          <div class="column">
+            <%= 0 %>%
+          </div>
+          <div class="column">
+            <%= link_to play_path(play), class: "button is-success" do %>
+              <%= icon_tag("arrow-left-end-on-rectangle", options: { class: "menu-icon" }) %> Wejdź do gry
+            <% end %>
+          </div>
+        </div>
       <% end %>
+      <div class="is-fullwidth has-text-centered">
+        <%= button_to plays_path, method: :post, class: "button is-light mt-4", data: { turbo: false } do %>
+          <%= icon_tag("plus", options: { class: "menu-icon" }) %> Stwórz nową grę
+        <% end %>
+      </div>
     <% else %>
       <div class="is-fullwidth has-text-centered">
-        <p>Nie znaleziono żadnych aktywnych rozgrywek, możesz zacząć nową klikając poniższy
+        <p>
+          Nie znaleziono żadnych aktywnych rozgrywek, możesz zacząć nową klikając poniższy
           przycisk.</p>
-        <%= button_to "Stwórz nową grę", plays_path, method: :post, class: "button is-success mt-4", data: {turbo: false} %>
+        <%= button_to plays_path, method: :post, class: "button is-success mt-4", data: { turbo: false } do %>
+          <%= icon_tag("plus", options: { class: "menu-icon" }) %> Stwórz nową grę
+        <% end %>
       </div>
     <% end %>
   </div>

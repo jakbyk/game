@@ -9,9 +9,40 @@
       Zadowolenie społeczne <%= "100" %>%
     </p>
     <ul class="menu-list">
-      <li><a class="button is-light" data-action="fullscreen#toggle" data-fullscreen-target="button"></a></li>
-      <li><%= link_to "Newsy", play_path(@play), class: "button is-light" %></li>
-      <li><%= link_to "Kategorie budżetowe", play_budgets_descriptions_path(@play), class: "button is-light" %></li>
+      <li>
+        <a class="button is-light is-flex is-vcentered" data-action="fullscreen#toggle" data-fullscreen-target="minButton">
+          <%= icon_tag("arrows-pointing-in", options: { class: "menu-icon" }) %>Mały ekran
+        </a>
+        <a class="button is-light is-flex is-vcentered" data-action="fullscreen#toggle" data-fullscreen-target="maxButton">
+          <%= icon_tag("arrows-pointing-out", options: { class: "menu-icon" }) %>Pełny ekran
+        </a>
+      </li>
+      <li>
+        <%= link_to play_path(@play), class: "button is-light is-flex is-vcentered" do %>
+          <%= icon_tag("home", options: { class: "menu-icon" }) %>Newsy
+        <% end %>
+      </li>
+      <li>
+        <%= link_to play_budgets_descriptions_path(@play), class: "button is-light is-flex is-vcentered" do %>
+          <%= icon_tag("question-mark-circle", options: { class: "menu-icon" }) %>Kategorie budżetowe
+        <% end %>
+      </li>
+      <% if current_user.allowed_to_archive_game?(@play) %>
+        <li>
+          <%= button_to play_archive_path(play_id: @play.id),
+                        method: :delete,
+                        class: "button is-light is-flex is-vcentered is-fullwidth",
+                        data: {
+                          turbo: false,
+                          controller: "confirm",
+                          confirm_target: "confirm",
+                          message: "Czy na pewno chcesz zakończyć grę?",
+                          action: "confirm#confirm"
+                        } do %>
+            <%= icon_tag("trash", options: { class: "menu-icon" }) %> Zakończ grę
+          <% end %>
+        </li>
+      <% end %>
     </ul>
   </aside>
 

@@ -35,6 +35,18 @@ class User < ApplicationRecord
     reset_password_sent_at > 2.hours.ago
   end
 
+  def allowed_to_create_new_game?
+    is_admin? || plays.count < 4
+  end
+
+  def allowed_to_archive_game?(play)
+    is_admin? || PlayUser.find_by(user: self, play: play)&.is_leader
+  end
+
+  def allowed_to_delete_game?(play)
+    is_admin?
+  end
+
   private
 
   def generate_confirmation_token

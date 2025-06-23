@@ -7,6 +7,7 @@ import ChatFormController from "./chat_form_controller"
 import DropdownController from "./dropdown_controller"
 import MessageController from "./message_controller"
 import FullscreenController from "./fullscreen_controller"
+import ConfirmController from "./confirm_controller"
 
 application.register("presence", PresenceController)
 application.register("reload", ReloadController)
@@ -16,3 +17,4 @@ application.register("chat-scroll", ChatScrollController)
 application.register("dropdown", DropdownController)
 application.register("message", MessageController)
 application.register("fullscreen", FullscreenController)
+application.register("confirm", ConfirmController)
