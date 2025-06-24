@@ -26,6 +26,16 @@
         <% end %>
       </li>
       <li>
+        <%= link_to play_expenses_path(@play), class: "button is-light is-flex is-vcentered" do %>
+          <%= icon_tag("clipboard-document-list", options: { class: "menu-icon" }) %>Stan budżetu
+        <% end %>
+      </li>
+      <li>
+        <%= link_to play_budget_changes_path(@play), class: "button is-light is-flex is-vcentered" do %>
+          <%= icon_tag("hand-raised", options: { class: "menu-icon" }) %>Propozycje zmian budżetu
+        <% end %>
+      </li>
+      <li>
         <%= link_to play_budgets_descriptions_path(@play), class: "button is-light is-flex is-vcentered" do %>
           <%= icon_tag("question-mark-circle", options: { class: "menu-icon" }) %>Kategorie budżetowe
         <% end %>

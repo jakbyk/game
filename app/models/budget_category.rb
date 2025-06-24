@@ -1,6 +1,8 @@
 class BudgetCategory < ApplicationRecord
   include ActionView::Helpers::NumberHelper
 
+  default_scope { order(name: :asc) }
+
   def self.get(name:)
     seed if self.count == 0
     BudgetCategory.find_by(name: name)

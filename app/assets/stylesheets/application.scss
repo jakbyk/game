@@ -119,3 +119,11 @@ body {
   margin-top: 0px;
   margin-right: 6px !important;
 }
+
+svg.is-success {
+  color: $success;
+}
+
+svg.is-danger {
+  color: $danger;
+}

@@ -16,6 +16,10 @@ Rails.application.routes.draw do
     delete "archive", to: "plays#archive"
     patch "proceed", to: "plays#proceed"
     get "result", to: "plays#result"
+    get "expenses", to: "plays#expenses"
+    post "budget_change", to: "plays#create_budget_change"
+    get "budget_changes", to: "plays#budget_changes"
+    post "budget_vote", to: "plays#budget_vote"
   end
 
   resources :chats, only: [ :show ] do

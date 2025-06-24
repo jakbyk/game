@@ -5,10 +5,14 @@ class Play < ApplicationRecord
   has_one :chat, dependent: :destroy
   has_many :play_users, dependent: :destroy
   has_many :users, through: :play_users
+  has_many :game_budget_categories, dependent: :destroy
+  has_many :game_budget_changes, dependent: :destroy
 
   belongs_to :archived_by, class_name: "User", optional: true
 
   after_create :create_chat
+  after_create :create_game_budget_categories
+  after_create :set_budget_reserve
 
   scope :archived, -> { unscoped.where.not(archived_at: nil) }
   scope :active, -> { where(archived_at: nil).where(finished_at: nil) }
@@ -51,5 +55,18 @@ class Play < ApplicationRecord
     if archived_at.present? && finished_at.present?
       errors.add(:base, "Nie można oznaczyć gry jako zakończonej i zarchiwizowanej jednocześnie.")
     end
+  end
+
+  def create_game_budget_categories
+    BudgetCategory.get(name: "Rolnictwo i łowiectwo")
+    BudgetCategory.all.each do |category|
+      game_budget_categories.new(name: category.name,
+                                 current_value: category.start_budget,
+                                 expected_value: category.start_budget).save!
+    end
+  end
+
+  def set_budget_reserve
+    self.update(budget_reserve: 10_000_000)
   end
 end
