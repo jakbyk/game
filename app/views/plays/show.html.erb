@@ -1,3 +1,14 @@
 <%= render 'shared/plays' do %>
-  <p>Treść główna</p>
+  <div class="columns">
+    <div class="column is-6" id="map" data-controller="map" data-src="<%= asset_path("pl.svg") %>" data-map-target="map" data-regions="<%= Play::REGIONS %>" data-game-id="<%= @play.id %>">
+      <div data-map-target="wrapper"></div>
+    </div>
+    <div class="column is-6">
+      <% if @region_name %>
+        <p>Wiadomości z <%= @region_name %></p>
+      <% else %>
+        <p>Wiadomości z Polski</p>
+      <% end %>
+    </div>
+  </div>
 <% end %>

@@ -4,10 +4,6 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
     static targets = ["confirm"]
 
-    connect(){
-        console.log(this.confirmTarget)
-    }
-
     confirm(event) {
         if (!confirm(this.confirmTarget.dataset.message)) {
             event.preventDefault()

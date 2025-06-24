@@ -127,3 +127,25 @@ svg.is-success {
 svg.is-danger {
   color: $danger;
 }
+
+#map {
+  svg {
+    width: 100%;
+    max-width: 900px;
+    max-height: 500px;
+    display: block;
+    margin: 2rem auto;
+  }
+
+  .region {
+    fill: #fff;
+    stroke: #000;
+    stroke-width: 0.8;
+    cursor: pointer;
+    transition: fill .25s;
+  }
+
+  .region:hover {
+    fill: #e10600;
+  }
+}

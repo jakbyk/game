@@ -8,6 +8,7 @@ import DropdownController from "./dropdown_controller"
 import MessageController from "./message_controller"
 import FullscreenController from "./fullscreen_controller"
 import ConfirmController from "./confirm_controller"
+import MapController from "./map_controller"
 
 application.register("presence", PresenceController)
 application.register("reload", ReloadController)
@@ -18,3 +19,4 @@ application.register("dropdown", DropdownController)
 application.register("message", MessageController)
 application.register("fullscreen", FullscreenController)
 application.register("confirm", ConfirmController)
+application.register("map", MapController)

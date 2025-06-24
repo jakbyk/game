@@ -1,6 +1,24 @@
 class Play < ApplicationRecord
   START_YEAR = 2025
   MONTH_NAMES = %w[Styczeń Luty Marzec Kwiecień Maj Czerwiec Lipiec Sierpień Wrzesień Październik Listopad Grudzień].freeze
+  REGIONS = {
+    "PL32": "Zachodniopomorskie",
+    "PL22": "Pomorskie",
+    "PL28": "Warminsko-mazurskie",
+    "PL20": "Podlasie",
+    "PL14": "Mazowieckie",
+    "PL04": "Kujawsko-pomorskie",
+    "PL30": "Wielkopolskie",
+    "PL08": "Lubuskie",
+    "PL02": "Dolnośląskie",
+    "PL16": "Opolskie",
+    "PL24": "Śląskie",
+    "PL10": "Łódzkie",
+    "PL26": "Świętokrzyskie",
+    "PL12": "Małopolskie",
+    "PL18": "Podkarpackie",
+    "PL06": "Lubelskie"
+  }
 
   has_one :chat, dependent: :destroy
   has_many :play_users, dependent: :destroy

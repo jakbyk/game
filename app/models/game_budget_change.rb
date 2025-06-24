@@ -37,7 +37,7 @@ class GameBudgetChange < ApplicationRecord
       new_budget = budget - value
       new_reserve = reserve + value
     end
-    if new_reserve > 0
+    if new_reserve >= 0
       play.update(budget_reserve: new_reserve)
       play.game_budget_categories.find_by(name: name).update(current_value: new_budget)
       update(is_votable: false)
