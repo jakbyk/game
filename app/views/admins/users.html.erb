@@ -1,0 +1,46 @@
+<%= render 'shared/admins' do %>
+  <section class="section">
+    <h2 class="title is-5 has-text-centered">
+      Tabela użytkowników
+    </h2>
+    <div class="container">
+      <table style="width: 100%; border-collapse: separate; border-spacing: 0 6px;">
+        <tr>
+          <td>Id</td>
+          <td>Nazwa</td>
+          <td>Email</td>
+          <td>Ilość gier</td>
+          <td>Data utworzenia</td>
+          <td>Ostatnio widziany</td>
+        </tr>
+        <% @users.each do |user| %>
+          <tbody class="color-background-on-hover">
+          <tr>
+            <td>
+              <%= user.id %>
+            </td>
+            <td>
+              <%= user.name %>
+            </td>
+            <td class="is-flex is-vcentered">
+              <% if user.confirmed? %>
+                <%= icon_tag("check-circle", options: { class: "is-success" }) %>
+              <% end %>
+              <%= user.email %>
+            </td>
+            <td>
+              <%= user.plays.count %>
+            </td>
+            <td>
+              <%= user.created_at&.strftime("%Y-%m-%d %H:%M:%S") %>
+            </td>
+            <td>
+              <%= user.last_seen_at&.strftime("%Y-%m-%d %H:%M:%S") %>
+            </td>
+          </tr>
+          </tbody>
+        <% end %>
+      </table>
+    </div>
+  </section>
+<% end %>

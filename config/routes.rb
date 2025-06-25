@@ -28,7 +28,10 @@ Rails.application.routes.draw do
 
   resource :password_resets, only: [ :new, :create, :edit, :update ]
 
-  get "admin", to: "admin#index"
+  get "admin", to: "admins#index", as: :admin
+  get "admin/users", to: "admins#users", as: :admin_users
+  get "admin/games", to: "admins#games", as: :admin_games
+  get "admin/events", to: "admins#events", as: :admin_events
 
   post "/ping", to: "presence#ping"
   get "login", to: "sessions#new"

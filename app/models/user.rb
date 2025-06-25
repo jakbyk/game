@@ -9,6 +9,8 @@ class User < ApplicationRecord
   validates :name, :email, presence: true
   validates :email, uniqueness: true
 
+  default_scope { order(created_at: :desc) }
+
   def confirm!
     update!(confirmed_at: Time.current, confirmation_token: nil)
   end
