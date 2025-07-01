@@ -9,6 +9,13 @@
       <% else %>
         <p>Wiadomości z Polski</p>
       <% end %>
+      <% @play_events.each do |play_event| %>
+        <h2 class="title"><%= play_event.event.title %></h2>
+        <% description = play_event.event.description
+           description = play_event.event.positive_description if play_event.outcome == "positive"
+           description = play_event.event.negative_description if play_event.outcome == "negative" %>
+        <p class="<%= "is-success" if play_event.outcome == "positive" %><%= "is-danger" if play_event.outcome == "negative" %>"><%= description %></p>
+      <% end %>
     </div>
   </div>
 <% end %>

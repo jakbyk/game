@@ -29,7 +29,7 @@
             <%= play.users.count %>
           </div>
           <div class="column">
-            <%= play.social_satisfaction %>%
+            <%= play.social_satisfaction.round(2).to_s.gsub('.', ',') %>%
           </div>
           <div class="column">
             <%= link_to play_path(play), class: "button is-success" do %>

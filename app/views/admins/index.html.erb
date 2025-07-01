@@ -3,8 +3,9 @@
     <div class="container">
       <p>Liczba wszystkich gier: <%= Play.unscoped.count %></p>
       <p>Liczba aktywnych gier: <%= Play.active.count %></p>
-      <p>Liczba zarchiwizowanych gier: <%= Play.archived.count %></p>
+      <p>Liczba zarchiwizowanych/poddanych gier: <%= Play.archived.count %></p>
       <p>Liczba zakończonych gier: <%= Play.finished.count %></p>
+      <p>Liczba wygranych gier: <%= Play.won.count %></p>
       <p>Liczba użytkowników: <%= User.count %></p>
     </div>
   </section>

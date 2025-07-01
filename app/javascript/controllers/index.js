@@ -9,6 +9,8 @@ import MessageController from "./message_controller"
 import FullscreenController from "./fullscreen_controller"
 import ConfirmController from "./confirm_controller"
 import MapController from "./map_controller"
+import ToggleSectionController from "./toggle_section_controller"
+import SliderController from "./slider_controller"
 
 application.register("presence", PresenceController)
 application.register("reload", ReloadController)
@@ -20,3 +22,5 @@ application.register("message", MessageController)
 application.register("fullscreen", FullscreenController)
 application.register("confirm", ConfirmController)
 application.register("map", MapController)
+application.register("toggle-section", ToggleSectionController)
+application.register("slider", SliderController)

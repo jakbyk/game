@@ -31,7 +31,10 @@ Rails.application.routes.draw do
   get "admin", to: "admins#index", as: :admin
   get "admin/users", to: "admins#users", as: :admin_users
   get "admin/games", to: "admins#games", as: :admin_games
-  get "admin/events", to: "admins#events", as: :admin_events
+
+  namespace :admin do
+    resources :events, only: [ :index, :edit, :update, :create, :new ]
+  end
 
   post "/ping", to: "presence#ping"
   get "login", to: "sessions#new"

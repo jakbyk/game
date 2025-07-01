@@ -11,7 +11,4 @@ class AdminsController < ApplicationController
   def games
     @plays = Play.all
   end
-
-  def events
-  end
 end

@@ -1,0 +1,154 @@
+<div data-controller="toggle-section">
+  <!-- Sekcja 1  (zawsze widoczna) -->
+  <div class="field">
+    <%= f.label :title, "Tytuł" %>
+    <%= f.text_field :title, class: "input #{'is-danger' if @event.errors[:title].any?}", required: true %>
+    <% @event.errors[:title].each do |error| %>
+      <p class="help is-danger"><%= error %></p>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description, "Opis" %>
+    <%= f.text_area :description, class: "textarea #{'is-danger' if @event.errors[:description].any?}", required: true %>
+    <% @event.errors[:description].each do |error| %>
+      <p class="help is-danger"><%= error %></p>
+    <% end %>
+  </div>
+
+  <div class="field" data-controller="slider">
+    <%= f.label :frequency, "Częstotliwość. Im więcej tym większa szansa, że się pojawi" %>
+    <div class="control">
+      <%= f.range_field :frequency, min: 1, max: 100, class: "slider is-fullwidth #{'is-danger' if @event.errors[:frequency].any?}", data: { action: "input->slider#update", slider_target: "input" } %>
+    </div>
+    <p class="help">Aktualna wartość: <span data-slider-target="value"><%= f.object.frequency || 50 %></span></p>
+    <% @event.errors[:frequency].each do |error| %>
+      <p class="help is-danger"><%= error %></p>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= f.label :region, "Gdzie występuje zdarzenie?" %><br>
+    <%= f.select :region,
+                 [["Cała Polska", nil]] + Play::REGIONS.values,
+                 { selected: @event&.region },
+                 class: "select #{'is-danger' if @event.errors[:region].any?}" %>
+    <% @event.errors[:region].each do |error| %>
+      <p class="help is-danger"><%= error %></p>
+    <% end %>
+  </div>
+
+  <!-- ════════════════════════  B U D Ż E T  ════════════════════════ -->
+  <div class="field is-flex is-align-items-center mb-2">
+    <label class="label mr-3">Zmiany do oczekiwanego budżetu</label>
+
+    <label class="switch" data-toggle-section-target="budgetToggle">
+      <%= check_box_tag "budget_toggle",
+                        "1",
+                        @event&.positive_description.present? ||
+                          @event&.negative_description.present? ||
+                          @event&.budget_name.present? ||
+                          @event&.budget_change != 0,
+                        data: { action: "toggle-section#toggleBudget" } %>
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div data-toggle-section-target="budgetFields"
+       class="<%= 'is-hidden' unless (@event&.positive_description.present? ||
+         @event&.negative_description.present? ||
+         @event&.budget_name.present? ||
+         @event&.budget_change != 0) %>">
+
+    <div class="field">
+      <%= f.label :positive_description, "Opis pozytywnego skutku" %>
+      <%= f.text_area :positive_description, class: "textarea #{'is-danger' if @event.errors[:positive_description].any?}" %>
+      <% @event.errors[:positive_description].each do |error| %>
+        <p class="help is-danger"><%= error %></p>
+      <% end %>
+    </div>
+
+    <div class="field">
+      <%= f.label :negative_description, "Opis negatywnego skutku" %>
+      <%= f.text_area :negative_description, class: "textarea #{'is-danger' if @event.errors[:negative_description].any?}" %>
+      <% @event.errors[:negative_description].each do |error| %>
+        <p class="help is-danger"><%= error %></p>
+      <% end %>
+    </div>
+
+    <div class="field">
+      <%= f.label :budget_name, "Jakiej kategorii budżetowej dotyczy?" %>
+      <%= f.select :budget_name,
+                   [["Żadnej", nil]] + BudgetCategory.pluck(:name),
+                   { selected: @event&.budget_name },
+                   class: "select #{'is-danger' if @event.errors[:budget_name].any?}" %>
+      <% @event.errors[:budget_name].each do |error| %>
+        <p class="help is-danger"><%= error %></p>
+      <% end %>
+    </div>
+
+    <div class="field">
+      <%= f.label :budget_change, "O ile zmienić budżet (w tys. zł)" %>
+      <%= f.number_field :budget_change, class: "input #{'is-danger' if @event.errors[:budget_change].any?}" %>
+      <% @event.errors[:budget_change].each do |error| %>
+        <p class="help is-danger"><%= error %></p>
+      <% end %>
+    </div>
+
+    <div class="field">
+      <%= f.label :is_adding_to_budget, "Czy zwiększamy budżet?" %><br>
+      <%= f.select :is_adding_to_budget,
+                   [["Bez zmian", nil],
+                    ["Gracze muszą zwiększyć budżet", true],
+                    ["Gracze mogą zmniejszyć budżet", false]],
+                   { selected: @event&.is_adding_to_budget },
+                   class: "select #{'is-danger' if @event.errors[:is_adding_to_budget].any?}" %>
+      <% @event.errors[:is_adding_to_budget].each do |error| %>
+        <p class="help is-danger"><%= error %></p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- ════════════════════════  R E Z E R W A  ════════════════════════ -->
+  <div class="field is-flex is-align-items-center mt-4 mb-2">
+    <label class="label mr-3">Zmiany do rezerwy budżetowej</label>
+
+    <label class="switch" data-toggle-section-target="reserveToggle">
+      <%= check_box_tag "reserve_toggle",
+                        "1",
+                        @event&.budget_reserve_change != 0,
+                        data: { action: "toggle-section#toggleReserve" } %>
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div data-toggle-section-target="reserveFields"
+       class="<%= 'is-hidden' unless @event&.budget_reserve_change != 0 %>">
+
+    <div class="field">
+      <%= f.label :budget_reserve_change, "Zmiana rezerwy (w tys. zł)" %>
+      <%= f.number_field :budget_reserve_change, class: "input #{'is-danger' if @event.errors[:budget_reserve_change].any?}" %>
+      <% @event.errors[:budget_reserve_change].each do |error| %>
+        <p class="help is-danger"><%= error %></p>
+      <% end %>
+    </div>
+
+    <div class="field">
+      <%= f.label :need_increase_budget_reserve, "Zmiana rezerwy?" %><br>
+      <%= f.select :need_increase_budget_reserve,
+                   [["Bez zmian", nil],
+                    ["Zwiększona – gracze zyskują", true],
+                    ["Zmniejszona – gracze tracą", false]],
+                   { selected: @event&.need_increase_budget_reserve },
+                   class: "select #{'is-danger' if @event.errors[:need_increase_budget_reserve].any?}" %>
+      <% @event.errors[:need_increase_budget_reserve].each do |error| %>
+        <p class="help is-danger"><%= error %></p>
+      <% end %>
+    </div>
+  </div>
+
+  <!--  Zapisz  -->
+  <div class="field mt-4">
+    <%= f.submit "Zapisz", class: "button is-primary" %>
+  </div>
+</div>

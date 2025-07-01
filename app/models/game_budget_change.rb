@@ -49,8 +49,10 @@ class GameBudgetChange < ApplicationRecord
   end
 
   def was_implement?
-    users_count = play.users.count
-    half_users_count = users_count / 2
-    is_votable == false && votes_favor_count >= half_users_count
+    is_votable == false && implement?
+  end
+
+  def implement?
+    votes_favor_count >= votes_against_count
   end
 end

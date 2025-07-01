@@ -9,7 +9,7 @@
       <%= @play.name_of_current_month %>
     </p>
     <p class="subtitle is-5 has-text-centered">
-      Zadowolenie społeczne <%= @play.social_satisfaction %>%
+      Zadowolenie społeczne<br><%= @play.social_satisfaction.round(2).to_s.gsub('.', ',') %>%
     </p>
     <ul class="menu-list">
       <li>
@@ -42,7 +42,7 @@
       </li>
       <% if current_user.allowed_to_proceed_game?(@play) %>
         <li>
-          <%= button_to play_proceed_path(play_id: @play.id),
+          <%#= button_to play_proceed_path(play_id: @play.id),
                         method: :patch,
                         class: "button is-light is-flex is-vcentered is-fullwidth",
                         data: {
@@ -52,6 +52,9 @@
                           message: "Czy na pewno chcesz przejść na kolejny miesiąc?",
                           action: "confirm#confirm"
                         } do %>
+            <%= button_to play_proceed_path(play_id: @play.id),
+                          method: :patch,
+                          class: "button is-light is-flex is-vcentered is-fullwidth" do %>
             <%= icon_tag("clock", options: { class: "menu-icon" }) %> Następny miesiąc
           <% end %>
         </li>

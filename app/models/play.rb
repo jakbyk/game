@@ -4,8 +4,8 @@ class Play < ApplicationRecord
   REGIONS = {
     "PL32": "Zachodniopomorskie",
     "PL22": "Pomorskie",
-    "PL28": "Warminsko-mazurskie",
-    "PL20": "Podlasie",
+    "PL28": "Warmińsko-mazurskie",
+    "PL20": "Podlaskie",
     "PL14": "Mazowieckie",
     "PL04": "Kujawsko-pomorskie",
     "PL30": "Wielkopolskie",
@@ -25,6 +25,7 @@ class Play < ApplicationRecord
   has_many :users, through: :play_users
   has_many :game_budget_categories, dependent: :destroy
   has_many :game_budget_changes, dependent: :destroy
+  has_many :play_events, dependent: :destroy
 
   belongs_to :archived_by, class_name: "User", optional: true
 
@@ -35,6 +36,7 @@ class Play < ApplicationRecord
   scope :archived, -> { unscoped.where.not(archived_at: nil) }
   scope :active, -> { where(archived_at: nil).where(finished_at: nil) }
   scope :finished, -> { unscoped.where.not(finished_at: nil) }
+  scope :won, -> { unscoped.where.not(finished_at: nil).where("social_satisfaction > ?", 10) }
   default_scope -> { active }
 
   validate :only_one_of_archived_or_finished

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_06_24_182446) do
+ActiveRecord::Schema[7.2].define(version: 2025_06_30_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,6 +28,22 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_24_182446) do
     t.datetime "updated_at", null: false
     t.index ["play_id"], name: "index_chats_on_play_id"
     t.index ["play_id"], name: "index_chats_on_play_id_null_unique", unique: true, where: "(play_id IS NULL)"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "region"
+    t.string "budget_name"
+    t.bigint "budget_change", default: 0
+    t.boolean "is_adding_to_budget"
+    t.bigint "budget_reserve_change", default: 0
+    t.boolean "need_increase_budget_reserve"
+    t.text "positive_description"
+    t.text "negative_description"
+    t.integer "frequency", default: 50
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "game_budget_categories", force: :cascade do |t|
@@ -75,6 +91,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_24_182446) do
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
+  create_table "play_events", force: :cascade do |t|
+    t.bigint "play_id", null: false
+    t.bigint "event_id", null: false
+    t.integer "month", null: false
+    t.string "outcome"
+    t.datetime "resolved_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_play_events_on_event_id"
+    t.index ["play_id"], name: "index_play_events_on_play_id"
+  end
+
   create_table "play_users", force: :cascade do |t|
     t.bigint "play_id", null: false
     t.bigint "user_id", null: false
@@ -120,6 +148,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_24_182446) do
   add_foreign_key "game_budget_changes", "users"
   add_foreign_key "messages", "chats"
   add_foreign_key "messages", "users"
+  add_foreign_key "play_events", "events"
+  add_foreign_key "play_events", "plays"
   add_foreign_key "play_users", "plays"
   add_foreign_key "play_users", "users"
   add_foreign_key "plays", "users", column: "archived_by_id"

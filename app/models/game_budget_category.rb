@@ -1,5 +1,5 @@
 class GameBudgetCategory < ApplicationRecord
-  belongs_to :play, dependent: :destroy
+  belongs_to :play
 
   validates :name, presence: true, uniqueness: { scope: :play_id }
 

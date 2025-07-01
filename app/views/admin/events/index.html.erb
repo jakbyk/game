@@ -1,0 +1,57 @@
+<%= render 'shared/admins' do %>
+  <section class="section">
+    <h2 class="title is-5 has-text-centered">
+      Tabela wydarzeń
+    </h2>
+    <div class="container">
+      <table style="width: 100%; border-collapse: separate; border-spacing: 0 6px;">
+        <tr>
+          <td>Częstotliwość</td>
+          <td>Tytył</td>
+          <td>Zmiana rezerwy</td>
+          <td colspan="2" class="has-text-centered">Zmiana oczekiwanego budżetu</td>
+          <td>Link</td>
+        </tr>
+        <% @events.each do |event| %>
+          <tbody class="color-background-on-hover">
+          <tr>
+            <td>
+              <%= event.frequency %>
+            </td>
+            <td>
+              <p><%= event.title %></p>
+            </td>
+            <td>
+              <% if event.budget_reserve_change != 0 %>
+                <%= icon_tag(event.need_increase_budget_reserve == false ? "minus-circle" : "plus-circle", options: { class: "#{event.need_increase_budget_reserve == false ? "is-danger" : "is-success"}" }) %>
+                <span><%= event.decorate.formatted_budget_reserve_change %></span>
+              <% else %>
+                -
+              <% end %>
+            </td>
+            <td>
+              <%= event.budget_name %>
+            </td>
+            <td>
+              <% if event.budget_change != 0 %>
+                <%= icon_tag(event.is_adding_to_budget == false ? "minus-circle" : "plus-circle", options: { class: "#{event.is_adding_to_budget == false ? "is-success" : "is-danger"}" }) %>
+                <span><%= event.decorate.formatted_budget_change %></span>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to edit_admin_event_path(event), class: "button is-light" do %>
+                <%= icon_tag("pencil-square", options: { class: "menu-icon" }) %> Edycja
+              <% end %>
+            </td>
+          </tr>
+          </tbody>
+        <% end %>
+      </table>
+    </div>
+    <p class="has-text-centered">
+      <%= link_to new_admin_event_path, class: "button is-success" do %>
+        <%= icon_tag("plus-circle", options: { class: "menu-icon" }) %> Dodaj kolejne
+      <% end %>
+    </p>
+  </section>
+<% end %>

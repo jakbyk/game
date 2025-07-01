@@ -15,9 +15,8 @@ class PlaysController < ApplicationController
     redirect_to play_result_path(play_id: @play.id) if @play.is_finished?
 
     @region_name = params[:map_id] ? Play::REGIONS[params[:map_id].to_sym] : nil
-    puts "params[:map_id]: #{params[:map_id]}"
-    puts "@region_name: #{@region_name}"
-    puts "@Play::REGIONS: #{Play::REGIONS}"
+
+    @play_events = @region_name ? @play.play_events.joins(:event).where(events: { region: @region_name }).limit(10) : @play.play_events.limit(10)
   end
 
   def create
