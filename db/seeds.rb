@@ -1040,3 +1040,563 @@ Event.create!(
   is_adding_to_budget: true,
   frequency: 18
 )
+Event.create!(
+  title: "Rozbudowa szpitala wojewódzkiego w Białymstoku",
+  description: "W Białymstoku konieczna jest rozbudowa szpitala wojewódzkiego w związku z rosnącą liczbą pacjentów i ograniczoną liczbą łóżek. Projekt obejmuje budowę nowego skrzydła oraz zakup nowoczesnego sprzętu diagnostycznego.",
+  positive_description: "Wygląda na to, że w budżecie zarezerwowano odpowiednią kwotę dla rozbudowy szpitala.",
+  negative_description: "Z powodu niewystarczających środków rozbudowa szpitala musi zostać wstrzymana.",
+  budget_name: "Ochrona zdrowia",
+  budget_change: 12000,
+  frequency: 12,
+  is_adding_to_budget: true,
+  region: "Podlaskie"
+)
+
+Event.create!(
+  title: "Katastrofa ekologiczna w dolinie Odry",
+  description: "W wyniku wycieku toksycznych substancji do Odry na odcinku między Głogowem a Brzegiem Dolnym konieczne jest sfinansowanie akcji oczyszczającej oraz wprowadzenie monitoringu wód.",
+  positive_description: "Akcja oczyszczająca przebiegła sprawnie.",
+  negative_description: "Przyroda znów została pozostawiona sama sobie. Nie jest to dobrze odbierane przez okolicznych mieszkańców.",
+  budget_name: "Gospodarka komunalna i ochrona środowiska",
+  budget_change: 25000,
+  frequency: 5,
+  is_adding_to_budget: true,
+  region: "Dolnośląskie"
+)
+
+Event.create!(
+  title: "Remont jednostek OSP w powiecie Nowotarskim",
+  description: "W kilku gminach powiatu nowotarskiego strażacy ochotnicy działają w warunkach zagrażających ich bezpieczeństwu. Konieczne są inwestycje w remizy i pojazdy.",
+  positive_description: "Poczynione inwestycje cieszą członków OSP.",
+  negative_description: "W wyniku zaniedbań finansowych druhowie odchodzą z OSP - mają dojść braku finansowania.",
+  budget_name: "Bezpieczeństwo publiczne i ochrona przeciwpożarowa",
+  budget_change: 3000,
+  frequency: 20,
+  is_adding_to_budget: true,
+  region: "Małopolskie"
+)
+
+Event.create!(
+  title: "Modernizacja linii kolejowej w Koninie",
+  description: "Rząd planuje dofinansowanie rewitalizacji ważnej linii kolejowej w Koninie, usprawniającej transport między Poznaniem a Warszawą.",
+  positive_description: "Linie kolejowe zostaną zrewitalizowane.",
+  negative_description: "Brakuje funduszy w transporcie.",
+  budget_name: "Transport i łączność",
+  budget_change: 40000,
+  frequency: 4,
+  is_adding_to_budget: true,
+  region: "Wielkopolskie"
+)
+
+Event.create!(
+  title: "Utrzymanie parków krajobrazowych w Puszczy Noteckiej",
+  description: "W regionie Puszczy Noteckiej potrzebne są środki na zatrudnienie nowych leśników i modernizację infrastruktury służącej ochronie przyrody.",
+  positive_description: "Finansowanie parków zostało zabezpieczone.",
+  negative_description: "Brak funduszy skutkował brakiem zatrudnienia nowych leśników.",
+  budget_name: "Ogrody botaniczne i zoologiczne oraz naturalne obszary i obiekty chronionej przyrody",
+  budget_change: 1500,
+  frequency: 22,
+  is_adding_to_budget: true,
+  region: "Lubuskie"
+)
+
+Event.create!(
+  title: "Budowa nowego internatu w Piotrkowie Trybunalskim",
+  positive_description: "Plany budowy nowego internatu są już w przygotowaniu.",
+  negative_description: "Uczniowie z okolic miasta nadal będą musieli dojeżdżać do miasta, gdyż zabrakło funduszy na budowę.",
+  description: "Rosnąca liczba uczniów z okolicznych wsi dojeżdżających do Piotrkowa sprawiła, że dotychczasowy internat nie wystarcza. Potrzebne fundusze na budowę nowego budynku.",
+  budget_name: "Edukacyjna opieka wychowawcza",
+  budget_change: 2500,
+  frequency: 18,
+  is_adding_to_budget: true,
+  region: "Łódzkie"
+)
+
+Event.create!(
+  title: "Wzmocnienie patroli granicznych w powiecie bieszczadzkim",
+  positive_description: "Ludzie dostrzegli większą aktywność Straży Granicznej, dzięki czemu czują się bezpieczniejsi.",
+  negative_description: "Brak środków do zatrudnienia kolejnych strażników na pewno nie przypadnie mieszkańcom do gustu.",
+  description: "W związku z rosnącą presją migracyjną w rejonie Bieszczad konieczne jest zwiększenie liczby patroli Straży Granicznej oraz zakup specjalistycznego sprzętu.",
+  budget_name: "Bezpieczeństwo publiczne i ochrona przeciwpożarowa",
+  budget_change: 8000,
+  frequency: 10,
+  is_adding_to_budget: true,
+  region: "Podkarpackie"
+)
+
+Event.create!(
+  title: "Wsparcie dla uczelni technicznej w Radomiu",
+  positive_description: "Uczniowie cieszą się z zakupionego sprzętu.",
+  negative_description: "Brak inwestycji w uczelnię nie podoba się stowarzyszeniu studentów.",
+  description: "Rząd chce dofinansować rozwój kierunków technicznych w Radomiu — planowany zakup nowego sprzętu laboratoryjnego oraz podniesienie wynagrodzeń kadry naukowej.",
+  budget_name: "Szkolnictwo wyższe i nauka",
+  budget_change: 6000,
+  frequency: 15,
+  is_adding_to_budget: true,
+  region: "Mazowieckie"
+)
+
+Event.create!(
+  title: "Dotacje na rekultywację terenów pogórniczych w Wałbrzychu",
+  positive_description: "Bezpieczeństwo mieszkańców na tych terenach zostanie zwiększone, są fundusze na renowację terenów pogórniczych.",
+  negative_description: "Rząd nie znalazł finansowania, w Wałbrzuchu nadal część terenów pozostanie niezagospodarowana.",
+  description: "Tereny pogórnicze w Wałbrzychu wymagają rekultywacji, zabezpieczenia hałd i przygotowania pod inwestycje prywatne i mieszkaniowe.",
+  budget_name: "Górnictwo i kopalnictwo",
+  budget_change: 20000,
+  frequency: 7,
+  is_adding_to_budget: true,
+  region: "Dolnośląskie"
+)
+
+Event.create!(
+  title: "Utworzenie centrum sportowego w Koszalinie",
+  description: "Koszalin planuje budowę regionalnego centrum sportowego. Projekt obejmuje halę, boiska, a także programy wspierające młodzieżowe kluby sportowe.",
+  positive_description: "Młodzież i mieszkańcy zyskają nowoczesne miejsce do aktywnego spędzania czasu i rozwoju sportowego.",
+  negative_description: "Brak wsparcia dla budowy centrum spotkał się z niezadowoleniem lokalnych klubów sportowych i rodziców dzieci.",
+  budget_name: "Kultura fizyczna",
+  budget_change: 9000,
+  frequency: 11,
+  is_adding_to_budget: true,
+  region: "Zachodniopomorskie"
+)
+
+Event.create!(
+  title: "Budowa drogi obwodowej wokół Ostrołęki",
+  description: "W związku z rosnącym natężeniem ruchu ciężarowego w Ostrołęce planowana jest budowa drogi obwodowej. Projekt ma na celu zmniejszenie korków i poprawę bezpieczeństwa mieszkańców.",
+  positive_description: "Mieszkańcy Ostrołęki zauważają zmniejszenie hałasu i korków w centrum miasta.",
+  negative_description: "Zaniechanie inwestycji spowoduje dalsze utrudnienia komunikacyjne i pogorszenie jakości życia w mieście.",
+  budget_name: "Transport i łączność",
+  budget_change: 45000,
+  frequency: 4,
+  is_adding_to_budget: true,
+  region: "Mazowieckie"
+)
+
+Event.create!(
+  title: "Nowe centrum diagnostyki onkologicznej w Elblągu",
+  description: "W Elblągu rozpoczyna się budowa nowoczesnego centrum diagnostyki onkologicznej w ramach zwiększenia dostępności do badań przesiewowych i wczesnej diagnostyki nowotworowej.",
+  positive_description: "Mieszkańcy regionu będą mieli szybszy dostęp do diagnostyki onkologicznej, co zwiększy szanse na skuteczne leczenie.",
+  negative_description: "Brak inwestycji w centrum to zagrożenie dla pacjentów, którzy muszą podróżować wiele kilometrów w poszukiwaniu pomocy.",
+  budget_name: "Ochrona zdrowia",
+  budget_change: 28000,
+  frequency: 6,
+  is_adding_to_budget: true,
+  region: "Warmińsko-mazurskie"
+)
+
+Event.create!(
+  title: "Rozbudowa infrastruktury przedszkolnej w Zamościu",
+  description: "Zamość otrzymuje środki na rozbudowę miejskich przedszkoli — planowane są nowe oddziały, modernizacja kuchni i zwiększenie dostępności dla dzieci z niepełnosprawnościami.",
+  positive_description: "Rodzice zyskają więcej miejsc w przedszkolach, a dzieci będą miały lepsze warunki do nauki i zabawy.",
+  negative_description: "Brak rozbudowy oznacza dalsze problemy z dostępnością miejsc i nierówne szanse edukacyjne dla najmłodszych.",
+  budget_name: "Edukacyjna opieka wychowawcza",
+  budget_change: 3500,
+  frequency: 20,
+  is_adding_to_budget: true,
+  region: "Lubelskie"
+)
+
+Event.create!(
+  title: "Wsparcie dla systemu kanalizacji w powiecie leszczyńskim",
+  description: "Poważne niedobory infrastruktury wodno-kanalizacyjnej w powiecie leszczyńskim wymusiły przeznaczenie dodatkowych środków na budowę nowoczesnych oczyszczalni i sieci.",
+  positive_description: "Mieszkańcy zyskają dostęp do nowoczesnej kanalizacji, co poprawi warunki sanitarne i jakość życia.",
+  negative_description: "Brak środków na kanalizację grozi problemami zdrowotnymi i środowiskowymi.",
+  budget_name: "Gospodarka komunalna i ochrona środowiska",
+  budget_change: 15000,
+  frequency: 10,
+  is_adding_to_budget: true,
+  region: "Wielkopolskie"
+)
+
+Event.create!(
+  title: "Zakup nowoczesnych karetek dla powiatu puławskiego",
+  description: "Szpital powiatowy w Puławach otrzyma dofinansowanie na zakup dwóch nowoczesnych karetek reanimacyjnych z pełnym wyposażeniem medycznym.",
+  positive_description: "Nowe karetki skrócą czas reakcji i poprawią jakość ratownictwa medycznego w regionie.",
+  negative_description: "Brak inwestycji w karetki to ryzyko opóźnień w udzielaniu pomocy i zagrożenie dla życia pacjentów.",
+  budget_name: "Ochrona zdrowia",
+  budget_change: 5000,
+  frequency: 16,
+  is_adding_to_budget: true,
+  region: "Lubelskie"
+)
+
+Event.create!(
+  title: "Dotacja na rozwój bibliotek cyfrowych w Tarnobrzegu",
+  description: "Tarnobrzeska sieć bibliotek miejskich otrzymuje wsparcie na rozwój usług cyfrowych, zakup e-booków oraz szkolenia z obsługi nowoczesnych platform edukacyjnych.",
+  positive_description: "Mieszkańcy Tarnobrzega zyskają dostęp do nowoczesnych zasobów edukacyjnych i kulturalnych bez wychodzenia z domu.",
+  negative_description: "Zaniechanie inwestycji ograniczy rozwój cyfrowej edukacji i dostępność nowoczesnych źródeł wiedzy.",
+  budget_name: "Kultura i ochrona dziedzictwa narodowego",
+  budget_change: 2000,
+  frequency: 22,
+  is_adding_to_budget: true,
+  region: "Podkarpackie"
+)
+
+Event.create!(
+  title: "Usuwanie skutków suszy w rejonie Sieradza",
+  description: "Z powodu długotrwałej suszy w sieradzkim konieczne jest dofinansowanie budowy zbiorników retencyjnych oraz zabezpieczenia ujęć wody pitnej.",
+  positive_description: "Budowa zbiorników poprawi bezpieczeństwo wodne i pozwoli przetrwać kolejne okresy suszy bez strat w rolnictwie.",
+  negative_description: "Brak działań to ryzyko niedoboru wody i poważnych strat gospodarczych dla rolników i mieszkańców.",
+  budget_name: "Rolnictwo i łowiectwo",
+  budget_change: 10000,
+  frequency: 9,
+  is_adding_to_budget: true,
+  region: "Łódzkie"
+)
+
+Event.create!(
+  title: "Modernizacja oświetlenia ulicznego w Nowym Targu",
+  description: "W Nowym Targu planowana jest modernizacja oświetlenia ulicznego na energooszczędne LED-y, co ma zmniejszyć zużycie energii i poprawić bezpieczeństwo na drogach.",
+  positive_description: "Oświetlenie LED przyczyni się do znacznych oszczędności energii i poprawi widoczność na ulicach, zwiększając bezpieczeństwo mieszkańców.",
+  negative_description: "Koszty inwestycji mogą być wysokie, a prace mogą powodować tymczasowe utrudnienia komunikacyjne.",
+  budget_name: "Gospodarka komunalna i ochrona środowiska",
+  budget_change: 7000,
+  frequency: 14,
+  is_adding_to_budget: true,
+  region: "Małopolskie"
+)
+
+Event.create!(
+  title: "Rozwój turystyki rowerowej w regionie kujawsko-pomorskim",
+  description: "Władze województwa kujawsko-pomorskiego inwestują w rozwój sieci tras rowerowych, aby przyciągnąć turystów i promować aktywny wypoczynek.",
+  positive_description: "Lepsza infrastruktura rowerowa zwiększy atrakcyjność regionu oraz wpłynie pozytywnie na zdrowie mieszkańców.",
+  negative_description: "Inwestycja wymaga dużych nakładów finansowych, a korzyści mogą być widoczne dopiero w dłuższym czasie.",
+  budget_name: "Kultura fizyczna",
+  budget_change: 12000,
+  frequency: 9,
+  is_adding_to_budget: true,
+  region: "Kujawsko-pomorskie"
+)
+
+Event.create!(
+  title: "Wsparcie dla szkół specjalnych w regionie podlaskim",
+  description: "Podlaskie otrzymuje fundusze na wyposażenie i remonty szkół specjalnych oraz na szkolenia dla nauczycieli specjalistów.",
+  positive_description: "Poprawa warunków w szkołach specjalnych zwiększy jakość edukacji i wsparcia dla dzieci z niepełnosprawnościami.",
+  negative_description: "Środki mogą nie wystarczyć na pełne pokrycie wszystkich potrzeb, a proces inwestycyjny może się opóźnić.",
+  budget_name: "Edukacyjna opieka wychowawcza",
+  budget_change: 6000,
+  frequency: 11,
+  is_adding_to_budget: true,
+  region: "Podlaskie"
+)
+
+Event.create!(
+  title: "Budowa nowego przystanku kolejowego w powiecie piotrkowskim",
+  description: "Powiat piotrkowski planuje budowę nowego przystanku kolejowego, który usprawni komunikację publiczną i przyczyni się do rozwoju gospodarczego.",
+  positive_description: "Nowy przystanek zwiększy dostępność transportu i zachęci mieszkańców do korzystania z kolei.",
+  negative_description: "Koszty inwestycji mogą przekroczyć założenia, a realizacja opóźnić się z powodu problemów technicznych.",
+  budget_name: "Transport i łączność",
+  budget_change: 22000,
+  frequency: 5,
+  is_adding_to_budget: true,
+  region: "Łódzkie"
+)
+
+Event.create!(
+  title: "Program dofinansowania opieki nad seniorami w województwie świętokrzyskim",
+  description: "Województwo świętokrzyskie uruchamia program wsparcia opieki nad osobami starszymi, zwiększając dostęp do domów opieki oraz usług opiekuńczych.",
+  positive_description: "Seniorzy zyskają lepszą opiekę i wsparcie, co poprawi ich komfort życia i zdrowie.",
+  negative_description: "Program będzie wymagał stałego finansowania, które może obciążyć budżet województwa.",
+  budget_name: "Pomoc społeczna",
+  budget_change: 8000,
+  frequency: 13,
+  is_adding_to_budget: true,
+  region: "Świętokrzyskie"
+)
+
+Event.create!(
+  title: "Modernizacja systemu kanalizacji w mieście Ostrołęka",
+  description: "Miasto Ostrołęka inwestuje w modernizację przestarzałego systemu kanalizacyjnego, by poprawić jakość środowiska i zapobiec awariom.",
+  positive_description: "Nowoczesny system kanalizacyjny zmniejszy ryzyko zanieczyszczeń i poprawi warunki sanitarne.",
+  negative_description: "Wysokie koszty inwestycji oraz prace mogą powodować utrudnienia dla mieszkańców.",
+  budget_name: "Gospodarka komunalna i ochrona środowiska",
+  budget_change: 18000,
+  frequency: 8,
+  is_adding_to_budget: true,
+  region: "Mazowieckie"
+)
+
+Event.create!(
+  title: "Wsparcie dla lokalnych artystów w województwie lubuskim",
+  description: "Urząd marszałkowski uruchamia granty dla lokalnych artystów i organizacji kulturalnych, aby wspierać rozwój kultury i sztuki.",
+  positive_description: "Wsparcie finansowe pomoże w realizacji nowych projektów artystycznych i ożywi lokalne życie kulturalne.",
+  negative_description: "Środki mogą nie być wystarczające, aby objąć wszystkie zainteresowane podmioty.",
+  budget_name: "Kultura i ochrona dziedzictwa narodowego",
+  budget_change: 5000,
+  frequency: 12,
+  is_adding_to_budget: true,
+  region: "Lubuskie"
+)
+
+Event.create!(
+  title: "Rozbudowa infrastruktury sportowej w województwie podkarpackim",
+  description: "Województwo podkarpackie inwestuje w modernizację i rozbudowę obiektów sportowych, by promować aktywność fizyczną wśród mieszkańców.",
+  positive_description: "Lepsze obiekty sportowe zachęcą mieszkańców do regularnej aktywności i poprawią wyniki sportowe.",
+  negative_description: "Inwestycja wiąże się z wysokimi kosztami i możliwymi opóźnieniami w realizacji.",
+  budget_name: "Kultura fizyczna",
+  budget_change: 15000,
+  frequency: 7,
+  is_adding_to_budget: true,
+  region: "Podkarpackie"
+)
+
+Event.create!(
+  title: "Inicjatywa ograniczenia zanieczyszczenia powietrza w województwie śląskim",
+  description: "W ramach programu ekologicznego województwo śląskie uruchamia działania mające na celu zmniejszenie emisji zanieczyszczeń powietrza.",
+  positive_description: "Poprawa jakości powietrza wpłynie korzystnie na zdrowie mieszkańców i środowisko naturalne.",
+  negative_description: "Realizacja programu może wymagać znacznych środków finansowych oraz współpracy z przemysłem.",
+  budget_name: "Gospodarka komunalna i ochrona środowiska",
+  budget_change: 20000,
+  frequency: 10,
+  is_adding_to_budget: true,
+  region: "Śląskie"
+)
+
+Event.create!(
+  title: "Budowa nowoczesnego centrum zdrowia psychicznego w województwie lubelskim",
+  description: "Województwo lubelskie inwestuje w stworzenie centrum zdrowia psychicznego, by poprawić dostęp do profesjonalnej pomocy psychologicznej.",
+  positive_description: "Nowoczesne centrum poprawi jakość opieki i zwiększy dostępność specjalistów.",
+  negative_description: "Inwestycja wymaga dużych nakładów i może być trudna do realizacji w krótkim czasie.",
+  budget_name: "Ochrona zdrowia",
+  budget_change: 25000,
+  frequency: 4,
+  is_adding_to_budget: true,
+  region: "Lubelskie"
+)
+
+Event.create!(
+  title: "Modernizacja biblioteki wojewódzkiej w województwie opolskim",
+  description: "Opolskie planuje modernizację biblioteki wojewódzkiej, aby zwiększyć jej dostępność i funkcjonalność dla mieszkańców.",
+  positive_description: "Nowoczesna biblioteka stanie się centrum edukacji i kultury dla regionu.",
+  negative_description: "Koszty modernizacji mogą być wysokie, a prace mogą czasowo ograniczyć dostęp do usług.",
+  budget_name: "Kultura i ochrona dziedzictwa narodowego",
+  budget_change: 9000,
+  frequency: 11,
+  is_adding_to_budget: true,
+  region: "Opolskie"
+)
+
+Event.create!(
+  title: "Rozwój sieci wodociągowej w województwie zachodniopomorskim",
+  description: "Zachodniopomorskie inwestuje w rozbudowę i modernizację sieci wodociągowej, aby poprawić dostęp do czystej wody dla mieszkańców.",
+  positive_description: "Lepsza infrastruktura wodociągowa zapewni stały dostęp do wysokiej jakości wody pitnej.",
+  negative_description: "Koszty modernizacji mogą być wysokie, a prace budowlane mogą powodować chwilowe utrudnienia.",
+  budget_name: "Gospodarka komunalna i ochrona środowiska",
+  budget_change: 14000,
+  frequency: 9,
+  is_adding_to_budget: true,
+  region: "Zachodniopomorskie"
+)
+
+Event.create!(
+  title: "Wsparcie dla edukacji cyfrowej w szkołach województwa łódzkiego",
+  description: "Łódzkie przeznacza środki na wyposażenie szkół w nowoczesny sprzęt komputerowy oraz szkolenia dla nauczycieli z zakresu edukacji cyfrowej.",
+  positive_description: "Zwiększenie kompetencji cyfrowych uczniów i nauczycieli podniesie jakość nauczania.",
+  negative_description: "Inwestycje mogą być niewystarczające, aby objąć wszystkie placówki edukacyjne.",
+  budget_name: "Oświata i wychowanie",
+  budget_change: 11000,
+  frequency: 8,
+  is_adding_to_budget: true,
+  region: "Łódzkie"
+)
+
+Event.create!(
+  title: "Promocja lokalnych produktów rolnych w województwie podlaskim",
+  description: "Podlaskie organizuje kampanię promocyjną wspierającą lokalnych rolników i producentów żywności.",
+  positive_description: "Akcja pomoże zwiększyć sprzedaż lokalnych produktów i wesprze rolników.",
+  negative_description: "Efekty kampanii mogą być ograniczone, jeśli nie zostanie odpowiednio sfinansowana.",
+  budget_name: "Rolnictwo i łowiectwo",
+  budget_change: 7000,
+  frequency: 13,
+  is_adding_to_budget: true,
+  region: "Podlaskie"
+)
+
+Event.create!(
+  title: "Budowa ścieżek edukacyjnych w województwie lubelskim",
+  description: "Lubelskie realizuje projekt budowy ścieżek edukacyjnych w parkach narodowych i rezerwatach przyrody.",
+  positive_description: "Ścieżki zwiększą świadomość ekologiczną i zachęcą do turystyki przyrodniczej.",
+  negative_description: "Projekt może wymagać dużych nakładów oraz współpracy z wieloma instytucjami.",
+  budget_name: "Gospodarka komunalna i ochrona środowiska",
+  budget_change: 6000,
+  frequency: 12,
+  is_adding_to_budget: true,
+  region: "Lubelskie"
+)
+
+Event.create!(
+  title: "Modernizacja dróg lokalnych w województwie świętokrzyskim",
+  description: "Świętokrzyskie inwestuje w remont i poprawę stanu dróg lokalnych, co poprawi komunikację i bezpieczeństwo ruchu.",
+  positive_description: "Lepsze drogi ułatwią transport i wpłyną pozytywnie na rozwój regionu.",
+  negative_description: "Prace mogą powodować czasowe utrudnienia i wymagają dużych nakładów finansowych.",
+  budget_name: "Transport i łączność",
+  budget_change: 19000,
+  frequency: 6,
+  is_adding_to_budget: true,
+  region: "Świętokrzyskie"
+)
+Event.create!(
+  title: "Wsparcie dla kultury ludowej w województwie podkarpackim",
+  description: "Podkarpackie organizuje festiwale i warsztaty promujące tradycje ludowe oraz lokalne rękodzieło.",
+  positive_description: "Wzrost zainteresowania kulturą regionalną i rozwój turystyki kulturalnej.",
+  negative_description: "Koszty organizacji mogą przewyższyć efekty promocji.",
+  budget_name: "Kultura i ochrona dziedzictwa narodowego",
+  budget_change: 8000,
+  frequency: 10,
+  is_adding_to_budget: true,
+  region: "Podkarpackie"
+)
+
+Event.create!(
+  title: "Rozwój infrastruktury rowerowej w województwie wielkopolskim",
+  description: "Wielkopolskie inwestuje w budowę ścieżek rowerowych i stojaków, by promować ekologiczny transport.",
+  positive_description: "Poprawa jakości powietrza i zdrowia mieszkańców.",
+  negative_description: "Inwestycja wymaga współpracy z samorządami i może mieć ograniczony zasięg.",
+  budget_name: "Transport i łączność",
+  budget_change: 13000,
+  frequency: 11,
+  is_adding_to_budget: true,
+  region: "Wielkopolskie"
+)
+
+Event.create!(
+  title: "Edukacja ekologiczna dla dzieci w województwie kujawsko-pomorskim",
+  description: "Kujawsko-pomorskie realizuje program warsztatów i zajęć przyrodniczych dla najmłodszych.",
+  positive_description: "Wzrost świadomości ekologicznej wśród młodego pokolenia.",
+  negative_description: "Program może mieć ograniczony zasięg i wpływ w krótkim czasie.",
+  budget_name: "Oświata i wychowanie",
+  budget_change: 5000,
+  frequency: 14,
+  is_adding_to_budget: true,
+  region: "Kujawsko-pomorskie"
+)
+
+Event.create!(
+  title: "Wsparcie dla rozwoju turystyki zdrowotnej w województwie warmińsko-mazurskim",
+  description: "Warmińsko-mazurskie inwestuje w infrastrukturę uzdrowiskową i promocję zdrowego stylu życia.",
+  positive_description: "Zwiększenie liczby turystów i rozwój lokalnej gospodarki.",
+  negative_description: "Inwestycje mogą wymagać długiego czasu zwrotu kosztów.",
+  budget_name: "Turystyka",
+  budget_change: 15000,
+  frequency: 9,
+  is_adding_to_budget: true,
+  region: "Warmińsko-mazurskie"
+)
+
+Event.create!(
+  title: "Modernizacja placówek opieki społecznej w województwie lubuskim",
+  description: "Lubuskie przeznacza środki na remont i wyposażenie domów pomocy społecznej oraz ośrodków wsparcia.",
+  positive_description: "Poprawa jakości usług dla osób potrzebujących wsparcia.",
+  negative_description: "Wysokie koszty utrzymania mogą ograniczyć skalę modernizacji.",
+  budget_name: "Pomoc społeczna",
+  budget_change: 9000,
+  frequency: 12,
+  is_adding_to_budget: true,
+  region: "Lubuskie"
+)
+Event.create!(
+  title: "Budowa centrum sportowego w województwie opolskim",
+  description: "Opolskie inwestuje w nowoczesne centrum sportowe z basenem, halą sportową i boiskami.",
+  positive_description: "Poprawa warunków do uprawiania sportu dla mieszkańców i organizacja imprez sportowych.",
+  negative_description: "Koszty budowy i utrzymania mogą być wysokie, a dostępność ograniczona.",
+  budget_name: "Kultura fizyczna",
+  budget_change: 20000,
+  frequency: 8,
+  is_adding_to_budget: true,
+  region: "Opolskie"
+)
+
+Event.create!(
+  title: "Rozbudowa sieci kanalizacyjnej w województwie pomorskim",
+  description: "Pomorskie realizuje projekt rozbudowy kanalizacji w małych miejscowościach i wsiach.",
+  positive_description: "Poprawa warunków sanitarnych i ochrona środowiska.",
+  negative_description: "Koszty i trudności techniczne mogą opóźnić realizację.",
+  budget_name: "Gospodarka komunalna i ochrona środowiska",
+  budget_change: 15000,
+  frequency: 9,
+  is_adding_to_budget: true,
+  region: "Pomorskie"
+)
+
+Event.create!(
+  title: "Program wsparcia dla osób starszych w województwie mazowieckim",
+  description: "Mazowieckie uruchamia programy aktywizacji społecznej i zdrowotnej dla seniorów.",
+  positive_description: "Poprawa jakości życia i integracja osób starszych.",
+  negative_description: "Programy mogą mieć ograniczony zasięg w dużym regionie.",
+  budget_name: "Pomoc społeczna",
+  budget_change: 12000,
+  frequency: 11,
+  is_adding_to_budget: true,
+  region: "Mazowieckie"
+)
+
+Event.create!(
+  title: "Inwestycje w energię odnawialną w województwie świętokrzyskim",
+  description: "Świętokrzyskie stawia na rozwój farm wiatrowych i instalacji solarnych.",
+  positive_description: "Zmniejszenie emisji CO2 i uniezależnienie od paliw kopalnych.",
+  negative_description: "Wysokie koszty inwestycji i konieczność uzyskania pozwoleń.",
+  budget_name: "Gospodarka komunalna i ochrona środowiska",
+  budget_change: 16000,
+  frequency: 10,
+  is_adding_to_budget: true,
+  region: "Świętokrzyskie"
+)
+Event.create!(
+  title: "Rozwój cyfrowej edukacji w województwie lubelskim",
+  description: "Lubelskie inwestuje w sprzęt komputerowy i szkolenia dla nauczycieli, aby zwiększyć dostęp do edukacji cyfrowej.",
+  positive_description: "Podniesienie kompetencji cyfrowych uczniów i nauczycieli.",
+  negative_description: "Wysokie koszty oraz konieczność stałego wsparcia technicznego.",
+  budget_name: "Oświata i wychowanie",
+  budget_change: 14000,
+  frequency: 12,
+  is_adding_to_budget: true,
+  region: "Lubelskie"
+)
+
+Event.create!(
+  title: "Modernizacja dróg lokalnych w województwie podlaskim",
+  description: "Podlaskie prowadzi remonty i modernizacje lokalnych dróg, aby poprawić dostępność komunikacyjną.",
+  positive_description: "Lepsza infrastruktura drogowa poprawia warunki życia mieszkańców i rozwój gospodarczy.",
+  negative_description: "Duże nakłady finansowe mogą ograniczyć inne inwestycje.",
+  budget_name: "Transport i łączność",
+  budget_change: 17000,
+  frequency: 10,
+  is_adding_to_budget: true,
+  region: "Podlaskie"
+)
+
+Event.create!(
+  title: "Program rewitalizacji terenów poprzemysłowych w województwie dolnośląskim",
+  description: "Dolnośląskie realizuje projekty rewitalizacji dawnych terenów przemysłowych na cele społeczne i rekreacyjne.",
+  positive_description: "Ożywienie przestrzeni miejskich i wzrost atrakcyjności regionu.",
+  negative_description: "Proces długi i kosztowny, wymaga współpracy różnych podmiotów.",
+  budget_name: "Gospodarka komunalna i ochrona środowiska",
+  budget_change: 22000,
+  frequency: 9,
+  is_adding_to_budget: true,
+  region: "Dolnośląskie"
+)
+
+Event.create!(
+  title: "Wsparcie dla inicjatyw kulturalnych w województwie zachodniopomorskim",
+  description: "Zachodniopomorskie finansuje lokalne projekty artystyczne i kulturalne.",
+  positive_description: "Rozwój lokalnej sceny kulturalnej i integracja społeczna.",
+  negative_description: "Efekty programu mogą być trudne do zmierzenia i krótkotrwałe.",
+  budget_name: "Kultura i ochrona dziedzictwa narodowego",
+  budget_change: 8000,
+  frequency: 13,
+  is_adding_to_budget: true,
+  region: "Zachodniopomorskie"
+)
+
+Event.create!(
+  title: "Rozbudowa sieci wodociągowej w województwie łódzkim",
+  description: "Łódzkie inwestuje w poprawę jakości i dostępności wody pitnej poprzez rozbudowę infrastruktury.",
+  positive_description: "Poprawa zdrowia mieszkańców i warunków sanitarnych.",
+  negative_description: "Wysokie koszty realizacji i utrzymania systemu.",
+  budget_name: "Gospodarka komunalna i ochrona środowiska",
+  budget_change: 16000,
+  frequency: 11,
+  is_adding_to_budget: true,
+  region: "Łódzkie"
+)
