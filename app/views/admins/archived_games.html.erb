@@ -3,11 +3,6 @@
     <h2 class="title is-5 has-text-centered">
       Tabela rozgrywek
     </h2>
-    <p class="has-text-centered">
-      <%= link_to admin_archived_games_path, class: "button is-light" do %>
-        <%= icon_tag("archive-box", options: { class: "menu-icon" }) %>Zakończone rozgrywki
-      <% end %>
-    </p>
     <div class="container">
       <table style="width: 100%; border-collapse: separate; border-spacing: 0 6px;">
         <tr>
@@ -16,6 +11,7 @@
           <td>Obecny miesiąc</td>
           <td>Zadowolenie społeczne</td>
           <td>Rezerwa budżetowa</td>
+          <td>Rezultat</td>
         </tr>
         <% @plays.each do |play| %>
           <tbody class="color-background-on-hover">
@@ -36,6 +32,14 @@
             </td>
             <td>
               <%= play.decorate.formatted_budget_reserve %>
+            </td>
+            <td>
+              <% if play.result == "win" %>
+                <%= icon_tag("face-smile", options: { class: "is-success" }) %>
+              <% elsif play.result == "defeat" %>
+                <%= icon_tag("face-frown", options: { class: "is-danger" }) %>
+              <% end %>
+              <%= play.decorate.name_of_result %>
             </td>
           </tr>
           </tbody>

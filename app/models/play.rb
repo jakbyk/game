@@ -33,13 +33,15 @@ class Play < ApplicationRecord
   after_create :create_game_budget_categories
   after_create :set_budget_reserve
 
-  scope :archived, -> { unscoped.where.not(archived_at: nil) }
-  scope :active, -> { where(archived_at: nil).where(finished_at: nil) }
-  scope :finished, -> { unscoped.where.not(finished_at: nil) }
-  scope :won, -> { unscoped.where.not(finished_at: nil).where("social_satisfaction > ?", 10) }
-  default_scope -> { active }
+  scope :archived, -> { unscoped.where.not(archived_at: nil).order(id: :desc) }
+  scope :active, -> { where(archived_at: nil).where(finished_at: nil).order(id: :desc) }
+  scope :finished, -> { unscoped.where.not(finished_at: nil).order(id: :desc) }
+  scope :won, -> { unscoped.where.not(finished_at: nil).where("social_satisfaction > ?", 10).order(id: :desc) }
+  scope :done, -> { (archived && finished).order(id: :desc) }
+  default_scope -> { active.order(id: :desc) }
 
   validate :only_one_of_archived_or_finished
+  validates :current_month, inclusion: { in: (0..48) }
 
   def archive(user)
     return unless user.is_admin? || play_users.find_by(user: user).is_leader
@@ -47,9 +49,13 @@ class Play < ApplicationRecord
   end
 
   def name_of_current_month
-    years = current_month / 12
-    month = current_month % 12
-    "#{MONTH_NAMES[month]} #{START_YEAR+years}"
+    if current_month < 48
+      years = current_month / 12
+      month = current_month % 12
+      "#{MONTH_NAMES[month]} #{START_YEAR + years}"
+    else
+      "Koniec gry"
+    end
   end
 
   def proceed
@@ -62,6 +68,13 @@ class Play < ApplicationRecord
 
   def is_finished?
     !finished_at.nil? && archived_at.nil?
+  end
+
+  def result
+    return "active" if is_active?
+    return "subjected" if is_finished? && current_month < 48
+    return "defeat" if is_finished? && social_satisfaction < 10.0
+    "win"
   end
 
   private

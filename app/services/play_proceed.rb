@@ -57,7 +57,7 @@ class PlayProceed
   end
 
   def proceed_play_to_next_month
-    if @play.current_month < 60
+    if @play.current_month < 47
       next_month = @play.current_month + 1
       @play.update(current_month: next_month)
     else

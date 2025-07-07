@@ -11,4 +11,8 @@ class AdminsController < ApplicationController
   def games
     @plays = Play.all
   end
+
+  def archived_games
+    @plays = Play.done
+  end
 end

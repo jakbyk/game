@@ -32,31 +32,20 @@
             <%= play.social_satisfaction.round(2).to_s.gsub('.', ',') %>%
           </div>
           <div class="column">
-            <%= link_to play_path(play), class: "button is-success" do %>
-              <%= icon_tag("arrow-left-end-on-rectangle", options: { class: "menu-icon" }) %> Wejdź do gry
+            <% if play.result == "win" %>
+              <%= icon_tag("face-smile", options: { class: "is-success" }) %>
+            <% elsif play.result == "defeat" %>
+              <%= icon_tag("face-frown", options: { class: "is-danger" }) %>
             <% end %>
+            <%= play.decorate.name_of_result %>
           </div>
         </div>
       <% end %>
-      <div class="is-fullwidth has-text-centered">
-        <%= button_to plays_path, method: :post, class: "button is-light mt-4", data: { turbo: false } do %>
-          <%= icon_tag("plus", options: { class: "menu-icon" }) %> Stwórz nową grę
-        <% end %>
-      </div>
     <% else %>
       <div class="is-fullwidth has-text-centered">
         <p>
-          Nie znaleziono żadnych aktywnych rozgrywek, możesz zacząć nową klikając poniższy
-          przycisk.</p>
-        <%= button_to plays_path, method: :post, class: "button is-success mt-4", data: { turbo: false } do %>
-          <%= icon_tag("plus", options: { class: "menu-icon" }) %> Stwórz nową grę
-        <% end %>
+          Nie znaleziono zakończonych rozgrywek.</p>
       </div>
     <% end %>
-    <div class="is-fullwidth has-text-centered">
-      <%= button_to archived_plays_path, method: :get, class: "button is-light mt-4", data: { turbo: false } do %>
-        <%= icon_tag("archive-box", options: { class: "menu-icon" }) %> Zakończone gry
-      <% end %>
-    </div>
   </div>
 </section>

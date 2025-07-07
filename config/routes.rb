@@ -22,6 +22,8 @@ Rails.application.routes.draw do
     post "budget_vote", to: "plays#budget_vote"
   end
 
+  resources :archived_plays, only: [ :index, :show ]
+
   resources :chats, only: [ :show ] do
     resources :messages, only: [ :create, :edit, :update, :destroy ]
   end
@@ -31,6 +33,7 @@ Rails.application.routes.draw do
   get "admin", to: "admins#index", as: :admin
   get "admin/users", to: "admins#users", as: :admin_users
   get "admin/games", to: "admins#games", as: :admin_games
+  get "admin/archived_games", to: "admins#archived_games", as: :admin_archived_games
 
   namespace :admin do
     resources :events, only: [ :index, :edit, :update, :create, :new ]
