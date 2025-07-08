@@ -1,0 +1,16 @@
+<section class="section">
+  <div class="container">
+    <div class="is-fullwidth columns is-multiline">
+      <div class="column is-12">
+        <h2 class="title is-5 has-text-centered"><%= @is_my_profile ? "Witaj na swoim profilu": "Profil użytkownika #{@user.name}" %></h2>
+      </div>
+      <div class="column is-12">
+<!--        Formularz do wrzucania avatara-->
+      </div>
+      <div class="column is-12">
+        <p>Liczba obecnych gier, w których bierze udział: <%= @user.plays.count %></p>
+        <p>Liczba skończonych gier, w których brał udział: <%= @user.plays.done.count %> (z czego wygranych: <%= @user.plays.won.count %>)</p>
+      </div>
+    </div>
+  </div>
+</section>

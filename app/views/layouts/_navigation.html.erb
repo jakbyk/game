@@ -23,6 +23,11 @@
               <%= icon_tag("banknotes", options: { class: "menu-icon" }) %> Gra
             <% end %>
           </div>
+          <div class="navbar-item">
+            <%= link_to profile_path(current_user), class: "button is-light" do %>
+              <%= icon_tag("user-circle", options: { class: "menu-icon" }) %> Profil
+            <% end %>
+          </div>
           <% if current_user.is_admin %>
             <div class="navbar-item">
               <%= link_to admin_path, class: "button is-light" do %>

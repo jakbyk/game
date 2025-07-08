@@ -5,9 +5,11 @@ class User < ApplicationRecord
 
   has_many :play_users, dependent: :destroy
   has_many :plays, through: :play_users
+  has_one_attached :avatar
 
   validates :name, :email, presence: true
   validates :email, uniqueness: true
+  validate :acceptable_avatar
 
   default_scope { order(created_at: :desc) }
 
@@ -57,5 +59,18 @@ class User < ApplicationRecord
 
   def generate_confirmation_token
     self.confirmation_token = SecureRandom.urlsafe_base64
+  end
+
+  def acceptable_avatar
+    return unless avatar.attached?
+
+    unless avatar.byte_size <= 1.megabyte
+      errors.add(:avatar, "jest za duży (max 1MB)")
+    end
+
+    acceptable_types = [ "image/jpeg", "image/png", "image/webp" ]
+    unless acceptable_types.include?(avatar.content_type)
+      errors.add(:avatar, "musi być JPEG, PNG lub WEBP")
+    end
   end
 end
