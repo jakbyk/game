@@ -15,6 +15,10 @@ class PlayEvent < ApplicationRecord
 
   default_scope { order(month: :desc) }
 
+  def region_id
+    Play::REGIONS.invert[event.region]
+  end
+
   private
 
   def change_value_in_play

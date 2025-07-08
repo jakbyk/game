@@ -1,21 +1,52 @@
 <%= render 'shared/plays' do %>
-  <div class="columns">
-    <div class="column is-6" id="map" data-controller="map" data-src="<%= asset_path("pl.svg") %>" data-map-target="map" data-regions="<%= Play::REGIONS %>" data-game-id="<%= @play.id %>">
+  <div class="columns" style="display: flex; max-height: 64vh;" data-controller="map">
+    <div class="column is-6" style="flex: 1;" id="map" data-src="<%= asset_path("pl.svg") %>" data-map-target="map" data-regions="<%= Play::REGIONS %>" data-game-id="<%= @play.id %>" data-active-id="<%= params[:map_id] %>">
+      <% unless params["map_id"].blank? %>
+        <p class="has-text-centered">
+          <%= link_to play_path(@play), class: "button is-light" do %>
+            <%= icon_tag("arrow-left", options: { class: "menu-icon" }) %> Newsy z całego kraju
+          <% end %>
+        </p>
+      <% end %>
       <div data-map-target="wrapper"></div>
+      <div id="tooltip" class="tooltip"></div>
     </div>
-    <div class="column is-6">
-      <% if @region_name %>
-        <p>Wiadomości z <%= @region_name %></p>
-      <% else %>
-        <p>Wiadomości z Polski</p>
-      <% end %>
-      <% @play_events.each do |play_event| %>
-        <h2 class="title"><%= play_event.event.title %></h2>
-        <% description = play_event.event.description
-           description = play_event.event.positive_description if play_event.outcome == "positive"
-           description = play_event.event.negative_description if play_event.outcome == "negative" %>
-        <p class="<%= "is-success" if play_event.outcome == "positive" %><%= "is-danger" if play_event.outcome == "negative" %>"><%= description %></p>
-      <% end %>
+    <div class="column is-6" style="flex: 1; overflow: auto;">
+      <div>
+        <% if @region_name %>
+          <p class="has-text-centered is-size-4">Wiadomości z <%= @region_name %></p>
+        <% else %>
+          <p class="has-text-centered is-size-4">Wiadomości z Polski</p>
+        <% end %>
+      </div>
+      <div>
+        <% @play_events.each do |play_event| %>
+          <% outcome = play_event.outcome %>
+          <% icon_name = outcome == "positive" ? "face-smile" : outcome == "negative" ? "face-frown" : "face-meh" %>
+          <% icon_class = outcome == "positive" ? "has-text-success" : outcome == "negative" ? "has-text-danger" : "has-text-grey" %>
+          <% description = case outcome
+                           when "positive" then play_event.event.positive_description
+                           when "negative" then play_event.event.negative_description
+                           else play_event.event.description
+                           end
+          %>
+
+          <div class="box mb-5" style="font-family: 'Merriweather', Georgia, serif;" data-map-target="event" data-region-id="<%= play_event.region_id if params["map_id"].blank? %>">
+            <div class="is-size-7 has-text-grey has-text-right">
+              <p><%= play_event.decorate.name_of_month %></p>
+            </div>
+            <div class="is-flex is-align-items-flex-start is-justify-content-space-between">
+              <h2 class="title is-5 mb-2 mr-4" style="word-break: break-word; flex: 1 1 auto;">
+                <%= play_event.event.title %>
+              </h2>
+              <span class="icon <%= icon_class %> ml-2" style="flex-shrink: 0;"><%= icon_tag(icon_name) %></span>
+            </div>
+            <div class="content">
+              <p class="has-text-justified"><%= description %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 <% end %>

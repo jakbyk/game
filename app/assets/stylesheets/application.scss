@@ -18,6 +18,7 @@ $link: $primary;
 
 /* 👉  Import Bulma *after* the overrides */
 //@import "bulma/bulma";
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
 
 /* ️🔧  Local utilities (optional)  */
 :root {
@@ -188,6 +189,11 @@ p.is-success {
   width: 100%;
 }
 
+.footer-image {
+  max-width: 40vw;
+  max-height: 20vh;
+}
+
 #map {
   svg {
     width: 100%;
@@ -208,4 +214,20 @@ p.is-success {
   .region:hover {
     fill: #e10600;
   }
+  .region.active {
+    fill: $info;
+  }
+}
+
+#tooltip {
+  position: absolute;
+  background: #333;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  pointer-events: none;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
