@@ -2,10 +2,11 @@
   <div class="columns is-multiline">
     <div class="column is-12">
       <div class="columns is-flex">
-        <div class="column is-flex-grow-1 pb-0">
-          <strong><%= message.user.name %></strong>
+        <div class="column is-flex-grow-1 pb-0" style="display: inline-flex;">
+          <%= render 'shared/avatar', user: message.user, size: 24 %><strong><%= message.user.name %></strong>
         </div>
         <div class="column is-narrow pb-0">
+          <span class="has-text-grey"><%= message.created_at.strftime("%d") %> <%= Play::MONTH_NAMES[message.created_at.strftime("%m").to_i - 1] %> <%= message.created_at.strftime("%Y") %></span>
           <%= message.created_at.strftime("%H:%M:%S") %>
           <div class="dropdown is-right" data-controller="dropdown message" data-message-author-id-value="<%= message.user_id %>" data-message-target="menu">
             <div class="dropdown-trigger">

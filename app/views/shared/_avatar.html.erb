@@ -1,0 +1,9 @@
+<% s = defined?(size) && !size.nil? ? size : 128 %>
+<% c = defined?(classes) && !classes.nil? ? classes : "" %>
+<% if user.avatar.attached? %>
+  <figure class="image is-<%= s %>x<%= s %> <%= c %>" style="width: <%= s %>px; height: <%= s %>px;">
+    <%= image_tag url_for(user.avatar), class: "is-rounded", id: "avatar-preview-image" %>
+  </figure>
+<% else %>
+  <%= icon_tag("user-circle", options: { class: "is-#{s}x#{s} #{c}", size: s.to_s }) %>
+<% end %>

@@ -25,7 +25,7 @@
           </div>
           <div class="navbar-item">
             <%= link_to profile_path(current_user), class: "button is-light" do %>
-              <%= icon_tag("user-circle", options: { class: "menu-icon" }) %> Profil
+              <%= render 'shared/avatar', user: current_user, size: 24, classes: 'menu-icon' %> Profil
             <% end %>
           </div>
           <% if current_user.is_admin %>
