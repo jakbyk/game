@@ -3,7 +3,10 @@
     <div class="column is-12">
       <div class="columns is-flex">
         <div class="column is-flex-grow-1 pb-0" style="display: inline-flex;">
-          <%= render 'shared/avatar', user: message.user, size: 24 %><strong><%= message.user.name %></strong>
+          <%= link_to profile_path(message.user), class: "is-flex" do %>
+            <%= render 'shared/avatar', user: message.user, size: 24 %>
+            <strong class="ml-2"><%= message.user.name %></strong>
+          <% end %>
         </div>
         <div class="column is-narrow pb-0">
           <span class="has-text-grey"><%= message.created_at.strftime("%d") %> <%= Play::MONTH_NAMES[message.created_at.strftime("%m").to_i - 1] %> <%= message.created_at.strftime("%Y") %></span>

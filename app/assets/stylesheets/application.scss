@@ -43,6 +43,14 @@ table td .icon {
   display: inline-block;
 }
 
+a {
+  color: $text-strong;
+}
+
+a:hover {
+  color: $primary;
+}
+
 .footer {
   background: darken($body-background-color, 2%);
   padding: 1rem 0.5rem 1rem;

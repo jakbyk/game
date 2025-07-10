@@ -5,6 +5,11 @@ class User < ApplicationRecord
 
   has_many :play_users, dependent: :destroy
   has_many :plays, through: :play_users
+  has_many :sent_friendships, class_name: "Friendship", foreign_key: :sender_id, dependent: :destroy
+  has_many :received_friendships, class_name: "Friendship", foreign_key: :receiver_id, dependent: :destroy
+  has_many :sent_friends, through: :sent_friendships, source: :receiver
+  has_many :received_friends, through: :received_friendships, source: :sender
+
   has_one_attached :avatar
 
   validates :name, :email, presence: true
@@ -53,6 +58,26 @@ class User < ApplicationRecord
 
   def allowed_to_proceed_game?(play)
     PlayUser.find_by(user: self, play: play)&.is_leader
+  end
+
+  def friend_users
+    sent = sent_friendships.where(status: "active").includes(:receiver).map(&:receiver)
+    received = received_friendships.where(status: "active").includes(:sender).map(&:sender)
+    sent + received
+  end
+
+  def pending_friend_requests
+    received_friendships.where(status: "created").includes(:sender)
+  end
+
+  def declined_by_me
+    sent_friendships.where(status: "declined_by_sender") +
+      received_friendships.where(status: "declined_by_receiver")
+  end
+
+  def declined_by_others
+    sent_friendships.where(status: "declined_by_receiver") +
+      received_friendships.where(status: "declined_by_sender")
   end
 
   private

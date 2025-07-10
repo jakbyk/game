@@ -30,7 +30,11 @@ Rails.application.routes.draw do
 
   resource :password_resets, only: [ :new, :create, :edit, :update ]
 
-  resources "profiles", only: [ :show, :update ]
+  resources "profiles", only: [ :show, :update ] do
+    post "make_friend", to: "profiles#make_friend"
+    post "accept_friend", to: "profiles#accept_friend"
+    delete "decline_friend", to: "profiles#decline_friend"
+  end
 
   get "admin", to: "admins#index", as: :admin
   get "admin/users", to: "admins#users", as: :admin_users
