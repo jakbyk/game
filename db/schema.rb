@@ -12,19 +12,20 @@
 
 ActiveRecord::Schema[7.2].define(version: 2025_07_10_200904) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "active_storage_attachments", force: :cascade do |t|
+  create_table "active_storage_attachments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.bigint "blob_id", null: false
+    t.uuid "record_id", null: false
+    t.uuid "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", force: :cascade do |t|
+  create_table "active_storage_blobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
     t.string "content_type"
@@ -36,13 +37,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_10_200904) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "active_storage_variant_records", force: :cascade do |t|
-    t.bigint "blob_id", null: false
+  create_table "active_storage_variant_records", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "budget_categories", force: :cascade do |t|
+  create_table "budget_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.datetime "created_at", null: false
@@ -50,15 +51,15 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_10_200904) do
     t.bigint "start_budget", default: 0
   end
 
-  create_table "chats", force: :cascade do |t|
-    t.bigint "play_id"
+  create_table "chats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "play_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["play_id"], name: "index_chats_on_play_id"
     t.index ["play_id"], name: "index_chats_on_play_id_null_unique", unique: true, where: "(play_id IS NULL)"
   end
 
-  create_table "events", force: :cascade do |t|
+  create_table "events", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.text "description"
     t.string "region"
@@ -74,9 +75,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_10_200904) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "friendships", force: :cascade do |t|
-    t.bigint "sender_id"
-    t.bigint "receiver_id"
+  create_table "friendships", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "sender_id"
+    t.uuid "receiver_id"
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -84,20 +85,20 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_10_200904) do
     t.index ["sender_id"], name: "index_friendships_on_sender_id"
   end
 
-  create_table "game_budget_categories", force: :cascade do |t|
+  create_table "game_budget_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.bigint "current_value"
     t.bigint "expected_value"
     t.integer "positive_combo", default: 0
     t.integer "negative_combo", default: 0
-    t.bigint "play_id", null: false
+    t.uuid "play_id", null: false
     t.index ["play_id", "name"], name: "index_game_budget_categories_on_play_id_and_name", unique: true
     t.index ["play_id"], name: "index_game_budget_categories_on_play_id"
   end
 
-  create_table "game_budget_change_votes", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "game_budget_change_id", null: false
+  create_table "game_budget_change_votes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "game_budget_change_id", null: false
     t.boolean "vote", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -106,12 +107,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_10_200904) do
     t.index ["user_id"], name: "index_game_budget_change_votes_on_user_id"
   end
 
-  create_table "game_budget_changes", force: :cascade do |t|
+  create_table "game_budget_changes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.bigint "value"
     t.boolean "is_adding"
-    t.bigint "play_id", null: false
-    t.bigint "user_id", null: false
+    t.uuid "play_id", null: false
+    t.uuid "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_votable", default: true
@@ -119,19 +120,19 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_10_200904) do
     t.index ["user_id"], name: "index_game_budget_changes_on_user_id"
   end
 
-  create_table "messages", force: :cascade do |t|
+  create_table "messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "content"
-    t.bigint "user_id", null: false
-    t.bigint "chat_id", null: false
+    t.uuid "user_id", null: false
+    t.uuid "chat_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["chat_id"], name: "index_messages_on_chat_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
-  create_table "play_events", force: :cascade do |t|
-    t.bigint "play_id", null: false
-    t.bigint "event_id", null: false
+  create_table "play_events", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "play_id", null: false
+    t.uuid "event_id", null: false
     t.integer "month", null: false
     t.string "outcome"
     t.datetime "resolved_at"
@@ -141,10 +142,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_10_200904) do
     t.index ["play_id"], name: "index_play_events_on_play_id"
   end
 
-  create_table "play_invitations", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "invitor_id", null: false
-    t.bigint "play_id", null: false
+  create_table "play_invitations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "invitor_id", null: false
+    t.uuid "play_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invitor_id"], name: "index_play_invitations_on_invitor_id"
@@ -152,9 +153,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_10_200904) do
     t.index ["user_id"], name: "index_play_invitations_on_user_id"
   end
 
-  create_table "play_users", force: :cascade do |t|
-    t.bigint "play_id", null: false
-    t.bigint "user_id", null: false
+  create_table "play_users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "play_id", null: false
+    t.uuid "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_leader", default: false
@@ -162,12 +163,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_10_200904) do
     t.index ["user_id"], name: "index_play_users_on_user_id"
   end
 
-  create_table "plays", force: :cascade do |t|
+  create_table "plays", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "archived_at"
-    t.bigint "archived_by_id"
+    t.uuid "archived_by_id"
     t.float "social_satisfaction", default: 60.0
     t.integer "current_month", default: 0
     t.datetime "finished_at"
@@ -175,7 +176,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_10_200904) do
     t.index ["archived_by_id"], name: "index_plays_on_archived_by_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.string "password_digest"

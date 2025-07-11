@@ -9,6 +9,8 @@
 #   end
 Chat.find_or_create_by!(play_id: nil)
 BudgetCategory.seed
+u = User.create!(email: 'jakbyk@wp.pl', name: 'Jakub', password: '123456', password_confirmation: '123456', is_admin: true)
+u.confirm!
 Event.create!(
   title: "Społeczny nacisk na budowę połączenia kolejowego",
   description: "Społeczeństwo Olsztyna domaga się wybudowania nowego połączenia kolejowego z Gdańskiem. Aktywiści i lokalni politycy apelują o uwzględnienie projektu w planach transportowych.",

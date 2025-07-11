@@ -27,5 +27,9 @@ module Game
     config.assets.css_compressor = nil
 
     config.time_zone = "Warsaw"
+
+    config.generators do |g|
+      g.orm :active_record, primary_key_type: :uuid
+    end
   end
 end
