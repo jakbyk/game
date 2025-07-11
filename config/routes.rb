@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     get "players", to: "plays#players"
     post "invite_player", to: "plays#invite_player"
     post "accept_invitation", to: "plays#accept_invitation"
+    get "online_users", to: "plays#online_users"
   end
 
   resources :archived_plays, only: [ :index, :show ]

@@ -1,5 +1,5 @@
 class PlaysController < ApplicationController
-  before_action :set_play, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :invite_player, :accept_invitation ]
+  before_action :set_play, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :invite_player, :accept_invitation, :online_users ]
   before_action :fetch_even_if_finished, only: [ :show ]
   before_action :fetch_finished, only: [ :result ]
   before_action :set_chat, only: [ :show, :budgets_descriptions, :budget_changes, :expenses, :players ]
@@ -123,6 +123,14 @@ class PlaysController < ApplicationController
     else
       redirect_to game_home_path, alert: "Nie znaleziono takiego zaproszenia"
     end
+  end
+
+  def online_users
+    render inline: <<~HTML
+    <turbo-frame id="game_online_users">
+      #{render_to_string(partial: "plays/online_users")}
+    </turbo-frame>
+  HTML
   end
 
   private

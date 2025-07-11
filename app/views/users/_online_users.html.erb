@@ -1,6 +1,9 @@
-<h2 class="title is-5">Online Users</h2>
-<ul>
-  <% User.online.each do |user| %>
-    <li><%= user.name %><%= user.last_seen_at %></li>
+<h2 class="title is-5">Aktywni użytkownicy</h2>
+<% User.online.each_with_index do |user, i| %>
+  <% if i > 0 %>
+    ,
   <% end %>
-</ul>
+  <%= link_to profile_path(user) do %>
+    <%= user.name %>
+  <% end %>
+<% end %>

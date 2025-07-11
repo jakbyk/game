@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   before_create :generate_confirmation_token
-  scope :online, -> { where("last_seen_at > ?", 10.seconds.ago) }
+  scope :online, -> { where("last_seen_at > ?", 12.seconds.ago) }
 
   has_many :play_users, dependent: :destroy
   has_many :plays, through: :play_users

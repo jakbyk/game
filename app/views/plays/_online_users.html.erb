@@ -1,0 +1,19 @@
+<div class="column">
+  <% online = @play.users.online %>
+  <p>Gracze:</p>
+  <% @play.users.each do |user| %>
+    <% if online.include?(user) %>
+      <p class="is-flex is-vcentered">
+        <%= icon_tag("check-circle", options: { class: "menu-icon is-success" }) %><%= link_to profile_path(user) do %>
+          <%= user.name %>
+        <% end %>
+      </p>
+    <% else %>
+      <p class="is-flex is-vcentered">
+        <%= icon_tag("x-circle", options: { class: "menu-icon is-danger" }) %><%= link_to profile_path(user) do %>
+          <%= user.name %>
+        <% end %>
+      </p>
+    <% end %>
+  <% end %>
+</div>
