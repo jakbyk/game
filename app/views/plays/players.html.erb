@@ -1,0 +1,58 @@
+<%= render 'shared/plays' do %>
+  <h2 class="title is-5 has-text-centered">Rezerwa budżetowa: <%= @play.decorate.formatted_budget_reserve %></h2>
+  <% if @players.any? %>
+    <table style="width: 100%; border-collapse: separate; border-spacing: 0 6px;">
+      <tr class="has-text-centered">
+        <td><strong>Nazwa</strong></td>
+        <td><strong>Status</strong></td>
+      </tr>
+      <% @players.each do |player| %>
+        <tbody class="color-background-on-hover">
+        <tr style="padding-top: 6px; padding-bottom: 6px;" class="has-text-centered">
+          <td>
+            <%= link_to profile_path(player) do %>
+              <%= player.name %>
+            <% end %>
+          </td>
+          <td>
+            <%= PlayUser.find_by(user_id: player.id, play_id: @play.id).is_leader? ? "Leader" : "Gracz" %>
+          </td>
+        </tr>
+        </tbody>
+      <% end %>
+    </table>
+  <% end %>
+  <% if @invitations.any? %>
+    <p>Zaproszeni do gry:</p>
+    <% @invitations.each do |i| %>
+      <p>
+        <%= link_to profile_path(i.user) do %>
+          <%= i.user.name %>
+        <% end %>
+      </p>
+    <% end %>
+  <% end %>
+  <% if current_user.allowed_to_invite_to_game?(@play) %>
+    <p>Dodaj do gry:</p>
+    <%= form_with url: play_invite_player_path(@play), method: :post, data: { controller: "exclusive-fields" }, class: "box" do |f| %>
+      <div class="field">
+        <%= label_tag :id, "Znajomy" %>
+        <%= f.select :id, @friends_table, { selected: 0 }, { class: "input", data: { exclusive_fields_target: "id" } } %>
+      </div>
+
+      <div class="field">
+        <%= label_tag :name, "Nazwa użytkownika" %>
+        <%= text_field_tag :name, nil, class: "input", data: { exclusive_fields_target: "name" }, placeholder: "np. janek" %>
+      </div>
+
+      <div class="field mt-2">
+        <%= label_tag :email, "Email użytkownika" %>
+        <%= email_field_tag :email, nil, class: "input", data: { exclusive_fields_target: "email" }, placeholder: "np. jan@ex.com" %>
+      </div>
+
+      <div class="mt-4">
+        <%= submit_tag "Zaproś", class: "button is-primary" %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

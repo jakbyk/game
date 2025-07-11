@@ -20,6 +20,9 @@ Rails.application.routes.draw do
     post "budget_change", to: "plays#create_budget_change"
     get "budget_changes", to: "plays#budget_changes"
     post "budget_vote", to: "plays#budget_vote"
+    get "players", to: "plays#players"
+    post "invite_player", to: "plays#invite_player"
+    post "accept_invitation", to: "plays#accept_invitation"
   end
 
   resources :archived_plays, only: [ :index, :show ]

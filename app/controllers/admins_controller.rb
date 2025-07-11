@@ -9,7 +9,7 @@ class AdminsController < ApplicationController
   end
 
   def games
-    @plays = Play.all
+    @plays = Play.active
   end
 
   def archived_games

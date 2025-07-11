@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_10_073538) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_10_200904) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -141,6 +141,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_10_073538) do
     t.index ["play_id"], name: "index_play_events_on_play_id"
   end
 
+  create_table "play_invitations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "invitor_id", null: false
+    t.bigint "play_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invitor_id"], name: "index_play_invitations_on_invitor_id"
+    t.index ["play_id"], name: "index_play_invitations_on_play_id"
+    t.index ["user_id"], name: "index_play_invitations_on_user_id"
+  end
+
   create_table "play_users", force: :cascade do |t|
     t.bigint "play_id", null: false
     t.bigint "user_id", null: false
@@ -192,6 +203,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_10_073538) do
   add_foreign_key "messages", "users"
   add_foreign_key "play_events", "events"
   add_foreign_key "play_events", "plays"
+  add_foreign_key "play_invitations", "plays"
+  add_foreign_key "play_invitations", "users"
+  add_foreign_key "play_invitations", "users", column: "invitor_id"
   add_foreign_key "play_users", "plays"
   add_foreign_key "play_users", "users"
   add_foreign_key "plays", "users", column: "archived_by_id"

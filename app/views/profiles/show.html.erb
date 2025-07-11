@@ -147,7 +147,7 @@
         <% end %>
       </div>
       <div class="column is-12">
-        <p>Liczba obecnych gier, w których bierze udział: <%= @user.plays.count %></p>
+        <p>Liczba obecnych gier, w których bierze udział: <%= @user.plays.active.count %></p>
         <p>Liczba skończonych gier, w których brał udział: <%= @user.plays.done.count %> (z czego
           wygranych: <%= @user.plays.won.count %>)</p>
       </div>

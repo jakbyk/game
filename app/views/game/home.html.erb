@@ -53,6 +53,21 @@
         <% end %>
       </div>
     <% end %>
+    <% if @invitations.any? %>
+      <div class="is-fullwidth has-text-centered">
+        <% if @invitations.each do |i| %>
+          <div class="box">
+            Zaproszenie do gry nr <%= i.play.id %> od gracza <%= link_to profile_path(i.invitor) do
+            i.invitor.name
+          end %>
+            <%= form_with url: play_accept_invitation_path(i.play), method: :post do |f| %>
+              <%= f.submit "Dołącz do gry", class: "button is-primary mt-2" %>
+            <% end %>
+          </div>
+        <% end %>
+          </div>
+        <% end %>
+    <% end %>
     <div class="is-fullwidth has-text-centered">
       <%= button_to archived_plays_path, method: :get, class: "button is-light mt-4", data: { turbo: false } do %>
         <%= icon_tag("archive-box", options: { class: "menu-icon" }) %> Zakończone gry

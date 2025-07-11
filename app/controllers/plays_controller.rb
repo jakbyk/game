@@ -1,14 +1,15 @@
 class PlaysController < ApplicationController
-  before_action :set_play, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote ]
+  before_action :set_play, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :invite_player, :accept_invitation ]
   before_action :fetch_even_if_finished, only: [ :show ]
   before_action :fetch_finished, only: [ :result ]
-  before_action :set_chat, only: [ :show, :budgets_descriptions, :budget_changes, :expenses ]
+  before_action :set_chat, only: [ :show, :budgets_descriptions, :budget_changes, :expenses, :players ]
   before_action :check_allowed, only: [ :create ]
   before_action :check_delete, only: [ :destroy ]
   before_action :check_archive, only: [ :archive ]
   before_action :check_proceed, only: [ :proceed ]
   before_action :check_create_budget_change, only: [ :create_budget_change ]
-  before_action :player_exists, only: [ :budget_changes, :result, :show ]
+  before_action :check_invite, only: [ :invite_player ]
+  before_action :player_exists, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :result, :show ]
   before_action :check_budget_vote, only: [ :budget_vote ]
 
   def show
@@ -79,6 +80,48 @@ class PlaysController < ApplicationController
       redirect_to play_budget_changes_path(@play), notice: "Oddano głos"
     else
       redirect_to play_budget_changes_path(@play), alert: "Coś poszło nie tak, spróbuj jeszcze raz"
+    end
+  end
+
+  def players
+    @players = @play.users
+    @invitations = @play.play_invitations
+    @already_invited = @play.play_invitations.map(&:user)
+    @friends = current_user.friend_users
+    could_invite = ((@friends - @players) - @already_invited).pluck(:name, :id)
+    label = could_invite.any? ? "Można wybrać" : "Brak znajomych, których można zaprosić"
+    @friends_table = could_invite << [ label, 0 ]
+  end
+
+  def invite_player
+    @to_invite = nil
+    @to_invite = User.find_by(id: params[:id]) if params[:id].present? && params[:id] != "0"
+    @to_invite = User.find_by(name: params[:name]) if params[:name].present?
+    @to_invite = User.find_by(email: params[:email]) if params[:email].present?
+    if @to_invite
+      return redirect_to play_players_path(@play), warning: "Ten gracz już jest uczestnikiem gry" if PlayUser.find_by(play: @play, user: @to_invite)
+      pi = @play.play_invitations.create(user: @to_invite, invitor: current_user)
+      if pi.save
+        redirect_to play_players_path(@play), notice: "Użytkownik został zaproszony"
+      else
+        return redirect_to play_players_path(@play), warning: "Ten gracz jest już zaproszony" if @play.play_invitations.find_by(user: @to_invite)
+        redirect_to play_players_path(@play), alert: "Nie udało się zaprosić użytkownika"
+      end
+    else
+      redirect_to play_players_path(@play), alert: "Nie znaleziono użytkownika"
+    end
+  end
+
+  def accept_invitation
+    pi = PlayInvitation.find_by(user: current_user, play: @play)
+    if pi
+      if pi.accept(current_user, @play)
+        redirect_to play_path(@play), notice: "Witaj w grze"
+      else
+        redirect_to game_home_path, alert: "Nie udało się dołączyć do gry"
+      end
+    else
+      redirect_to game_home_path, alert: "Nie znaleziono takiego zaproszenia"
     end
   end
 
@@ -158,5 +201,11 @@ class PlaysController < ApplicationController
     return if play_member && is_vote_correct && game_budget_change_exist
 
     redirect_to play_path(@play), alert: "Nie udało się zagłosować w propozycji zmiany budżetu."
+  end
+
+  def check_invite
+    return if current_user.allowed_to_invite_to_game?(@play)
+
+    redirect_to play_path(@play), alert: "Nie możesz zapraszać do gry."
   end
 end

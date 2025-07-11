@@ -40,6 +40,11 @@
           <%= icon_tag("question-mark-circle", options: { class: "menu-icon" }) %>Kategorie budżetowe
         <% end %>
       </li>
+      <li>
+        <%= link_to play_players_path(@play), class: "button is-light is-flex is-vcentered" do %>
+          <%= icon_tag("user-group", options: { class: "menu-icon" }) %> Lista graczy
+        <% end %>
+      </li>
       <% if current_user.allowed_to_proceed_game?(@play) %>
         <li>
           <%#= button_to play_proceed_path(play_id: @play.id),
@@ -52,9 +57,9 @@
                           message: "Czy na pewno chcesz przejść na kolejny miesiąc?",
                           action: "confirm#confirm"
                         } do %>
-            <%= button_to play_proceed_path(play_id: @play.id),
-                          method: :patch,
-                          class: "button is-light is-flex is-vcentered is-fullwidth" do %>
+          <%= button_to play_proceed_path(play_id: @play.id),
+                        method: :patch,
+                        class: "button is-light is-flex is-vcentered is-fullwidth" do %>
             <%= icon_tag("clock", options: { class: "menu-icon" }) %> Następny miesiąc
           <% end %>
         </li>

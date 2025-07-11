@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :received_friendships, class_name: "Friendship", foreign_key: :receiver_id, dependent: :destroy
   has_many :sent_friends, through: :sent_friendships, source: :receiver
   has_many :received_friends, through: :received_friendships, source: :sender
+  has_many :play_invitations, dependent: :destroy
 
   has_one_attached :avatar
 
@@ -57,6 +58,10 @@ class User < ApplicationRecord
   end
 
   def allowed_to_proceed_game?(play)
+    PlayUser.find_by(user: self, play: play)&.is_leader
+  end
+
+  def allowed_to_invite_to_game?(play)
     PlayUser.find_by(user: self, play: play)&.is_leader
   end
 

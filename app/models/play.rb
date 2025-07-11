@@ -26,6 +26,7 @@ class Play < ApplicationRecord
   has_many :game_budget_categories, dependent: :destroy
   has_many :game_budget_changes, dependent: :destroy
   has_many :play_events, dependent: :destroy
+  has_many :play_invitations, dependent: :destroy
 
   belongs_to :archived_by, class_name: "User", optional: true
 
@@ -33,12 +34,14 @@ class Play < ApplicationRecord
   after_create :create_game_budget_categories
   after_create :set_budget_reserve
 
-  scope :archived, -> { unscoped.where.not(archived_at: nil).order(id: :desc) }
+  scope :archived, -> { where.not(archived_at: nil).order(id: :desc) }
   scope :active, -> { where(archived_at: nil).where(finished_at: nil).order(id: :desc) }
-  scope :finished, -> { unscoped.where.not(finished_at: nil).order(id: :desc) }
-  scope :won, -> { unscoped.where.not(finished_at: nil).where("social_satisfaction > ?", 10).order(id: :desc) }
-  scope :done, -> { (archived && finished).order(id: :desc) }
-  default_scope -> { active.order(id: :desc) }
+  scope :finished, -> { where.not(finished_at: nil).order(id: :desc) }
+  scope :won, -> { where.not(finished_at: nil).where("social_satisfaction > ?", 10).order(id: :desc) }
+  scope :done, -> { where.not(archived_at: nil)
+                         .or(where.not(finished_at: nil))
+                         .order(id: :desc)
+  }
 
   validate :only_one_of_archived_or_finished
   validates :current_month, inclusion: { in: (0..48) }
@@ -70,9 +73,13 @@ class Play < ApplicationRecord
     !finished_at.nil? && archived_at.nil?
   end
 
+  def is_archived?
+    finished_at.nil? && !archived_at.nil?
+  end
+
   def result
     return "active" if is_active?
-    return "subjected" if is_finished? && current_month < 48
+    return "subjected" if is_archived? && current_month < 48
     return "defeat" if is_finished? && social_satisfaction < 10.0
     "win"
   end
