@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
     static targets = ["content", "menu"]
-    static values = { authorId: Number }
+    static values = { authorId: String }
 
     connect() {
         if (window.currentUserId !== this.authorIdValue && window.isAdmin === false) {
