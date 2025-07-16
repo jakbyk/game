@@ -3,7 +3,7 @@
   <% if i > 0 %>
     ,
   <% end %>
-  <%= link_to profile_path(user) do %>
+  <%= link_to profile_path(user), data: { turbo: false } do %>
     <%= user.name %>
   <% end %>
 <% end %>

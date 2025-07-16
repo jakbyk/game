@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   get "password_resets/edit"
   get "game/home"
   get "pages/home"
+  get "pages/regulation"
+  get "pages/information_on_the_processing_of_personal_data"
   root "pages#home"
   resources :users, only: [ :new, :create ] do
     collection do
@@ -44,6 +46,8 @@ Rails.application.routes.draw do
   get "admin/users", to: "admins#users", as: :admin_users
   get "admin/games", to: "admins#games", as: :admin_games
   get "admin/archived_games", to: "admins#archived_games", as: :admin_archived_games
+  get "admin/settings", to: "admins#settings", as: :admin_settings
+  patch "admin/update_settings", to: "admins#update_settings", as: :admin_update_settings
 
   namespace :admin do
     resources :events, only: [ :index, :edit, :update, :create, :new ]

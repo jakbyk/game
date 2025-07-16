@@ -19,10 +19,9 @@ class GameBudgetChange < ApplicationRecord
 
   def apply_if_should
     users_count = play.users.count
-    half_users_count = users_count / 2
-    if votes_favor_count > 0 && votes_favor_count >= half_users_count
+    if votes_favor_count > 0 && votes_favor_count * 2 >= users_count
       apply_to_game
-    elsif votes_against_count > half_users_count
+    elsif votes_against_count * 2 >= users_count
       mark_as_unapproved
     end
   end

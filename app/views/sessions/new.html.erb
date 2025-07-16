@@ -4,14 +4,14 @@
   <div class="field">
     <label class="label">Email</label>
     <div class="control">
-      <%= email_field_tag :email, params[:email], class: "input", required: true %>
+      <%= email_field_tag :email, params[:email], class: "input", required: true, placeholder: "np. jan.kowalski@gmail.com" %>
     </div>
   </div>
 
   <div class="field">
     <label class="label">Hasło</label>
     <div class="control">
-      <%= password_field_tag :password, nil, class: "input", required: true %>
+      <%= password_field_tag :password, nil, class: "input", required: true, placeholder: "********" %>
     </div>
   </div>
 

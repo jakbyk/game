@@ -1,48 +1,106 @@
 <h1 class="title is-3 has-text-centered">Rejestracja</h1>
 
 <%= form_with model: @user, data: { turbo: true }, class: "box container is-max-desktop" do |f| %>
-  <% if @user.errors.any? %>
-    <div class="notification is-danger">
-      <strong>Errors:</strong>
-      <ul>
-        <% @user.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
+  <div class="columns">
+    <div class="field is-6 column pb-0">
+      <label class="label">Imię</label>
+      <div class="control">
+        <%= f.text_field :first_name, class: "input#{ " is-danger" if @user.errors.select { |error| error.attribute == :first_name }.any?}", placeholder: "np. Jan", required: true, oninvalid: "this.setCustomValidity('Proszę wypełnić to pole.')", oninput: "setCustomValidity('')" %>
+        <% @user.errors.select { |error| error.attribute == :first_name }.each do |e| %>
+          <p class="is-danger is-size-7"><%= e.full_message %></p>
         <% end %>
-      </ul>
+      </div>
     </div>
-  <% end %>
 
-  <div class="field">
-    <label class="label">Nazwa gracza</label>
-    <div class="control">
-      <%= f.text_field :name, class: "input", required: true %>
-    </div>
-  </div>
-
-  <div class="field">
-    <label class="label">Email</label>
-    <div class="control">
-      <%= f.email_field :email, class: "input", required: true %>
+    <div class="field is-6 column pb-0">
+      <label class="label">Nazwisko</label>
+      <div class="control">
+        <%= f.text_field :last_name, class: "input#{ " is-danger" if @user.errors.select { |error| error.attribute == :last_name }.any?}", placeholder: "np. Kowalski", required: true, oninvalid: "this.setCustomValidity('Proszę wypełnić to pole.')", oninput: "setCustomValidity('')" %>
+        <% @user.errors.select { |error| error.attribute == :last_name }.each do |e| %>
+          <p class="is-danger is-size-7"><%= e.full_message %></p>
+        <% end %>
+      </div>
     </div>
   </div>
 
-  <div class="field">
-    <label class="label">Hasło</label>
-    <div class="control">
-      <%= f.password_field :password, class: "input", required: true %>
+  <div class="columns">
+    <div class="field is-12 column pb-0">
+      <label class="label" title="Nazwa widoczna dla wszystkich innych graczy">Nazwa gracza <%= icon_tag("question-mark-circle", options: { class: "is-#{12}x#{12}", size: 12.to_s }) %></label>
+      <div class="control">
+        <%= f.text_field :name, class: "input#{ " is-danger" if @user.errors.select { |error| error.attribute == :name }.any?}", placeholder: "np. jan2025", required: true, oninvalid: "this.setCustomValidity('Proszę wypełnić to pole.')", oninput: "setCustomValidity('')" %>
+        <% @user.errors.select { |error| error.attribute == :name }.each do |e| %>
+          <p class="is-danger is-size-7"><%= e.full_message %></p>
+        <% end %>
+      </div>
     </div>
   </div>
 
-  <div class="field">
-    <label class="label">Powtórz hasło</label>
-    <div class="control">
-      <%= f.password_field :password_confirmation, class: "input", required: true %>
+  <div class="columns">
+    <div class="field is-12 column pb-0">
+      <label class="label">Email</label>
+      <div class="control">
+        <%= f.text_field :email, class: "input#{ " is-danger" if @user.errors.select { |error| error.attribute == :email }.any?}", placeholder: "np. jan.kowalski@gmail.com", required: true, oninvalid: "this.setCustomValidity('Proszę wypełnić to pole.')", oninput: "setCustomValidity('')" %>
+        <% @user.errors.select { |error| error.attribute == :email }.each do |e| %>
+          <p class="is-danger is-size-7"><%= e.full_message %></p>
+        <% end %>
+      </div>
     </div>
   </div>
 
-  <div class="field mt-4 has-text-centered">
-    <div class="control">
-      <%= f.submit "Zarejestruj", class: "button is-primary" %>
+  <div class="columns">
+    <div class="field is-12 column pb-0">
+      <label class="label">Hasło</label>
+      <div class="control">
+        <%= f.password_field :password, class: "input#{ " is-danger" if @user.errors.select { |error| error.attribute == :password }.any?}", placeholder: "********", required: true, oninvalid: "this.setCustomValidity('Proszę wypełnić to pole.')", oninput: "setCustomValidity('')" %>
+        <% @user.errors.select { |error| error.attribute == :password }.each do |e| %>
+          <p class="is-danger is-size-7"><%= e.full_message %></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="columns">
+    <div class="field is-12 column pb-0">
+      <label class="label">Powtórz hasło</label>
+      <div class="control">
+        <%= f.password_field :password_confirmation, class: "input#{ " is-danger" if @user.errors.select { |error| error.attribute == :password_confirmation }.any?}", placeholder: "********", required: true, oninvalid: "this.setCustomValidity('Proszę wypełnić to pole.')", oninput: "setCustomValidity('')" %>
+        <% @user.errors.select { |error| error.attribute == :password_confirmation }.each do |e| %>
+          <p class="is-danger is-size-7"><%= e.full_message %></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="columns">
+    <div class="field is-12 column">
+      <div class="control">
+        <label class="checkbox">
+          <%= icon_tag("exclamation-circle", options: { class: "is-danger" }) if @user.errors.select { |error| error.attribute == :time_of_acceptance_of_the_regulations }.any? %>
+          <%= check_box_tag :accept_regulations, "1", false, required: true, oninvalid: "this.setCustomValidity('Proszę zaznaczyć zgodę.')", oninput: "setCustomValidity('')" %>
+          <span>Zgoda na <%= link_to "regulamin", pages_regulation_path, target: "_blank", rel: "noopener" %></span>
+          <% @user.errors.select { |error| error.attribute == :time_of_acceptance_of_the_regulations }.each do |e| %>
+            <p class="is-danger is-size-7"><%= e.full_message %></p>
+          <% end %>
+        </label>
+      </div>
+      <div class="control mt-2">
+        <label class="checkbox">
+          <%= icon_tag("exclamation-circle", options: { class: "is-danger" }) if @user.errors.select { |error| error.attribute == :time_of_acceptance_of_information_on_the_processing_of_personal }.any? %>
+          <%= check_box_tag :accept_data_processing, "1", false, required: true, oninvalid: "this.setCustomValidity('Proszę zaznaczyć zgodę.')", oninput: "setCustomValidity('')" %>
+          <span>Zgoda na <%= link_to "przetwarzanie danych", pages_information_on_the_processing_of_personal_data_path, target: "_blank", rel: "noopener" %></span>
+          <% @user.errors.select { |error| error.attribute == :time_of_acceptance_of_information_on_the_processing_of_personal }.each do |e| %>
+            <p class="is-danger is-size-7"><%= e.full_message %></p>
+          <% end %>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="columns">
+    <div class="field mt-4 has-text-centered is-12 column">
+      <div class="control">
+        <%= f.submit "Zarejestruj", class: "button is-primary" %>
+      </div>
     </div>
   </div>
 <% end %>

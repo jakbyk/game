@@ -1,0 +1,45 @@
+pl:
+  errors:
+    format: "%{message}"
+    messages:
+      confirmation: "nie zgadza się z potwierdzeniem"
+      taken: "jest już zajęta"
+      blank: "nie może być puste"
+      too_short: "jest za krótkie (minimum %{count} znaków)"
+      too_long: "jest za długie (maksimum %{count} znaków)"
+      invalid: "jest nieprawidłowy"
+
+  activerecord:
+    attributes:
+      user:
+        name: "Nazwa gracza"
+        email: "Adres e-mail"
+        password: "Hasło"
+        password_confirmation: "Potwierdzenie hasła"
+        time_of_acceptance_of_information_on_the_processing_of_personal_data: ""
+        time_of_acceptance_of_the_regulations: ""
+
+    errors:
+      models:
+        user:
+          attributes:
+            name:
+              taken: "Nazwa użytkownika jest już zajęta"
+              blank: "Musisz podać nazwę użytkownika"
+            password:
+              blank: "Musisz podać hasło"
+            password_confirmation:
+              blank: "Musisz powtórzyć hasło"
+              confirmation: "Potwierdzenie hasła nie zgadza się z hasłem"
+            time_of_acceptance_of_information_on_the_processing_of_personal:
+              blank: "Musisz wyrazić zgodę na przetwarzanie danych osobowych"
+            time_of_acceptance_of_the_regulations:
+              blank: "Musisz wyrazić zgodę na regulamin"
+            email:
+              blank: "Musisz podać adres email"
+              taken: "Gracz o takim adresie email już istnieje"
+              invalid: "Adres email jest nieprawidłowy"
+            first_name:
+              blank: "Musisz podać imię"
+            last_name:
+              blank: "Musisz podać nazwisko"

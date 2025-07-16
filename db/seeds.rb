@@ -9,6 +9,7 @@
 #   end
 Chat.find_or_create_by!(play_id: nil)
 BudgetCategory.seed
+Setting.create unless Setting.exists?
 u = User.create!(email: 'jakbyk@wp.pl', name: 'Jakub', password: '123456', password_confirmation: '123456', is_admin: true)
 u.confirm!
 Event.create!(

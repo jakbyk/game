@@ -62,6 +62,9 @@
     <orderEntry type="library" scope="PROVIDED" name="dartsass-rails (v0.5.1, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="date (v3.4.1, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="debug (v1.10.0, RVM: ruby-3.3.7) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="devise (v4.9.4, RVM: ruby-3.3.7) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="devise-i18n (v1.14.0, RVM: ruby-3.3.7) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="devise-i18n-views (v0.3.7, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.6.2, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="draper (v4.0.4, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="drb (v2.2.3, RVM: ruby-3.3.7) [gem]" level="application" />
@@ -74,6 +77,7 @@
     <orderEntry type="library" scope="PROVIDED" name="globalid (v1.2.1, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="google-protobuf (v4.31.1, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n (v1.14.7, RVM: ruby-3.3.7) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="image_processing (v1.14.0, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="importmap-rails (v2.1.0, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="iniparse (v1.5.0, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="inline_svg (v1.10.0, RVM: ruby-3.3.7) [gem]" level="application" />
@@ -91,6 +95,7 @@
     <orderEntry type="library" scope="PROVIDED" name="marcel (v1.0.4, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="matrix (v0.4.2, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="method_source (v1.1.0, RVM: ruby-3.3.7) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mini_magick (v5.2.0, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_mime (v1.1.5, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="minitest (v5.25.5, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="msgpack (v1.8.0, RVM: ruby-3.3.7) [gem]" level="application" />
@@ -100,6 +105,7 @@
     <orderEntry type="library" scope="PROVIDED" name="net-smtp (v0.5.1, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nio4r (v2.7.4, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.18.8, RVM: ruby-3.3.7) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="orm_adapter (v0.5.0, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="overcommit (v0.67.1, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parallel (v1.27.0, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parser (v3.3.8.0, RVM: ruby-3.3.7) [gem]" level="application" />
@@ -119,6 +125,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rails (v7.2.2.1, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails-dom-testing (v2.3.0, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails-html-sanitizer (v1.6.2, RVM: ruby-3.3.7) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rails-i18n (v7.0.10, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="railties (v7.2.2.1, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rainbow (v3.1.1, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rake (v13.3.0, RVM: ruby-3.3.7) [gem]" level="application" />
@@ -126,6 +133,7 @@
     <orderEntry type="library" scope="PROVIDED" name="regexp_parser (v2.10.0, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="reline (v0.6.1, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="request_store (v1.7.0, RVM: ruby-3.3.7) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="responders (v3.1.1, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rexml (v3.4.1, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec-core (v3.13.4, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec-expectations (v3.13.5, RVM: ruby-3.3.7) [gem]" level="application" />
@@ -138,6 +146,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rubocop-rails (v2.32.0, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-rails-omakase (v1.1.0, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-progressbar (v1.13.0, RVM: ruby-3.3.7) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ruby-vips (v2.2.3, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby2_keywords (v0.0.5, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubyzip (v2.4.1, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sass-embedded (v1.89.2, RVM: ruby-3.3.7) [gem]" level="application" />
@@ -157,6 +166,7 @@
     <orderEntry type="library" scope="PROVIDED" name="unicode-display_width (v3.1.4, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="unicode-emoji (v4.0.4, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="useragent (v0.16.11, RVM: ruby-3.3.7) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="warden (v1.2.9, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="web-console (v4.2.1, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="webdrivers (v5.2.0, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="websocket (v1.2.11, RVM: ruby-3.3.7) [gem]" level="application" />

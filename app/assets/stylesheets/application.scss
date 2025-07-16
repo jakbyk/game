@@ -51,9 +51,15 @@ a:hover {
   color: $primary;
 }
 
+input[type="checkbox"] {
+  accent-color: #0aa77a;
+  color: white;
+}
+
 .footer {
   background: darken($body-background-color, 2%);
   padding: 1rem 0.5rem 1rem;
+  margin-top: 2em;
 }
 
 .min-vh-100 {

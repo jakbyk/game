@@ -35,17 +35,17 @@
   <% if current_user.allowed_to_invite_to_game?(@play) %>
     <p>Dodaj do gry:</p>
     <%= form_with url: play_invite_player_path(@play), method: :post, data: { controller: "exclusive-fields" }, class: "box" do |f| %>
-      <div class="field">
+      <div class="field" data-exclusive-fields-target="idBox">
         <%= label_tag :id, "Znajomy" %>
         <%= f.select :id, @friends_table, { selected: 0 }, { class: "input", data: { exclusive_fields_target: "id" } } %>
       </div>
 
-      <div class="field">
+      <div class="field" data-exclusive-fields-target="nameBox">
         <%= label_tag :name, "Nazwa użytkownika" %>
         <%= text_field_tag :name, nil, class: "input", data: { exclusive_fields_target: "name" }, placeholder: "np. janek" %>
       </div>
 
-      <div class="field mt-2">
+      <div class="field mt-2" data-exclusive-fields-target="emailBox">
         <%= label_tag :email, "Email użytkownika" %>
         <%= email_field_tag :email, nil, class: "input", data: { exclusive_fields_target: "email" }, placeholder: "np. jan@ex.com" %>
       </div>

@@ -55,6 +55,8 @@
         </tbody>
       <% end %>
     </table>
+  <% else %>
+    <p class="has-text-centered">Brak zmian, za którymi można głosować.</p>
   <% end %>
   <% if @un_active_budget_changes.any? %>
     <h2 class="title is-5 has-text-centered">Historia zmian</h2>

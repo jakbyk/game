@@ -8,3 +8,5 @@ pin_all_from "app/javascript/controllers", under: "controllers"
 pin "bulma" # @1.0.4
 pin_all_from "app/javascript/channels", under: "channels"
 pin "@rails/actioncable", to: "actioncable.esm.js"
+pin "trix"
+pin "@rails/actiontext", to: "actiontext.esm.js"

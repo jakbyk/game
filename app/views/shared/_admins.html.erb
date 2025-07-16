@@ -23,6 +23,11 @@
         <% end %>
       </li>
       <li>
+        <%= link_to admin_settings_path, class: "button is-light is-flex is-vcentered" do %>
+          <%= icon_tag("cog-6-tooth", options: { class: "menu-icon" }) %>Ustawienia
+        <% end %>
+      </li>
+      <li>
         <%= link_to admin_games_path, class: "button is-light is-flex is-vcentered" do %>
           <%= icon_tag("banknotes", options: { class: "menu-icon" }) %>Rozgrywki
         <% end %>

@@ -1,0 +1,30 @@
+<%= render 'shared/admins' do %>
+  <section class="section">
+    <h2 class="title is-5 has-text-centered">
+      Ustawienia
+    </h2>
+    <div class="container">
+      <%= form_with model: @settings, url: admin_update_settings_path, method: :patch, local: true do |f| %>
+        <div class="field">
+          <label class="label">Regulamin</label>
+          <div class="control">
+            <%= f.text_area :regulations, rows: 10, class: "textarea" %>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Przetwarzanie danych osobowych</label>
+          <div class="control">
+            <%= f.text_area :information_on_the_processing_of_personal_data, rows: 10, class: "textarea" %>
+          </div>
+        </div>
+
+        <div class="field mt-4">
+          <div class="control">
+            <%= f.submit "Zapisz zmiany", class: "button is-primary" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </section>
+<% end %>
