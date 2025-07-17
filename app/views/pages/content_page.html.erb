@@ -3,7 +3,7 @@
     <h1 class="title is-2"><%= @title %></h1>
 
     <div class="content">
-      <%= @content %>
+      <%= raw rich_text_sanitize(@content) %>
     </div>
   </div>
 </section>

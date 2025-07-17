@@ -5,19 +5,9 @@
     </h2>
     <div class="container">
       <%= form_with model: @settings, url: admin_update_settings_path, method: :patch, local: true do |f| %>
-        <div class="field">
-          <label class="label">Regulamin</label>
-          <div class="control">
-            <%= f.text_area :regulations, rows: 10, class: "textarea" %>
-          </div>
-        </div>
+        <%= render 'shared/wysiwyg', form: f, title: "Regulamin", field_name: :regulations, value: @settings.regulations %>
 
-        <div class="field">
-          <label class="label">Przetwarzanie danych osobowych</label>
-          <div class="control">
-            <%= f.text_area :information_on_the_processing_of_personal_data, rows: 10, class: "textarea" %>
-          </div>
-        </div>
+        <%= render 'shared/wysiwyg', form: f, title: "Przetwarzanie danych osobowych", field_name: :information_on_the_processing_of_personal_data, value: @settings.information_on_the_processing_of_personal_data %>
 
         <div class="field mt-4">
           <div class="control">

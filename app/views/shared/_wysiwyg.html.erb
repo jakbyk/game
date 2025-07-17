@@ -1,0 +1,25 @@
+<div data-controller="wysiwyg" data-wysiwyg-target="container" class="field">
+  <label class="label"><%= title %></label>
+
+  <div class="buttons" style="margin-bottom: 0.5rem;">
+    <input type="file" accept="image/*" data-wysiwyg-target="fileInput" style="display:none" />
+    <button type="button" class="button is-small is-primary" data-action="click->wysiwyg#format" data-wysiwyg-target="formatButton" data-command="bold" disabled="disabled"><strong>B</strong></button>
+    <button type="button" class="button is-small is-primary" data-action="click->wysiwyg#format" data-wysiwyg-target="formatButton" data-command="italic" disabled="disabled"><em>I</em></button>
+    <button type="button" class="button is-small is-primary" data-action="click->wysiwyg#format" data-wysiwyg-target="formatButton" data-command="strikeThrough" disabled="disabled"><s>S</s></button>
+    <button type="button" class="button is-small is-primary" data-action="click->wysiwyg#format" data-wysiwyg-target="formatButton" data-command="justifyLeft" disabled="disabled">Left</button>
+    <button type="button" class="button is-small is-primary" data-action="click->wysiwyg#format" data-wysiwyg-target="formatButton" data-command="justifyCenter" disabled="disabled">Center</button>
+    <button type="button" class="button is-small is-primary" data-action="click->wysiwyg#format" data-wysiwyg-target="formatButton" data-command="justifyRight" disabled="disabled">Right</button>
+    <button type="button" class="button is-small is-primary" data-action="click->wysiwyg#format" data-wysiwyg-target="formatButton" data-command="justifyFull" disabled="disabled">Justify</button>
+    <button type="button" class="button is-small is-primary" data-action="click->wysiwyg#insertLink">Link</button>
+    <button type="button" class="button is-small is-primary" data-action="click->wysiwyg#insertImage">Image</button>
+  </div>
+
+  <div data-wysiwyg-target="editor"
+       contenteditable="true"
+       class="textarea"
+       style="min-height: 200px; overflow-y: auto; border: 1px solid #dbdbdb; padding: 0.5rem;">
+    <%= raw(value || "") %>
+  </div>
+
+  <%= form.text_area field_name, data: { wysiwyg_target: "textarea" }, hidden: true %>
+</div>

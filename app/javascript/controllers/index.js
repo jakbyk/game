@@ -13,6 +13,8 @@ import ToggleSectionController from "./toggle_section_controller"
 import SliderController from "./slider_controller"
 import AvatarPreviewController from "./avatar_preview_controller"
 import ExclusiveFieldsController from "./exclusive_fields_controller"
+import TextEditorController from "./text_editor_controller.js"
+import WysiwygController from "./wysiwyg_controller.js"
 
 application.register("presence", PresenceController)
 application.register("reload", ReloadController)
@@ -28,3 +30,5 @@ application.register("toggle-section", ToggleSectionController)
 application.register("slider", SliderController)
 application.register("avatar-preview", AvatarPreviewController)
 application.register("exclusive-fields", ExclusiveFieldsController)
+application.register("text-editor", TextEditorController)
+application.register("wysiwyg", WysiwygController)

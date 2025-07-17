@@ -44,16 +44,22 @@ table td .icon {
 }
 
 a {
-  color: $text-strong;
+  color: $link;
 }
 
 a:hover {
-  color: $primary;
+  color: $link;
+  font-weight: bold;
 }
 
 input[type="checkbox"] {
   accent-color: #0aa77a;
   color: white;
+}
+
+.button[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .footer {
