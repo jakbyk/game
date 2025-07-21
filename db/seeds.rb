@@ -1606,21 +1606,21 @@ Event.create!(
 
 Event.create!(
   title: "Pożar dachu w AJP Gorzów",
-  description: "W ostatnim czasie doszło do pożaru dachu w budynku...",
+  description: "W ostatnim czasie doszło do pożaru dachu w budynku uczelni w Gorzowie Wielkopolskim. Teraz na walkę ze skutkami żywiołu potrzeba ogromnych środków. W celu zapobiegnięcia podobnym tragediom w przyszłości należy przeprowadzić akcję dofinansowania systemów przeciwpożarowych.",
   region: "Lubuskie",
   budget_name: "Bezpieczeństwo publiczne i ochrona przeciwpożarowa",
   budget_change: 490000,
   is_adding_to_budget: true,
   budget_reserve_change: 500000,
   need_increase_budget_reserve: true,
-  positive_description: "Zabezpieczenia przeciwpożarowe są sprawne i ludzio...",
-  negative_description: "Wciąż brakuje środków na odpowiednią ochronę przec...",
+  positive_description: "Zabezpieczenia przeciwpożarowe są sprawne i ludziom na pewno przypadło to do gustu.",
+  negative_description: "Wciąż brakuje środków na odpowiednią ochronę przeciwpożarową. Miejmy nadzieję, że nie doprowadzi to do kolejnych tragedii.",
   frequency: 80
 )
 
 Event.create!(
   title: "NFZ w tarapatach",
-  description: "Do funduszu państwa wpłynęły środki na poczet pokr...",
+  description: "Do funduszu państwa wpłynęły środki na poczet pokrycia zwiększonych wydatków Narodowego Funduszu Zdrowia.",
   region: nil,
   budget_name: "Ochrona zdrowia",
   budget_change: 9900000,
@@ -1628,27 +1628,27 @@ Event.create!(
   budget_reserve_change: 10000000,
   need_increase_budget_reserve: true,
   positive_description: "Kolejki do lekarzy uległy zmniejszeniu.",
-  negative_description: "Zaniedbania w służbie zdrowia nadal pozostają wido...",
+  negative_description: "Zaniedbania w służbie zdrowia nadal pozostają widoczne.",
   frequency: 50
 )
 
 Event.create!(
   title: "Unia Europejska wspiera zmiany w sądownictwie",
-  description: "Od lat krajowy wymiar sprawiedliwości wymaga wdroż...",
+  description: "Od lat krajowy wymiar sprawiedliwości wymaga wdrożenia szybszych procedur. Na ten cel Unia Europejska przyznała znaczne środki.",
   region: nil,
   budget_name: "Wymiar sprawiedliwości",
   budget_change: 900000,
   is_adding_to_budget: true,
   budget_reserve_change: 1000000,
   need_increase_budget_reserve: true,
-  positive_description: "Unia Europejska zauważyła poprawę stanu wymiaru sp...",
-  negative_description: "Kolejki w sądach nadal są duże. Społeczeństwu się ...",
+  positive_description: "Unia Europejska zauważyła poprawę stanu wymiaru sprawiedliwości.",
+  negative_description: "Kolejki w sądach nadal są duże. Społeczeństwu się to nie podoba.",
   frequency: 50
 )
 
 Event.create!(
-  title: "Unia Europejska przyznała kolejną transzę KPO",
-  description: "Unia Europejska przyznała transzę 500 mln zł z Kra...",
+  title: "Unia Europejska przyznała kolejną transzę KPO",
+  description: "Unia Europejska przyznała transzę 500 mln zł z Krajowego Planu Odbudowy.",
   region: nil,
   budget_name: nil,
   budget_change: 0,
@@ -1662,7 +1662,7 @@ Event.create!(
 
 Event.create!(
   title: "UE przyznała KPO",
-  description: "Unia Europejska przyznała transzę 250 mln zł z Kra...",
+  description: "Unia Europejska przyznała transzę 250 mln zł z Krajowego Planu Odbudowy.",
   region: nil,
   budget_name: nil,
   budget_change: 0,
@@ -1676,7 +1676,7 @@ Event.create!(
 
 Event.create!(
   title: "Nowe środki z KPO",
-  description: "Unia Europejska przyznała transzę 100 mln zł z Kra...",
+  description: "Unia Europejska przyznała transzę 100 mln zł z Krajowego Planu Odbudowy.",
   region: nil,
   budget_name: nil,
   budget_change: 0,

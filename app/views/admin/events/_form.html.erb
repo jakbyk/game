@@ -9,8 +9,7 @@
   </div>
 
   <div class="field">
-    <%= f.label :description, "Opis" %>
-    <%= f.text_area :description, class: "textarea #{'is-danger' if @event.errors[:description].any?}", required: true %>
+    <%= render 'shared/wysiwyg', form: f, title: "Opis", field_name: :description, value: @event.description %>
     <% @event.errors[:description].each do |error| %>
       <p class="help is-danger"><%= error %></p>
     <% end %>
@@ -61,16 +60,14 @@
          @event&.budget_change != 0) %>">
 
     <div class="field">
-      <%= f.label :positive_description, "Opis pozytywnego skutku" %>
-      <%= f.text_area :positive_description, class: "textarea #{'is-danger' if @event.errors[:positive_description].any?}" %>
+      <%= render 'shared/wysiwyg', form: f, title: "Opis pozytywnego skutku", field_name: :positive_description, value: @event.positive_description %>
       <% @event.errors[:positive_description].each do |error| %>
         <p class="help is-danger"><%= error %></p>
       <% end %>
     </div>
 
     <div class="field">
-      <%= f.label :negative_description, "Opis negatywnego skutku" %>
-      <%= f.text_area :negative_description, class: "textarea #{'is-danger' if @event.errors[:negative_description].any?}" %>
+      <%= render 'shared/wysiwyg', form: f, title: "Opis negatywnego skutku", field_name: :negative_description, value: @event.negative_description %>
       <% @event.errors[:negative_description].each do |error| %>
         <p class="help is-danger"><%= error %></p>
       <% end %>
