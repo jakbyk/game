@@ -143,9 +143,9 @@ class PlaysController < ApplicationController
   def fetch_even_if_finished
     play_id = params[:play_id] || params[:id]
     play = Play.unscoped.find_by(id: play_id)
-    if play.is_active?
+    if play&.is_active?
       @play = play
-    elsif play.is_finished?
+    elsif play&.is_finished?
       @play = play
     end
   end
