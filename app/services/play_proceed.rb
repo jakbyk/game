@@ -7,7 +7,7 @@ class PlayProceed
     current_month = @play.current_month
     next_month = current_month + 1
     resolve_previous_events(current_month) if current_month > 0
-    3.times do
+    rand(2..6).times do
       draw_event_for_next_month(next_month)
     end
     proceed_play_to_next_month
@@ -19,7 +19,7 @@ class PlayProceed
   private
 
   def draw_event_for_next_month(month)
-    event = Event.take_random
+    event = take_event
     return unless event
 
     @play.play_events.create!(
@@ -28,6 +28,16 @@ class PlayProceed
       outcome: nil,
       resolved_at: nil
     )
+  end
+
+  def take_event
+    last_10_events_ids = @play.play_events.map(&:event_id).uniq[0..10]
+    event = nil
+    while event == nil
+      new_event = Event.take_random
+      event = new_event unless last_10_events_ids.include?(new_event&.id)
+    end
+    event
   end
 
   def resolve_previous_events(current_month)
