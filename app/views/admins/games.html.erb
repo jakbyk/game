@@ -25,7 +25,7 @@
             </td>
             <td>
               <% play.users.each do |u| %>
-                <p><%= u.name %></p>
+                <p><%= link_to admin_user_path(u) do %><%= u.name %><% end %></p>
               <% end %>
             </td>
             <td class="is-flex is-vcentered">

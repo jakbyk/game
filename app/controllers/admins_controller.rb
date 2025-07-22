@@ -8,6 +8,11 @@ class AdminsController < ApplicationController
     @users = User.all
   end
 
+  def user
+    @user = User.find_by(id: params[:id])
+    redirect_to admin_users_path, warning: "Brak takiego użytkownika" unless @user
+  end
+
   def games
     @plays = Play.active
   end

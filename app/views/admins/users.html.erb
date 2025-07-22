@@ -17,10 +17,14 @@
           <tbody class="color-background-on-hover">
           <tr>
             <td>
-              <%= user.id %>
+              <%= link_to admin_user_path(user) do %>
+                <%= user.id %>
+              <% end %>
             </td>
             <td>
-              <%= user.name %>
+              <%= link_to profile_path(user) do %>
+                <%= user.name %>
+              <% end %>
             </td>
             <td class="is-flex is-vcentered">
               <% if user.confirmed? %>

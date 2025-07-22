@@ -1,5 +1,5 @@
 /* ️🎨  ——— Brand palette ——— */
-$primary: #0059ff; // buttons / links
+$primary: #0049ff; // buttons / links
 $info: #38a1ff; // secondary links / info boxes
 $success: #00c48c; // success flashes
 $warning: #ffb400; // warnings
@@ -15,6 +15,7 @@ $second-background-color: #f5f5f5;
 $third-background-color: #dddddd;
 $text-strong: #1b1b1b;
 $link: $primary;
+$linker: #5099ff;
 
 /* 👉  Import Bulma *after* the overrides */
 //@import "bulma/bulma";
@@ -48,8 +49,7 @@ a {
 }
 
 a:hover {
-  color: $link;
-  font-weight: bold;
+  color: $linker;
 }
 
 input[type="checkbox"] {

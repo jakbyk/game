@@ -44,6 +44,7 @@ Rails.application.routes.draw do
 
   get "admin", to: "admins#index", as: :admin
   get "admin/users", to: "admins#users", as: :admin_users
+  get "admin/users/:id", to: "admins#user", as: :admin_user
   get "admin/games", to: "admins#games", as: :admin_games
   get "admin/archived_games", to: "admins#archived_games", as: :admin_archived_games
   get "admin/settings", to: "admins#settings", as: :admin_settings
