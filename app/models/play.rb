@@ -84,6 +84,17 @@ class Play < ApplicationRecord
     "win"
   end
 
+  def social_satisfaction_description
+    social_satisfaction_levels = Setting.first.social_satisfaction_levels
+    return "" if social_satisfaction_levels.blank?
+
+    applicable = social_satisfaction_levels
+                   .select { |level| social_satisfaction >= level["threshold"].to_i }
+                   .max_by { |level| level["threshold"].to_i }
+
+    applicable&.dig("text").to_s.html_safe
+  end
+
   private
 
   def create_chat

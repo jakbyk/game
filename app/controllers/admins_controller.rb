@@ -36,6 +36,10 @@ class AdminsController < ApplicationController
   private
 
   def settings_params
-    params.require(:setting).permit(:regulations, :information_on_the_processing_of_personal_data)
+    params.require(:setting).permit(
+      :regulations,
+      :information_on_the_processing_of_personal_data,
+      social_satisfaction_levels: [ :threshold, :text ]
+    )
   end
 end

@@ -1,2 +1,9 @@
-<p>Ta gra została zakończona</p>
-<!-- TODO: Add different views regarding result -->
+<% if @play.result == 'win' %>
+  <%= raw rich_text_sanitize(@play.social_satisfaction_description) %>
+<% elsif @play.result == 'defeat' %>
+  <p><%= raw rich_text_sanitize(Setting.first.defeat_description) %></p>
+<% elsif @play.result == 'subjected' %>
+  <p><%= raw rich_text_sanitize(Setting.first.subjected_description) %></p>
+<% else %>
+  <p>Gra nie została zakończona</p>
+<% end %>

@@ -5,9 +5,62 @@
     </h2>
     <div class="container">
       <%= form_with model: @settings, url: admin_update_settings_path, method: :patch, local: true do |f| %>
+        <h1 class="title mt-6">Informacje podczas rejestracji</h1>
+
         <%= render 'shared/wysiwyg', form: f, title: "Regulamin", field_name: :regulations, value: @settings.regulations %>
 
         <%= render 'shared/wysiwyg', form: f, title: "Przetwarzanie danych osobowych", field_name: :information_on_the_processing_of_personal_data, value: @settings.information_on_the_processing_of_personal_data %>
+
+        <h1 class="title mt-6">Informacje po zakończonych grach</h1>
+
+        <%= render 'shared/wysiwyg', form: f, title: "Opis przegranej gry", field_name: :defeat_description, value: @settings.defeat_description %>
+
+        <%= render 'shared/wysiwyg', form: f, title: "Opis poddanej gry", field_name: :subjected_description, value: @settings.subjected_description %>
+
+        <fieldset data-controller="thresholds">
+          <legend class="title is-6 mb-2">Opisy wygranych gier według poziomu satysfakcji społecznej</legend>
+
+          <div id="levels" data-thresholds-target="container">
+            <% if @settings.social_satisfaction_levels.any? %>
+              <% levels = Array(@settings.social_satisfaction_levels).map(&:with_indifferent_access).sort_by { |e| e["threshold"].to_i } %>
+
+              <% levels.each_with_index do |level, i| %>
+                <% obj = Object.new
+                   obj.define_singleton_method(:threshold) { level["threshold"] }
+                   obj.define_singleton_method(:text) { level["text"] }
+                   obj.define_singleton_method(:id) { i }
+                   obj.define_singleton_method(:to_model) { obj } %>
+                <%= f.fields_for "social_satisfaction_levels[]", obj, child_index: i do |level_form| %>
+                  <div class="box mb-4">
+                    <div class="field" data-controller="slider">
+                      <%= level_form.label :threshold, "Próg jaki trzeba osiągnąć, aby ten opis się pojawił" %>
+                      <div class="control">
+                        <%= level_form.range_field :threshold, min: 0, max: 100, class: "slider is-fullwidth", data: { action: "input->slider#update", slider_target: "input" } %>
+                      </div>
+                      <p class="help">Aktualna wartość: <span data-slider-target="value"><%= level_form.object.threshold || 0 %></span></p>
+                    </div>
+
+                    <%= render 'shared/wysiwyg',
+                               form: level_form,
+                               title: "Opis dla tego progu",
+                               field_name: :text,
+                               value: level["text"] %>
+
+                    <button type="button" class="button is-danger is-light mt-2" data-action="thresholds#remove">
+                      Usuń ten próg
+                    </button>
+                  </div>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+
+          <button type="button"
+                  class="button is-link is-light mt-4"
+                  data-action="thresholds#add">➕ Dodaj próg
+          </button>
+        </fieldset>
+
 
         <div class="field mt-4">
           <div class="control">

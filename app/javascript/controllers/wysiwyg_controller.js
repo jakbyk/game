@@ -8,6 +8,7 @@ export default class extends Controller {
         this.editorTarget.innerHTML = this.textareaTarget.value || ""
         this.fileInputTarget.addEventListener("change", this.uploadImage.bind(this))
         document.addEventListener("selectionchange", this.updateFormattingButtons.bind(this))
+        this.editorTarget.addEventListener("input", (event) => this.sync())
     }
 
     format(event) {
