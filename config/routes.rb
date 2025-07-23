@@ -42,12 +42,22 @@ Rails.application.routes.draw do
     delete "decline_friend", to: "profiles#decline_friend"
   end
 
+  resources "changes", only: [ :index, :show, :create ] do
+    collection do
+      get :info
+    end
+  end
+
   get "admin", to: "admins#index", as: :admin
   get "admin/users", to: "admins#users", as: :admin_users
   get "admin/users/:id", to: "admins#user", as: :admin_user
   get "admin/games", to: "admins#games", as: :admin_games
   get "admin/archived_games", to: "admins#archived_games", as: :admin_archived_games
   get "admin/settings", to: "admins#settings", as: :admin_settings
+  get "admin/changes", to: "admins#changes", as: :admin_changes
+  get "admin/changes/:id", to: "admins#change", as: :admin_change
+  post "admin/changes/:id", to: "admins#implement_change", as: :admin_implement_change
+  delete "admin/changes/:id", to: "admins#not_implement_change", as: :admin_not_implement_change
   patch "admin/update_settings", to: "admins#update_settings", as: :admin_update_settings
 
   namespace :admin do

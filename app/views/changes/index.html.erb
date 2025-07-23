@@ -1,0 +1,47 @@
+<section class="section">
+  <div class="container">
+    <div class="columns is-multiline">
+      <div class="column is-12">
+        <h2 class="title is-5 has-text-centered">
+          Zmiany do wydarzeń
+        </h2>
+        <p>
+          <%= link_to info_changes_path do %>
+            Jak dokonywać zmian? - Instrukcja
+          <% end %>
+        </p>
+
+        <p>Obecnie istnieje <%= @events.count %> zdarzeń, które mogą wystąpić w grze.</p>
+
+        <table style="width: 100%; border-collapse: separate; border-spacing: 0 6px;">
+          <% @events.each_with_index do |event| %>
+            <tbody class="color-background-on-hover">
+            <tr>
+              <td>
+                <strong><%= event.title %></strong>
+              </td>
+              <td>
+                <%= link_to change_path(event), class: "button is-light" do %>
+                  Szczegóły
+                <% end %>
+              </td>
+            </tr>
+            </tbody>
+          <% end %>
+        </table>
+
+        <hr />
+
+        <%= form_with model: ChangeProposal.new, url: changes_path, method: :post, local: true do |f| %>
+          <%= render 'shared/wysiwyg', form: f, title: "Ogólny pomysł na zmianę", field_name: :content, value: "" %>
+
+          <div class="field mt-4">
+            <div class="control">
+              <%= f.submit "Wyślij propozycję", class: "button is-success" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_22_065201) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_23_075101) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -51,12 +51,45 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_22_065201) do
     t.bigint "start_budget", default: 0
   end
 
+  create_table "change_proposals", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "event_id"
+    t.text "content"
+    t.string "status", default: "created", null: false
+    t.string "title"
+    t.text "description"
+    t.string "region"
+    t.string "budget_name"
+    t.bigint "budget_change", default: 0
+    t.boolean "is_adding_to_budget"
+    t.bigint "budget_reserve_change", default: 0
+    t.boolean "need_increase_budget_reserve"
+    t.text "positive_description"
+    t.text "negative_description"
+    t.integer "frequency", default: 1
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_change_proposals_on_event_id"
+    t.index ["user_id"], name: "index_change_proposals_on_user_id"
+  end
+
   create_table "chats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "play_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["play_id"], name: "index_chats_on_play_id"
     t.index ["play_id"], name: "index_chats_on_play_id_null_unique", unique: true, where: "(play_id IS NULL)"
+  end
+
+  create_table "ckeditor_assets", force: :cascade do |t|
+    t.string "data_file_name", null: false
+    t.string "data_content_type"
+    t.integer "data_file_size"
+    t.string "data_fingerprint"
+    t.string "type", limit: 30
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["type"], name: "index_ckeditor_assets_on_type"
   end
 
   create_table "events", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -202,10 +235,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_22_065201) do
     t.string "last_name"
     t.datetime "time_of_acceptance_of_information_on_the_processing_of_personal", precision: nil
     t.datetime "time_of_acceptance_of_the_regulations", precision: nil
+    t.boolean "is_tester", default: false
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "change_proposals", "users"
   add_foreign_key "chats", "plays"
   add_foreign_key "friendships", "users", column: "receiver_id"
   add_foreign_key "friendships", "users", column: "sender_id"

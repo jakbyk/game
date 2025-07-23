@@ -20,10 +20,14 @@
           regulamin: <%= @user.time_of_acceptance_of_the_regulations ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %></p>
       </div>
       <div class="column is-12">
-        <h2 class="title is-5">Znajomi: </h2>
-        <% @user.friend_users.each do |u| %>
-          <p><%= link_to admin_user_path(u) do %><%= u.name %>
-            <% end %></p>
+        <% if @user.friend_users.any? %>
+          <h2 class="title is-5">Znajomi: </h2>
+          <% @user.friend_users.each do |u| %>
+            <p><%= link_to admin_user_path(u) do %><%= u.name %>
+              <% end %></p>
+          <% end %>
+        <% else %>
+          <p>Brak znajomych</p>
         <% end %>
       </div>
       <div class="column is-12">

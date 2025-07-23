@@ -1,0 +1,205 @@
+<%= render 'shared/admins' do %>
+  <section class="section">
+    <div class="container">
+      <%= form_with model: @proposal, url: admin_change_path, method: :post, local: true do |f| %>
+        <%= f.hidden_field :id, value: @proposal.id %>
+        <%= f.hidden_field :event_id, value: @event.id %>
+
+        <h2 class="title is-5 has-text-centered"><%= @event.title %></h2>
+        <div class="field  <%= "background-danger" if @proposal.errors[:title].any? %>">
+          <%= f.label :title, "Propozycja nowego tytułu" %>
+          <%= f.text_field :title, class: "input #{'is-danger' if @proposal.errors[:title].any?}", required: true, value: @proposal.title %>
+          <% @proposal.errors[:title].each do |error| %>
+            <p class="help is-danger"><%= error %></p>
+          <% end %>
+        </div>
+
+        <p class="mt-2"><b>Częstotliwość:</b> <%= @event.frequency %></p>
+        <div class="field <%= "background-danger" if @proposal.errors[:frequency].any? %>" data-controller="slider">
+          <%= f.label :frequency, "Propozycja nowej częstotliwości. Im więcej tym większa szansa, że się pojawi" %>
+          <div class="control">
+            <%= f.range_field :frequency, min: 1, max: 100, value: @proposal.frequency, class: "slider is-fullwidth #{'is-danger' if @proposal.errors[:frequency].any?}", data: { action: "input->slider#update", slider_target: "input" } %>
+          </div>
+          <p class="help">Nowa wartość: <span data-slider-target="value"><%= f.object.frequency || 50 %></span></p>
+          <% @proposal.errors[:frequency].each do |error| %>
+            <p class="help is-danger"><%= error %></p>
+          <% end %>
+        </div>
+
+        <p class="mt-2"><b>Region występowania:</b> <%= @event.region || "cała Polska" %></p>
+        <div class="field <%= "background-danger" if @proposal.errors[:region].any? %>">
+          <%= f.label :region, "Nowy region występowania. Gdzie ma wystąpić zdarzenie?" %><br>
+          <%= f.select :region,
+                       [["Cała Polska", nil]] + Play::REGIONS.values,
+                       { selected: @proposal&.region },
+                       class: "select #{'is-danger' if @proposal.errors[:region].any?}" %>
+          <% @proposal.errors[:region].each do |error| %>
+            <p class="help is-danger"><%= error %></p>
+          <% end %>
+        </div>
+
+        <p class="mt-2"><b>Opis:</b></p>
+        <%= raw rich_text_sanitize(@event.description) %>
+        <div class="field <%= "background-danger" if @proposal.errors[:description].any? %>">
+          <%= render 'shared/wysiwyg', form: f, title: "Nowy opis", field_name: :description, value: @proposal.description %>
+          <% @proposal.errors[:description].each do |error| %>
+            <p class="help is-danger"><%= error %></p>
+          <% end %>
+        </div>
+
+        <div class="field is-flex is-align-items-center mb-2">
+          <label class="label mr-3">Zmiany do oczekiwanego budżetu</label>
+
+          <label class="switch" data-toggle-section-target="budgetToggle">
+            <%= check_box_tag "budget_toggle",
+                              "1",
+                              @proposal&.positive_description.present? ||
+                                @proposal&.negative_description.present? ||
+                                @proposal&.budget_name.present? ||
+                                @proposal&.budget_change != 0,
+                              data: { action: "toggle-section#toggleBudget" } %>
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <p class="mt-2"><b>Pozytyny wynik:</b></p>
+        <%= raw rich_text_sanitize(@event.positive_description) %>
+
+        <p class="mt-2"><b>Negatywny wynik:</b></p>
+        <%= raw rich_text_sanitize(@event.negative_description) %>
+
+        <p class="mt-2"><b>Oczekiwana zmiana budżetu:</b></p>
+        <% if @event.budget_change != 0 %>
+          <p><%= @event.budget_name %></p>
+          <%= icon_tag(@event.is_adding_to_budget == false ? "minus-circle" : "plus-circle", options: { class: "#{@event.is_adding_to_budget == false ? "is-success" : "is-danger"}" }) %>
+          <span><%= @event.decorate.formatted_budget_change %></span>
+        <% else %>
+          Brak
+        <% end %>
+
+        <div data-toggle-section-target="budgetFields"
+             class="<%= 'is-hidden' unless (@proposal&.positive_description.present? ||
+               @proposal&.negative_description.present? ||
+               @proposal&.budget_name.present? ||
+               @proposal&.budget_change != 0) %>">
+
+          <div class="field <%= "background-danger" if @proposal.errors[:positive_description].any? %>">
+            <%= render 'shared/wysiwyg', form: f, title: "Opis pozytywnego skutku", field_name: :positive_description, value: @proposal.positive_description %>
+            <% @proposal.errors[:positive_description].each do |error| %>
+              <p class="help is-danger"><%= error %></p>
+            <% end %>
+          </div>
+
+          <div class="field <%= "background-danger" if @proposal.errors[:negative_description].any? %>">
+            <%= render 'shared/wysiwyg', form: f, title: "Opis negatywnego skutku", field_name: :negative_description, value: @proposal.negative_description %>
+            <% @proposal.errors[:negative_description].each do |error| %>
+              <p class="help is-danger"><%= error %></p>
+            <% end %>
+          </div>
+
+          <div class="field <%= "background-danger" if @proposal.errors[:budget_name].any? %>">
+            <%= f.label :budget_name, "Jakiej kategorii budżetowej dotyczy?" %>
+            <%= f.select :budget_name,
+                         [["Żadnej", nil]] + BudgetCategory.pluck(:name),
+                         { selected: @proposal&.budget_name },
+                         class: "select #{'is-danger' if @proposal.errors[:budget_name].any?}" %>
+            <% @proposal.errors[:budget_name].each do |error| %>
+              <p class="help is-danger"><%= error %></p>
+            <% end %>
+          </div>
+
+          <div class="field <%= "background-danger" if @proposal.errors[:budget_change].any? %>">
+            <%= f.label :budget_change, "O ile zmienić budżet (w tys. zł)" %>
+            <%= f.number_field :budget_change, class: "input #{'is-danger' if @proposal.errors[:budget_change].any?}" %>
+            <% @proposal.errors[:budget_change].each do |error| %>
+              <p class="help is-danger"><%= error %></p>
+            <% end %>
+          </div>
+
+          <div class="field <%= "background-danger" if @proposal.errors[:is_adding_to_budget].any? %>">
+            <%= f.label :is_adding_to_budget, "Czy zwiększamy budżet?" %><br>
+            <%= f.select :is_adding_to_budget,
+                         [["Bez zmian", nil],
+                          ["Gracze muszą zwiększyć budżet", true],
+                          ["Gracze mogą zmniejszyć budżet", false]],
+                         { selected: @proposal&.is_adding_to_budget },
+                         class: "select #{'is-danger' if @proposal.errors[:is_adding_to_budget].any?}" %>
+            <% @proposal.errors[:is_adding_to_budget].each do |error| %>
+              <p class="help is-danger"><%= error %></p>
+            <% end %>
+          </div>
+        </div>
+
+        <p class="mt-2"><b>Zmiana rezerwy budżetowej:</b></p>
+        <% if @event.budget_reserve_change != 0 %>
+          <%= icon_tag(@event.need_increase_budget_reserve == false ? "minus-circle" : "plus-circle", options: { class: "#{@event.need_increase_budget_reserve == false ? "is-danger" : "is-success"}" }) %>
+          <span><%= @event.decorate.formatted_budget_reserve_change %></span>
+        <% else %>
+          Brak
+        <% end %>
+
+        <div class="field is-flex is-align-items-center mt-4 mb-2">
+          <label class="label mr-3">Zmiany do rezerwy budżetowej</label>
+
+          <label class="switch" data-toggle-section-target="reserveToggle">
+            <%= check_box_tag "reserve_toggle",
+                              "1",
+                              @proposal&.budget_reserve_change != 0,
+                              data: { action: "toggle-section#toggleReserve" } %>
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div data-toggle-section-target="reserveFields"
+             class="<%= 'is-hidden' unless @proposal&.budget_reserve_change != 0 %>">
+
+          <div class="field <%= "background-danger" if @proposal.errors[:budget_reserve_change].any? %>">
+            <%= f.label :budget_reserve_change, "Zmiana rezerwy (w tys. zł)" %>
+            <%= f.number_field :budget_reserve_change, class: "input #{'is-danger' if @proposal.errors[:budget_reserve_change].any?}" %>
+            <% @proposal.errors[:budget_reserve_change].each do |error| %>
+              <p class="help is-danger"><%= error %></p>
+            <% end %>
+          </div>
+
+          <div class="field <%= "background-danger" if @proposal.errors[:need_increase_budget_reserve].any? %>">
+            <%= f.label :need_increase_budget_reserve, "Zmiana rezerwy?" %><br>
+            <%= f.select :need_increase_budget_reserve,
+                         [["Bez zmian", nil],
+                          ["Zwiększona – gracze zyskują", true],
+                          ["Zmniejszona – gracze tracą", false]],
+                         { selected: @proposal&.need_increase_budget_reserve },
+                         class: "select #{'is-danger' if @proposal.errors[:need_increase_budget_reserve].any?}" %>
+            <% @proposal.errors[:need_increase_budget_reserve].each do |error| %>
+              <p class="help is-danger"><%= error %></p>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="field <%= "background-danger" if @proposal.errors[:content].any? %>">
+          <%= render 'shared/wysiwyg', form: f, title: "Opis propozycji zmiany. Napisz krótko dlaczego chcesz zrobić taką zmianę.", field_name: :content, value: "" %>
+          <% @proposal.errors[:content].each do |error| %>
+            <p class="help is-danger"><%= error %></p>
+          <% end %>
+        </div>
+
+        <div class="field mt-4">
+          <div class="control is-flex is-align-items-flex-start is-justify-content-space-between">
+            <%= button_to admin_not_implement_change_path(@proposal),
+                          method: :delete,
+                          class: "button is-light is-flex is-vcentered",
+                          data: {
+                            turbo: false,
+                            controller: "confirm",
+                            confirm_target: "confirm",
+                            message: "Czy na pewno nie chcesz wdrażać zmiany?",
+                            action: "confirm#confirm"
+                          } do %>
+              <%= icon_tag("trash", options: { class: "menu-icon" }) %> Nie wdrażaj
+            <% end %>
+            <%= f.submit "Wdróż propozycję", class: "button is-success" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </section>
+<% end %>

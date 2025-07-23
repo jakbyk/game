@@ -60,6 +60,10 @@ class User < ApplicationRecord
     is_admin?
   end
 
+  def allowed_to_test?
+    is_admin? || is_tester?
+  end
+
   def allowed_to_proceed_game?(play)
     PlayUser.find_by(user: self, play: play)&.is_leader
   end

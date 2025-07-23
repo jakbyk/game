@@ -35,6 +35,13 @@
               <% end %>
             </div>
           <% end %>
+          <% if current_user.allowed_to_test? %>
+            <div class="navbar-item">
+              <%= link_to changes_path, class: "button is-light" do %>
+                <%= icon_tag("arrows-right-left", options: { class: "menu-icon" }) %> Zmiany
+              <% end %>
+            </div>
+          <% end %>
           <div class="navbar-item">
             <%= button_to logout_path, method: :delete, class: "button is-light" do %>
               <%= icon_tag("arrow-left-start-on-rectangle", options: { class: "menu-icon" }) %> Wyloguj

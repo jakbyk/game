@@ -214,6 +214,10 @@ p.is-success {
   max-height: 20vh;
 }
 
+div.background-danger {
+  background-color: rgba(255, 56, 96, 0.2);
+}
+
 #map {
   svg {
     width: 100%;

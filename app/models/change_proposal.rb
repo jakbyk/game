@@ -1,30 +1,37 @@
-class Event < ApplicationRecord
+class ChangeProposal < ApplicationRecord
   before_validation :clear_empty_strings
 
-  validates :title, :description, presence: true
+  belongs_to :user
+  belongs_to :event, optional: true
+
+  validates :content, presence: true
+  validates :title, :description, presence: true, if: -> { event.present? }
   validates :budget_change, :budget_reserve_change, numericality: { only_integer: true }, allow_nil: true
   validates :is_adding_to_budget, :need_increase_budget_reserve, inclusion: { in: [ true, false, nil ] }
   validates :budget_name, inclusion: { in: BudgetCategory.pluck(:name) }, allow_nil: true
   validates :region, inclusion: { in: Play::REGIONS.values }, allow_nil: true
-  validates :frequency, inclusion: { in: 1..100 }
+  validates :frequency, inclusion: { in: 1..100 }, if: -> { event.present? }
+  validates :status, inclusion: { in: %w[created implemented not_implemented] }
 
   validate :validate_budget_section
   validate :validate_reserve_section
   validate :validate_content
 
-  has_many :play_events, dependent: :destroy
+  scope :to_check, -> { where(status: "created") }
 
-  def self.take_random
-    total = Event.sum(:frequency)
-    return nil if total == 0
+  def implement
+    return unless event
 
-    threshold = rand(1..total)
-    cumulative = 0
+    shared_attributes = self.attributes.keys & event.attributes.keys
+    excluded_keys = [ "id", "created_at", "updated_at", "event_id", "user_id" ]
+    attributes_to_copy = shared_attributes - excluded_keys
 
-    Event.find_each do |event|
-      cumulative += event.frequency
-      return event if cumulative >= threshold
+    attributes_to_copy.each do |attr|
+      event[attr] = self[attr]
     end
+
+    event.save!
+    update(status: "implemented")
   end
 
   private
@@ -46,15 +53,19 @@ class Event < ApplicationRecord
   end
 
   def budget_section_enabled?
-    positive_description.present? ||
-      negative_description.present? ||
-      (budget_name != nil) ||
-      (budget_change != nil && budget_change != 0) ||
-      is_adding_to_budget != nil
+    event.present? && (
+      positive_description.present? ||
+        negative_description.present? ||
+        (budget_name != nil) ||
+        (budget_change != nil && budget_change != 0) ||
+        is_adding_to_budget != nil
+    )
   end
 
   def reserve_section_enabled?
-    (budget_reserve_change != 0 && budget_reserve_change != nil) || need_increase_budget_reserve != nil
+    event.present? && (
+      (budget_reserve_change != 0 && budget_reserve_change != nil) || need_increase_budget_reserve != nil
+    )
   end
 
   def clear_empty_strings
@@ -62,11 +73,12 @@ class Event < ApplicationRecord
     self.region = nil if wysiwyg_blank?(region)
   end
 
-  def wysiwyg_blank?(html)
-    ActionView::Base.full_sanitizer.sanitize(html)&.strip.blank?
+  def validate_content
+    errors.add(:description, "musi być wypełnione") if wysiwyg_blank?(description) && event.present?
+    errors.add(:content, "musi być wypełnione") if wysiwyg_blank?(content)
   end
 
-  def validate_content
-    errors.add(:description, "musi być wypełnione") if wysiwyg_blank?(description)
+  def wysiwyg_blank?(html)
+    ActionView::Base.full_sanitizer.sanitize(html)&.strip.blank?
   end
 end

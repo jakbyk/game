@@ -1,0 +1,27 @@
+<section class="section">
+  <div class="container">
+    <p class="mb-2 mt-2" style="text-align: justify;">Na <%= link_to changes_path do %>liście wydarzeń<% end %> można zobaczyć wszystkie aktywne wydarzenia, które mogą wystąpić w grach różnych użytkowników. Na spodzie tej strony jest też formularz do zgłoszania zmian ogólnych - nie tyczących się konkretnego wydarzenia, np. zmiana interfejsu, zgłaszanie błędów na stronie.</p>
+
+    <p class="mb-2 mt-2" style="text-align: justify;">Po wejściu w szczegóły danego wydarzenia zobaczysz o nim informacje.</p>
+
+    <p class="mb-2 mt-2" style="text-align: justify;">Wytłuszczonym tekstem na górze jest podany <b>tytuł wydarzenia</b>, który pojawia się w grze nad opisem.</p>
+
+    <p class="mb-2 mt-2" style="text-align: justify;">Pod nim pojawia się <b>częstotliwość</b>. Wartość ta odpowiada jak duża jest szansa wylosowania danego zdarzenia. Jest to liczba z zakresu od <b>1 do 100</b>. Im wyższa liczba tym większa szansa na wylosowanie tego zdarzenia. To samo zdarzenie może wystąpić kilkukrotnie w ciągu jednej gry, a prawdopodobieństwo tego wzrasta jeśli jest mało wszystkich zdarzeń oraz jeśli częstotliwość danego zdarzenia jest wysoka.</p>
+
+    <p class="mb-2 mt-2" style="text-align: justify;">Poniżej widnieje <b>region występowania</b>. Jest to określenie w jakim województwie dane zdarzenie występuje, np. jeśli dotyczy miasta Warszawa, to będzie to w regionie Mazowieckie. Jeśli zdarzenie nie dotyczy konkretnego obszaru kraju (dotyczy całego kraju bądź budżetu) to pojawi się napis "cała Polska".</p>
+
+    <p class="mb-2 mt-2" style="text-align: justify;">Pole <b>Opis</b> prezentuje treść jaką zobaczy gracz w momencie wystąpienia zdarzenia. Jest to informacja co się stało i może zawierać lekkie sugestie działań jakie należy podjąć.</p>
+
+    <p class="mb-2 mt-2" style="text-align: justify;">Pola <b>Pozytyny wynik</b> i <b>Negatywny wynik</b> zawierają opisy rezultatów w zależności od wyniku zdarzenia. Wynik zdarzenia jest to wynik porównania budżetu oczekiwanego po wystąpieniu zdarzenia do tego, który gracze uchwalili na miesiąc następny. Np. jeśli w danym zdarzeniu gracze muszą dołożyć 200 tys. zł do kategorii "Kultura i ochrona dziedzictwa narodowego", a jego stan w momencie wystąpienia wydarzenia wynosił 300 000 zł, to gdy w następnym miesiącu będzie to 500 000 zł lub więcej to pojawi się pozytywny wynik (w wyniku rozliczenia zdarzenia zadowolenie społeczne wzrośnie), zaś jeśli będzie to poniżej 500 000 zł to pojawi się negatywny wynik (w wyniku rozliczenia zdarzenia zadowolenie społeczne spadnie).</p>
+
+    <p class="mb-2 mt-2" style="text-align: justify;">Pole <b>Zmiana rezerwy budżetowej</b> pokazuje czy następuje zmiana rezerwy budżetowej. Zielony znaczek z plusem oznacza, że gracze otrzymają pieniądze do rezerwy (będą mieć więcej pieniędzy do wydania). Czerwony znaczek z minusem oznacza, że rezerwa budżetowa zostanie zmniejszona (gracze będą mieć mniej pieniędzy do wydania).</p>
+
+    <p class="mb-2 mt-2" style="text-align: justify;">Poniżej widnieje <b>Oczekiwana zmiana budżetu</b> która odzwierciedla jak zmieni się oczekiwany budżet w danej kategorii. Czerwony znaczek z plusem oznacza, że w wyniku tego zdarzenia gracze będą musieli wpłacić podaną kwotę do budżetu, aby otrzymać pozytywny wynik zdarzenia (zwiększyć zadowolenie społeczne). Zielony znaczek z minusem oznacza kwotę o jaką gracze mogą zmniejszyć wskazany budżet, aby wciąż otrzymać pozytywny wynik zdarzenia. Jeśli zabiorą więcej niż wskazana kwota, to wówczas zdarzenie zostanie rozliczone negatywnie (zadowolenie społeczne spadnie).</p>
+
+    <p class="mb-2 mt-2" style="text-align: justify;">Informacje ogólne</p>
+
+    <p class="mb-2 mt-2" style="text-align: justify;">Zdarzenia następujące w grze modyfikują wartości oczekiwane, a więc nie te zarządzane przez graczy. Zatem może się zdarzyć tak, że mimo iż przy zdarzeniu, które wymagało od nich wpłacenia 200 000 zł na kategorię "Transport i łączność" wpłacili oni taką kwotę na budżet tej kategorii to i tak zdarzenie zostanie rozliczone negatywnie, gdyż poprzednio ich budżet oczekiwany tej kategorii był wyższy niż rzeczywisty, a wpłacona kwota nie wypełniła tej luki.</p>
+
+    <p class="mb-2 mt-2" style="text-align: justify;">Wpływ na wielkość zmian zadowolenia społecznego mają nie tylko zdarzenia, które wystąpiły ostatnio ale też to w jaki sposób prowadzony jest budżet każdej kategorii. Całość jest bardziej złożona, bo obsługuje ją przyrostowy algorytm satysfakcji wagowej ale nie chcę tutaj robić wykładu matematycznego ale zaznaczyć, że mimo identycznych reakcji na to samo zdarzenie to czynniki zewnętrzne wciąż mogą powodować zmiany satysfakcji społecznej.</p>
+  </div>
+</section>
