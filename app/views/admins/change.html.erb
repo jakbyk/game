@@ -1,11 +1,35 @@
 <%= render 'shared/admins' do %>
   <section class="section">
     <div class="container">
-      <%= form_with model: @proposal, url: admin_change_path, method: :post, local: true do |f| %>
+      <% if @event %>
+        <h2 class="title is-5 has-text-centered">Modyfikacja istniejącego eventu</h2>
+      <% else %>
+        <h2 class="title is-5 has-text-centered">Dodanie nowego eventu</h2>
+      <% end %>
+      <div class="is-fullwidth mb-4" style="justify-items: center;">
+        <%= button_to admin_not_implement_change_path(id: @proposal.id),
+                      method: :delete,
+                      class: "button is-danger is-flex is-vcentered",
+                      data: {
+                        turbo: false,
+                        controller: "confirm",
+                        confirm_target: "confirm",
+                        message: "Czy na pewno nie chcesz wdrażać zmiany?",
+                        action: "confirm#confirm"
+                      } do %>
+          <%= icon_tag("trash", options: { class: "menu-icon" }) %> Nie wdrażaj
+        <% end %>
+      </div>
+      <%= form_with model: @proposal, url: admin_implement_change_path(id: @proposal.id), method: :post, local: true do |f| %>
         <%= f.hidden_field :id, value: @proposal.id %>
-        <%= f.hidden_field :event_id, value: @event.id %>
+        <%= f.hidden_field :is_adding_new_event, value: @proposal.is_adding_new_event %>
+        <% if @event %>
+          <%= f.hidden_field :event_id, value: @event.id %>
+        <% end %>
 
-        <h2 class="title is-5 has-text-centered"><%= @event.title %></h2>
+        <% if @event %>
+          <h2 class="title is-5 has-text-centered"><%= @event.title %></h2>
+        <% end %>
         <div class="field  <%= "background-danger" if @proposal.errors[:title].any? %>">
           <%= f.label :title, "Propozycja nowego tytułu" %>
           <%= f.text_field :title, class: "input #{'is-danger' if @proposal.errors[:title].any?}", required: true, value: @proposal.title %>
@@ -14,7 +38,9 @@
           <% end %>
         </div>
 
-        <p class="mt-2"><b>Częstotliwość:</b> <%= @event.frequency %></p>
+        <% if @event %>
+          <p class="mt-2"><b>Częstotliwość:</b> <%= @event.frequency %></p>
+        <% end %>
         <div class="field <%= "background-danger" if @proposal.errors[:frequency].any? %>" data-controller="slider">
           <%= f.label :frequency, "Propozycja nowej częstotliwości. Im więcej tym większa szansa, że się pojawi" %>
           <div class="control">
@@ -26,7 +52,9 @@
           <% end %>
         </div>
 
-        <p class="mt-2"><b>Region występowania:</b> <%= @event.region || "cała Polska" %></p>
+        <% if @event %>
+          <p class="mt-2"><b>Region występowania:</b> <%= @event.region || "cała Polska" %></p>
+        <% end %>
         <div class="field <%= "background-danger" if @proposal.errors[:region].any? %>">
           <%= f.label :region, "Nowy region występowania. Gdzie ma wystąpić zdarzenie?" %><br>
           <%= f.select :region,
@@ -38,8 +66,10 @@
           <% end %>
         </div>
 
-        <p class="mt-2"><b>Opis:</b></p>
-        <%= raw rich_text_sanitize(@event.description) %>
+        <% if @event %>
+          <p class="mt-2"><b>Opis:</b></p>
+          <%= raw rich_text_sanitize(@event.description) %>
+        <% end %>
         <div class="field <%= "background-danger" if @proposal.errors[:description].any? %>">
           <%= render 'shared/wysiwyg', form: f, title: "Nowy opis", field_name: :description, value: @proposal.description %>
           <% @proposal.errors[:description].each do |error| %>
@@ -62,19 +92,21 @@
           </label>
         </div>
 
-        <p class="mt-2"><b>Pozytyny wynik:</b></p>
-        <%= raw rich_text_sanitize(@event.positive_description) %>
+        <% if @event %>
+          <p class="mt-2"><b>Pozytyny wynik:</b></p>
+          <%= raw rich_text_sanitize(@event.positive_description) %>
 
-        <p class="mt-2"><b>Negatywny wynik:</b></p>
-        <%= raw rich_text_sanitize(@event.negative_description) %>
+          <p class="mt-2"><b>Negatywny wynik:</b></p>
+          <%= raw rich_text_sanitize(@event.negative_description) %>
 
-        <p class="mt-2"><b>Oczekiwana zmiana budżetu:</b></p>
-        <% if @event.budget_change != 0 %>
-          <p><%= @event.budget_name %></p>
-          <%= icon_tag(@event.is_adding_to_budget == false ? "minus-circle" : "plus-circle", options: { class: "#{@event.is_adding_to_budget == false ? "is-success" : "is-danger"}" }) %>
-          <span><%= @event.decorate.formatted_budget_change %></span>
-        <% else %>
-          Brak
+          <p class="mt-2"><b>Oczekiwana zmiana budżetu:</b></p>
+          <% if @event.budget_change != 0 %>
+            <p><%= @event.budget_name %></p>
+            <%= icon_tag(@event.is_adding_to_budget == false ? "minus-circle" : "plus-circle", options: { class: "#{@event.is_adding_to_budget == false ? "is-success" : "is-danger"}" }) %>
+            <span><%= @event.decorate.formatted_budget_change %></span>
+          <% else %>
+            Brak
+          <% end %>
         <% end %>
 
         <div data-toggle-section-target="budgetFields"
@@ -130,12 +162,14 @@
           </div>
         </div>
 
-        <p class="mt-2"><b>Zmiana rezerwy budżetowej:</b></p>
-        <% if @event.budget_reserve_change != 0 %>
-          <%= icon_tag(@event.need_increase_budget_reserve == false ? "minus-circle" : "plus-circle", options: { class: "#{@event.need_increase_budget_reserve == false ? "is-danger" : "is-success"}" }) %>
-          <span><%= @event.decorate.formatted_budget_reserve_change %></span>
-        <% else %>
-          Brak
+        <% if @event %>
+          <p class="mt-2"><b>Zmiana rezerwy budżetowej:</b></p>
+          <% if @event.budget_reserve_change != 0 %>
+            <%= icon_tag(@event.need_increase_budget_reserve == false ? "minus-circle" : "plus-circle", options: { class: "#{@event.need_increase_budget_reserve == false ? "is-danger" : "is-success"}" }) %>
+            <span><%= @event.decorate.formatted_budget_reserve_change %></span>
+          <% else %>
+            Brak
+          <% end %>
         <% end %>
 
         <div class="field is-flex is-align-items-center mt-4 mb-2">
@@ -184,18 +218,6 @@
 
         <div class="field mt-4">
           <div class="control is-flex is-align-items-flex-start is-justify-content-space-between">
-            <%= button_to admin_not_implement_change_path(@proposal),
-                          method: :delete,
-                          class: "button is-light is-flex is-vcentered",
-                          data: {
-                            turbo: false,
-                            controller: "confirm",
-                            confirm_target: "confirm",
-                            message: "Czy na pewno nie chcesz wdrażać zmiany?",
-                            action: "confirm#confirm"
-                          } do %>
-              <%= icon_tag("trash", options: { class: "menu-icon" }) %> Nie wdrażaj
-            <% end %>
             <%= f.submit "Wdróż propozycję", class: "button is-success" %>
           </div>
         </div>

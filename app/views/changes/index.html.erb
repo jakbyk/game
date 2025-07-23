@@ -13,6 +13,17 @@
 
         <p>Obecnie istnieje <%= @events.count %> zdarzeń, które mogą wystąpić w grze.</p>
 
+        <div class="is-fullwidth mt-2 mb-2" style="justify-items: center;">
+          <%= button_to new_change_path,
+                        method: :get,
+                        class: "button is-success is-flex is-vcentered",
+                        data: {
+                          turbo: false,
+                        } do %>
+            <%= icon_tag("plus-circle", options: { class: "menu-icon" }) %> Dodaj propozycję nowego wydarzenie
+          <% end %>
+        </div>
+
         <table style="width: 100%; border-collapse: separate; border-spacing: 0 6px;">
           <% @events.each_with_index do |event| %>
             <tbody class="color-background-on-hover">
@@ -30,7 +41,7 @@
           <% end %>
         </table>
 
-        <hr />
+        <hr/>
 
         <%= form_with model: ChangeProposal.new, url: changes_path, method: :post, local: true do |f| %>
           <%= render 'shared/wysiwyg', form: f, title: "Ogólny pomysł na zmianę", field_name: :content, value: "" %>

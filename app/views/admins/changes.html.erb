@@ -22,7 +22,13 @@
                 <% end %>
               </td>
               <td>
-                <%= change.event ? "<p><b>Event</b> #{change.event.title}</p>".html_safe : "<p><b>Ogólny</b></p>".html_safe %>
+                <% if change.event %>
+                  <p><b>Event</b> <%= change.event.title %></p>
+                <% elsif change.is_adding_new_event %>
+                  <p><b>Nowy Event</b> <%= change.title %></p>
+                <% else %>
+                  <p><b>Ogólny</b></p>
+                <% end %>
               </td>
               <% if change.event %>
                 <td>
@@ -66,7 +72,7 @@
                 </td>
               <% end %>
               <td>
-                <% if change.event %>
+                <% if change.event || change.is_adding_new_event %>
                   <%= link_to "Szczegóły", admin_change_path(change), class: "button is-light" %>
                 <% else %>
                   <%= button_to admin_not_implement_change_path(change),

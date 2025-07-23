@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_23_075101) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_23_204706) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -69,6 +69,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_23_075101) do
     t.integer "frequency", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_adding_new_event", default: false
     t.index ["event_id"], name: "index_change_proposals_on_event_id"
     t.index ["user_id"], name: "index_change_proposals_on_user_id"
   end

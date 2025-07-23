@@ -60,7 +60,7 @@ class AdminsController < ApplicationController
 
   def not_implement_change
     @proposal = ChangeProposal.find_by(id: params[:id])
-    @proposal.update(status: "not_implemented")
+    @proposal.not_implement
     redirect_to admin_changes_path, notice: "Oznaczono propozycję jako nie wdrożoną."
   end
 

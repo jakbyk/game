@@ -10,10 +10,11 @@ class ChangesController < ApplicationController
   def show
     @event = Event.find(params[:id])
     @proposal = ChangeProposal.build(@event.attributes.except("id"))
+    @proposal.is_adding_new_event = false
   end
 
   def create
-    if params.dig(:change_proposal, :event)
+    if params.dig(:change_proposal, :event_id)
       @proposal = ChangeProposal.build(change_params)
       @event = @proposal.event
       @proposal.user = current_user
@@ -21,6 +22,14 @@ class ChangesController < ApplicationController
         redirect_to changes_path, notice: "Dodano propozycję zmiany"
       else
         render :show, status: :unprocessable_entity
+      end
+    elsif params.dig(:change_proposal, :is_adding_new_event) == "true"
+      @proposal = ChangeProposal.build(change_params)
+      @proposal.user = current_user
+      if @proposal.save
+        redirect_to changes_path, notice: "Dodano propozycję zmiany"
+      else
+        render :new, status: :unprocessable_entity
       end
     else
       @proposal = ChangeProposal.build(single_change_params)
@@ -33,6 +42,10 @@ class ChangesController < ApplicationController
     end
   end
 
+  def new
+    @proposal = ChangeProposal.new(is_adding_new_event: true)
+  end
+
   private
 
   def check_tester_status
@@ -40,7 +53,7 @@ class ChangesController < ApplicationController
   end
 
   def change_params
-    params.require(:change_proposal).permit(:content, :event_id, :title, :description, :positive_description, :negative_description, :budget_name, :budget_change, :is_adding_to_budget, :budget_reserve_change, :need_increase_budget_reserve, :region, :frequency)
+    params.require(:change_proposal).permit(:content, :event_id, :title, :description, :positive_description, :negative_description, :budget_name, :budget_change, :is_adding_to_budget, :budget_reserve_change, :need_increase_budget_reserve, :region, :frequency, :is_adding_new_event)
   end
 
   def single_change_params

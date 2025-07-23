@@ -33,6 +33,7 @@ class Event < ApplicationRecord
     if budget_section_enabled?
       errors.add(:positive_description, "nie może być puste") if wysiwyg_blank?(positive_description)
       errors.add(:negative_description, "nie może być puste") if wysiwyg_blank?(negative_description)
+      errors.add(:budget_name, "nie może być puste") if wysiwyg_blank?(budget_name)
       errors.add(:budget_change, "musi być liczbą niezerową") if budget_change.nil? || budget_change == 0
       errors.add(:is_adding_to_budget, "musi być zaznaczone") if is_adding_to_budget.nil?
     end
