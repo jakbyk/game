@@ -1,3 +1,4 @@
+<% show_archived = defined?(show_archived) ? show_archived : false %>
 <%= render 'shared/admins' do %>
   <section class="section">
     <div class="container">
@@ -20,6 +21,7 @@
                 <%= link_to profile_path(change.user) do %>
                   <%= change.user.name %>
                 <% end %>
+                <%= change.created_at.strftime("%d-%m-%Y %H:%M:%S") %>
               </td>
               <td>
                 <% if change.event %>
@@ -73,19 +75,23 @@
               <% end %>
               <td>
                 <% if change.event || change.is_adding_new_event %>
-                  <%= link_to "Szczegóły", admin_change_path(change), class: "button is-light" %>
+                  <% unless change.implemented? %>
+                    <%= link_to "Szczegóły", admin_change_path(change), class: "button is-light" %>
+                  <% end %>
                 <% else %>
-                  <%= button_to admin_not_implement_change_path(change),
-                                method: :delete,
-                                class: "button is-light is-flex is-vcentered",
-                                data: {
-                                  turbo: false,
-                                  controller: "confirm",
-                                  confirm_target: "confirm",
-                                  message: "Czy na pewno chcesz usunąć propozycję?",
-                                  action: "confirm#confirm"
-                                } do %>
-                    <%= icon_tag("trash", options: { class: "menu-icon" }) %> Usuń
+                  <% unless show_archived %>
+                    <%= button_to admin_not_implement_change_path(change),
+                                  method: :delete,
+                                  class: "button is-light is-flex is-vcentered",
+                                  data: {
+                                    turbo: false,
+                                    controller: "confirm",
+                                    confirm_target: "confirm",
+                                    message: "Czy na pewno chcesz usunąć propozycję?",
+                                    action: "confirm#confirm"
+                                  } do %>
+                      <%= icon_tag("trash", options: { class: "menu-icon" }) %> Usuń
+                    <% end %>
                   <% end %>
                 <% end %>
               </td>
@@ -95,6 +101,11 @@
         </table>
       <% else %>
         <p>Brak zmian do sprawdzenia.</p>
+      <% end %>
+      <% unless show_archived %>
+        <div class="is-fullwidth mt-2 mb-2 is-flex is-vcentered" style="justify-content: center;">
+          <%= link_to "Rozpatrzone zgłoszenia", admin_archived_changes_path, class: "button is-light" %>
+        </div>
       <% end %>
     </div>
   </section>

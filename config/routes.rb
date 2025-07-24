@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   get "admin/archived_games", to: "admins#archived_games", as: :admin_archived_games
   get "admin/settings", to: "admins#settings", as: :admin_settings
   get "admin/changes", to: "admins#changes", as: :admin_changes
+  get "admin/archived_changes", to: "admins#archived_changes", as: :admin_archived_changes
   get "admin/changes/:id", to: "admins#change", as: :admin_change
   post "admin/changes/:id", to: "admins#implement_change", as: :admin_implement_change
   delete "admin/changes/:id", to: "admins#not_implement_change", as: :admin_not_implement_change

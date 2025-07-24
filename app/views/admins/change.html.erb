@@ -2,23 +2,37 @@
   <section class="section">
     <div class="container">
       <% if @event %>
-        <h2 class="title is-5 has-text-centered">Modyfikacja istniejącego eventu</h2>
-      <% else %>
-        <h2 class="title is-5 has-text-centered">Dodanie nowego eventu</h2>
-      <% end %>
-      <div class="is-fullwidth mb-4" style="justify-items: center;">
-        <%= button_to admin_not_implement_change_path(id: @proposal.id),
-                      method: :delete,
-                      class: "button is-danger is-flex is-vcentered",
-                      data: {
-                        turbo: false,
-                        controller: "confirm",
-                        confirm_target: "confirm",
-                        message: "Czy na pewno nie chcesz wdrażać zmiany?",
-                        action: "confirm#confirm"
-                      } do %>
-          <%= icon_tag("trash", options: { class: "menu-icon" }) %> Nie wdrażaj
+        <% if @proposal.active? %>
+          <h2 class="title is-5 has-text-centered">Modyfikacja istniejącego eventu</h2>
+        <% elsif @proposal.implemented? %>
+          <h2 class="title is-5 has-text-centered">Wdrożona zmiana istniejącego eventu</h2>
+        <% else %>
+          <h2 class="title is-5 has-text-centered">Nie wdrożona zmiana istniejącego eventu</h2>
         <% end %>
+      <% else %>
+        <% if @proposal.active? %>
+          <h2 class="title is-5 has-text-centered">Dodanie nowego eventu</h2>
+        <% elsif @proposal.implemented? %>
+          <h2 class="title is-5 has-text-centered">Wdrożone dodanie nowego eventu</h2>
+        <% else %>
+          <h2 class="title is-5 has-text-centered">Nie wdrożone dodanie nowego eventu</h2>
+        <% end %>
+      <% end %>
+      <% if @proposal.active? %>
+        <div class="is-fullwidth mb-4" style="justify-items: center;">
+          <%= button_to admin_not_implement_change_path(id: @proposal.id),
+                        method: :delete,
+                        class: "button is-danger is-flex is-vcentered",
+                        data: {
+                          turbo: false,
+                          controller: "confirm",
+                          confirm_target: "confirm",
+                          message: "Czy na pewno nie chcesz wdrażać zmiany?",
+                          action: "confirm#confirm"
+                        } do %>
+            <%= icon_tag("trash", options: { class: "menu-icon" }) %> Nie wdrażaj
+          <% end %>
+      <% end %>
       </div>
       <%= form_with model: @proposal, url: admin_implement_change_path(id: @proposal.id), method: :post, local: true do |f| %>
         <%= f.hidden_field :id, value: @proposal.id %>
@@ -216,11 +230,19 @@
           <% end %>
         </div>
 
-        <div class="field mt-4">
-          <div class="control is-flex is-align-items-flex-start is-justify-content-space-between">
-            <%= f.submit "Wdróż propozycję", class: "button is-success" %>
+        <% if @proposal.active? %>
+          <div class="field mt-4">
+            <div class="control is-flex is-align-items-flex-start is-justify-content-space-between">
+              <%= f.submit "Wdróż propozycję", class: "button is-success" %>
+            </div>
           </div>
-        </div>
+        <% elsif !@proposal.implemented? %>
+          <div class="field mt-4">
+            <div class="control is-flex is-align-items-flex-start is-justify-content-space-between">
+              <%= f.submit "Wdróż teraz tą poprawioną propozycję", class: "button is-success" %>
+            </div>
+          </div>
+        <% end %>
       <% end %>
     </div>
   </section>

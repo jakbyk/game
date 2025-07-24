@@ -42,6 +42,11 @@ class AdminsController < ApplicationController
     @changes = ChangeProposal.to_check
   end
 
+  def archived_changes
+    @changes = ChangeProposal.checked
+    render "changes", locals: { show_archived: true }
+  end
+
   def change
     @proposal = ChangeProposal.find_by(id: params[:id])
     @event = @proposal&.event
@@ -70,6 +75,8 @@ class AdminsController < ApplicationController
     params.require(:setting).permit(
       :regulations,
       :information_on_the_processing_of_personal_data,
+      :defeat_description,
+      :subjected_description,
       social_satisfaction_levels: [ :threshold, :text ]
     )
   end

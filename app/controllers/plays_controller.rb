@@ -17,7 +17,7 @@ class PlaysController < ApplicationController
 
     @region_name = params[:map_id] ? Play::REGIONS[params[:map_id].to_sym] : nil
 
-    @play_events = @region_name ? @play.play_events.joins(:event).where(events: { region: @region_name }).limit(10) : @play.play_events.limit(10)
+    @play_events = @region_name ? @play.play_events.joins(:event).where(events: { region: @region_name }).limit(20) : @play.play_events.limit(50)
   end
 
   def create

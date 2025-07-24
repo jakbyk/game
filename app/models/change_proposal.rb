@@ -19,6 +19,7 @@ class ChangeProposal < ApplicationRecord
   validate :cannot_edit_and_add
 
   scope :to_check, -> { where(status: "created") }
+  scope :checked, -> { where.not(status: "created") }
 
   def implement
     if event
@@ -47,6 +48,14 @@ class ChangeProposal < ApplicationRecord
 
   def not_implement
     update_column(:status, "not_implemented")
+  end
+
+  def active?
+    status == "created"
+  end
+
+  def implemented?
+    status == "implemented"
   end
 
   private

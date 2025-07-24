@@ -12,8 +12,8 @@
         <p>Email: <%= @user.email %></p>
         <p>Potwiedzenie
           maila: <%= @user.confirmed? ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %></p>
-        <p>Data rejestracji: <%= @user.created_at&.strftime("%Y-%m-%d %H:%M:%S") %></p>
-        <p>Ostatnio widziany: <%= @user.last_seen_at&.strftime("%Y-%m-%d %H:%M:%S") %></p>
+        <p>Data rejestracji: <%= @user.created_at&.strftime("%d-%m-%Y %H:%M:%S") %></p>
+        <p>Ostatnio widziany: <%= @user.last_seen_at&.strftime("%d-%m-%Y %H:%M:%S") %></p>
         <p>Zgoda na przetwarzanie
           danych: <%= @user.time_of_acceptance_of_information_on_the_processing_of_personal ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %></p>
         <p>Zgoda na
