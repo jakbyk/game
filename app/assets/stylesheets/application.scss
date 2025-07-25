@@ -535,3 +535,9 @@ td .description-mobile {
 td.no-wrap {
   white-space: nowrap;
 }
+
+@media screen and (max-width: 768px) {
+  .box p {
+    margin-bottom: 0.25rem;
+  }
+}

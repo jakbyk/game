@@ -1,7 +1,7 @@
 <section class="section">
   <div class="container">
     <% if @plays.any? %>
-      <div class="table-container">
+      <div class="table-container is-hidden-touch">
         <table class="table is-fullwidth is-striped is-hoverable is-narrow">
           <thead>
           <tr>
@@ -28,6 +28,22 @@
           <% end %>
           </tbody>
         </table>
+      </div>
+
+      <div class="is-hidden-desktop">
+        <% @plays.each do |play| %>
+          <div class="box mb-3">
+            <p><strong>Numer gry:</strong> <%= play.id %></p>
+            <p><strong>Miesiąc gry:</strong> <%= play.name_of_current_month %></p>
+            <p><strong>Ilość graczy:</strong> <%= play.users.count %></p>
+            <p><strong>Zadowolenie społeczne:</strong> <%= play.social_satisfaction.round(2).to_s.gsub('.', ',') %>%</p>
+            <div class="mt-3 has-text-right">
+              <%= link_to play_path(play), class: "button is-success is-small" do %>
+                <%= icon_tag("arrow-left-end-on-rectangle", options: { class: "menu-icon" }) %> Wejdź
+              <% end %>
+            </div>
+          </div>
+        <% end %>
       </div>
 
       <div class="has-text-centered mt-4">

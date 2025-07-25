@@ -7,12 +7,12 @@
     <div class="table-container budget-table-container">
       <table class="table is-fullwidth is-mobile-stack" style="border-collapse: separate; border-spacing: 0 6px;">
         <thead>
-        <tr class="has-text-centered">
-          <th><strong>Nazwa</strong></th>
-          <th><strong>Zmiana</strong></th>
-          <th><strong>Zagłosowało za</strong></th>
-          <th><strong>Zagłosowało przeciw</strong></th>
-          <th colspan="2"><strong>Zagłosuj</strong></th>
+        <tr>
+          <th class="has-text-centered"><strong>Nazwa</strong></th>
+          <th class="has-text-centered"><strong>Zmiana</strong></th>
+          <th class="has-text-centered"><strong>Zagłosowało za</strong></th>
+          <th class="has-text-centered"><strong>Zagłosowało przeciw</strong></th>
+          <th colspan="2" class="has-text-centered"><strong>Zagłosuj</strong></th>
         </tr>
         </thead>
 
@@ -72,7 +72,7 @@
       <table class="table is-fullwidth is-mobile-stack" style="border-collapse: separate; border-spacing: 0 6px;">
         <thead>
         <tr class="has-text-centered">
-          <th><strong>Nazwa</strong></th>
+          <th class="has-text-centered"><strong>Nazwa</strong></th>
           <th class="has-text-centered"><strong>Czy wdrożono</strong></th>
           <th class="has-text-centered"><strong>Zmiana</strong></th>
           <th class="has-text-centered"><strong>Zagłosowało za</strong></th>
@@ -82,7 +82,7 @@
         <% @un_active_budget_changes.each do |budget_change| %>
           <tbody class="color-background-on-hover">
           <tr style="padding-top: 6px; padding-bottom: 6px;">
-            <td><strong><%= budget_change.name %></strong></td>
+            <td class="has-text-centered"><strong><%= budget_change.name %></strong></td>
             <td class="has-text-centered">
               <% if budget_change.was_implement? %>
                 <%= icon_tag("hand-thumb-up", options: { class: "menu-icon is-success" }) %> Wdrożono
