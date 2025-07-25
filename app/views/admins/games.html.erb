@@ -1,46 +1,60 @@
 <%= render 'shared/admins' do %>
   <section class="section">
-    <h2 class="title is-5 has-text-centered">
-      Tabela rozgrywek
-    </h2>
-    <p class="has-text-centered">
+    <h2 class="title is-5 has-text-centered">Tabela rozgrywek</h2>
+
+    <p class="has-text-centered mb-4">
       <%= link_to admin_archived_games_path, class: "button is-light" do %>
-        <%= icon_tag("archive-box", options: { class: "menu-icon" }) %>Zakończone rozgrywki
+        <%= icon_tag("archive-box", options: { class: "menu-icon" }) %>
+        Zakończone rozgrywki
       <% end %>
     </p>
-    <div class="container">
-      <table style="width: 100%; border-collapse: separate; border-spacing: 0 6px;">
+
+    <div class="table-container is-hidden-touch">
+      <table class="table is-fullwidth is-hoverable" style="border-collapse: separate; border-spacing: 0 6px;">
+        <thead>
         <tr>
-          <td>Id</td>
-          <td>Gracze</td>
-          <td>Obecny miesiąc</td>
-          <td>Zadowolenie społeczne</td>
-          <td>Rezerwa budżetowa</td>
+          <th>Id</th>
+          <th>Gracze</th>
+          <th>Obecny miesiąc</th>
+          <th>Zadowolenie społeczne</th>
+          <th>Rezerwa budżetowa</th>
         </tr>
+        </thead>
+        <tbody>
         <% @plays.each do |play| %>
-          <tbody class="color-background-on-hover">
-          <tr>
-            <td>
-              <%= play.id %>
-            </td>
+          <tr class="color-background-on-hover">
+            <td><%= play.id %></td>
             <td>
               <% play.users.each do |u| %>
-                <p><%= link_to admin_user_path(u) do %><%= u.name %><% end %></p>
+                <p><%= link_to u.name, admin_user_path(u) %></p>
               <% end %>
             </td>
-            <td class="is-flex is-vcentered">
-              <%= play.name_of_current_month %>
-            </td>
-            <td>
-              <%= play.social_satisfaction %>%
-            </td>
-            <td>
-              <%= play.decorate.formatted_budget_reserve %>
-            </td>
+            <td><%= play.name_of_current_month %></td>
+            <td><%= play.social_satisfaction %>%</td>
+            <td><%= play.decorate.formatted_budget_reserve %></td>
           </tr>
-          </tbody>
         <% end %>
+        </tbody>
       </table>
+    </div>
+
+    <div class="is-hidden-desktop">
+      <% @plays.each do |play| %>
+        <div class="box mb-3">
+          <p><strong>Id:</strong> <%= play.id %></p>
+
+          <p><strong>Gracze:</strong></p>
+          <ul style="margin-left: 1rem;">
+            <% play.users.each do |u| %>
+              <li><%= link_to u.name, admin_user_path(u) %></li>
+            <% end %>
+          </ul>
+
+          <p><strong>Obecny miesiąc:</strong> <%= play.name_of_current_month %></p>
+          <p><strong>Zadowolenie społeczne:</strong> <%= play.social_satisfaction %>%</p>
+          <p><strong>Rezerwa budżetowa:</strong> <%= play.decorate.formatted_budget_reserve %></p>
+        </div>
+      <% end %>
     </div>
   </section>
 <% end %>

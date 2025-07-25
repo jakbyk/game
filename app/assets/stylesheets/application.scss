@@ -541,3 +541,29 @@ td.no-wrap {
     margin-bottom: 0.25rem;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .side-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 240px;
+    background: white;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+  .side-menu.is-active {
+    transform: translateX(0);
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Ensure the button is visible and above the menu */
+  .mobile-menu-button {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1100;
+  }
+}

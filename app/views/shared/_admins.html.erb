@@ -1,8 +1,23 @@
-<div class="columns is-gapless" data-controller="fullscreen" data-fullscreen-target="board">
-  <aside class="column is-2 has-background-light p-4 side-menu">
+<div class="columns is-gapless" data-controller="fullscreen menu" data-fullscreen-target="board">
+  <button class="mobile-menu-button button is-white is-hidden-desktop"
+          data-action="menu#toggle"
+          data-menu-target="button">
+  <span class="icon" data-menu-target="openIcon">
+    <%= icon_tag("bars-3") %>
+  </span>
+    <span class="icon is-hidden" data-menu-target="closeIcon">
+    <%= icon_tag("x-mark") %>
+  </span>
+  </button>
+
+  <aside class="side-menu column is-2 has-background-light p-4"
+         data-menu-target="menu"
+         data-fullscreen-target="sidebar">
+
     <p class="subtitle is-5 has-text-centered">
       <strong>Panel administracji</strong>
     </p>
+
     <ul class="menu-list">
       <li>
         <a class="button is-light is-flex is-vcentered" data-action="fullscreen#toggle" data-fullscreen-target="minButton">
@@ -56,4 +71,3 @@
     <% end %>
   </main>
 </div>
-

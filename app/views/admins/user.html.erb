@@ -1,128 +1,169 @@
 <%= render 'shared/admins' do %>
   <section class="section">
-    <div class="columns is-multiline">
-      <div class="column is-12">
-        <h2 class="title is-5 has-text-centered">
-          Użytkownik <%= @user.name %>
-        </h2>
-        <p><%= render 'shared/avatar', user: @user %></p>
-        <p><%= @user.is_admin ? "Jest administratorem" : "Jest graczem" %></p>
-        <p>Imię: <%= @user.first_name %></p>
-        <p>Nazwisko: <%= @user.last_name %></p>
-        <p>Email: <%= @user.email %></p>
-        <p>Potwiedzenie
-          maila: <%= @user.confirmed? ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %></p>
-        <p>Data rejestracji: <%= @user.created_at&.strftime("%d-%m-%Y %H:%M:%S") %></p>
-        <p>Ostatnio widziany: <%= @user.last_seen_at&.strftime("%d-%m-%Y %H:%M:%S") %></p>
-        <p>Zgoda na przetwarzanie
-          danych: <%= @user.time_of_acceptance_of_information_on_the_processing_of_personal ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %></p>
-        <p>Zgoda na
-          regulamin: <%= @user.time_of_acceptance_of_the_regulations ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %></p>
+    <div class="container">
+      <div class="box mb-5">
+        <h2 class="title is-5 has-text-centered">Użytkownik <%= @user.name %></h2>
+        <div class="has-text-centered mb-3"><%= render 'shared/avatar', user: @user %></div>
+
+        <p><strong>Typ:</strong> <%= @user.is_admin ? "Jest administratorem" : "Jest graczem" %></p>
+        <p><strong>Imię:</strong> <%= @user.first_name %></p>
+        <p><strong>Nazwisko:</strong> <%= @user.last_name %></p>
+        <p><strong>Email:</strong> <%= @user.email %></p>
+        <p><strong>Potwierdzenie maila:</strong>
+          <%= @user.confirmed? ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %></p>
+        <p><strong>Data rejestracji:</strong> <%= @user.created_at&.strftime("%d-%m-%Y %H:%M:%S") %></p>
+        <p><strong>Ostatnio widziany:</strong> <%= @user.last_seen_at&.strftime("%d-%m-%Y %H:%M:%S") %></p>
+        <p><strong>Zgoda na przetwarzanie danych:</strong>
+          <%= @user.time_of_acceptance_of_information_on_the_processing_of_personal ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %></p>
+        <p><strong>Zgoda na regulamin:</strong>
+          <%= @user.time_of_acceptance_of_the_regulations ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %></p>
       </div>
-      <div class="column is-12">
+
+      <div class="box mb-5">
+        <h2 class="title is-5">Znajomi</h2>
         <% if @user.friend_users.any? %>
-          <h2 class="title is-5">Znajomi: </h2>
           <% @user.friend_users.each do |u| %>
-            <p><%= link_to admin_user_path(u) do %><%= u.name %>
-              <% end %></p>
+            <p><%= link_to admin_user_path(u) do %><%= u.name %><% end %></p>
           <% end %>
         <% else %>
           <p>Brak znajomych</p>
         <% end %>
       </div>
-      <div class="column is-12">
+
+      <div class="box mb-5">
+        <h2 class="title is-5">Gry aktywne</h2>
         <% if @user.plays.active.any? %>
-          <h2 class="title is-5">Gry aktywne: </h2>
-          <table style="width: 100%; border-collapse: separate; border-spacing: 0 6px;">
-            <tr>
-              <td>Id</td>
-              <td>Gracze</td>
-              <td>Obecny miesiąc</td>
-              <td>Zadowolenie społeczne</td>
-              <td>Rezerwa budżetowa</td>
-            </tr>
-            <% @user.plays.active.each do |play| %>
-              <tbody class="color-background-on-hover">
+          <div class="table-container is-hidden-touch">
+            <table class="table is-fullwidth is-hoverable is-striped">
+              <thead>
               <tr>
-                <td>
-                  <%= play.id %>
-                </td>
-                <td>
-                  <% play.users.each do |u| %>
-                    <% if u != @user %>
-                      <p><%= link_to admin_user_path(u) do %><%= u.name %>
-                        <% end %></p>
-                    <% else %>
-                      <p><b><%= u.name %></b></p>
-                    <% end %>
-                  <% end %>
-                </td>
-                <td class="is-flex is-vcentered">
-                  <%= play.name_of_current_month %>
-                </td>
-                <td>
-                  <%= play.social_satisfaction %>%
-                </td>
-                <td>
-                  <%= play.decorate.formatted_budget_reserve %>
-                </td>
+                <th>Id</th>
+                <th>Gracze</th>
+                <th>Obecny miesiąc</th>
+                <th>Zadowolenie społeczne</th>
+                <th>Rezerwa budżetowa</th>
               </tr>
+              </thead>
+              <tbody>
+              <% @user.plays.active.each do |play| %>
+                <tr class="color-background-on-hover">
+                  <td><%= play.id %></td>
+                  <td>
+                    <% play.users.each do |u| %>
+                      <% if u == @user %>
+                        <p><strong><%= u.name %></strong></p>
+                      <% else %>
+                        <p><%= link_to u.name, admin_user_path(u) %></p>
+                      <% end %>
+                    <% end %>
+                  </td>
+                  <td><%= play.name_of_current_month %></td>
+                  <td><%= play.social_satisfaction %>%</td>
+                  <td><%= play.decorate.formatted_budget_reserve %></td>
+                </tr>
+              <% end %>
               </tbody>
+            </table>
+          </div>
+
+          <div class="is-hidden-desktop">
+            <% @user.plays.active.each do |play| %>
+              <div class="box color-background-on-hover mb-3">
+                <p><strong>Id:</strong> <%= play.id %></p>
+                <p><strong>Gracze:</strong>
+                  <% play.users.each do |u| %>
+                    <% if u == @user %>
+                      <b><%= u.name %></b>
+                    <% else %>
+                      <%= link_to u.name, admin_user_path(u) %>
+                    <% end %>
+                    <br>
+                  <% end %>
+                </p>
+                <p><strong>Miesiąc:</strong> <%= play.name_of_current_month %></p>
+                <p><strong>Zadowolenie:</strong> <%= play.social_satisfaction %>%</p>
+                <p><strong>Rezerwa:</strong> <%= play.decorate.formatted_budget_reserve %></p>
+              </div>
             <% end %>
-          </table>
+          </div>
         <% else %>
           <p>Brak aktywnych gier</p>
         <% end %>
       </div>
-      <div class="column is-12">
+
+      <div class="box mb-5">
+        <h2 class="title is-5">Skończone gry</h2>
         <% if @user.plays.done.any? %>
-          <h2 class="title is-5">Skończone gry: </h2>
-          <table style="width: 100%; border-collapse: separate; border-spacing: 0 6px;">
-            <tr>
-              <td>Id</td>
-              <td>Gracze</td>
-              <td>Obecny miesiąc</td>
-              <td>Zadowolenie społeczne</td>
-              <td>Rezerwa budżetowa</td>
-              <td>Rezultat</td>
-            </tr>
-            <% @user.plays.done.each do |play| %>
-              <tbody class="color-background-on-hover">
+          <div class="table-container is-hidden-touch">
+            <table class="table is-fullwidth is-hoverable is-striped">
+              <thead>
               <tr>
-                <td>
-                  <%= play.id %>
-                </td>
-                <td>
-                  <% play.users.each do |u| %>
-                    <% if u != @user %>
-                      <p><%= link_to admin_user_path(u) do %><%= u.name %>
-                        <% end %></p>
-                    <% else %>
-                      <p><b><%= u.name %></b></p>
+                <th>Id</th>
+                <th>Gracze</th>
+                <th>Obecny miesiąc</th>
+                <th>Zadowolenie społeczne</th>
+                <th>Rezerwa budżetowa</th>
+                <th>Rezultat</th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @user.plays.done.each do |play| %>
+                <tr class="color-background-on-hover">
+                  <td><%= play.id %></td>
+                  <td>
+                    <% play.users.each do |u| %>
+                      <% if u == @user %>
+                        <p><strong><%= u.name %></strong></p>
+                      <% else %>
+                        <p><%= link_to u.name, admin_user_path(u) %></p>
+                      <% end %>
                     <% end %>
+                  </td>
+                  <td><%= play.name_of_current_month %></td>
+                  <td><%= play.social_satisfaction %>%</td>
+                  <td><%= play.decorate.formatted_budget_reserve %></td>
+                  <td>
+                    <% if play.result == "win" %>
+                      <%= icon_tag("face-smile", options: { class: "is-success" }) %>
+                    <% elsif play.result == "defeat" %>
+                      <%= icon_tag("face-frown", options: { class: "is-danger" }) %>
+                    <% end %>
+                    <%= play.decorate.name_of_result %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="is-hidden-desktop">
+            <% @user.plays.done.each do |play| %>
+              <div class="box color-background-on-hover mb-3">
+                <p><strong>Id:</strong> <%= play.id %></p>
+                <p><strong>Gracze:</strong>
+                  <% play.users.each do |u| %>
+                    <% if u == @user %>
+                      <b><%= u.name %></b>
+                    <% else %>
+                      <%= link_to u.name, admin_user_path(u) %>
+                    <% end %>
+                    <br>
                   <% end %>
-                </td>
-                <td class="is-flex is-vcentered">
-                  <%= play.name_of_current_month %>
-                </td>
-                <td>
-                  <%= play.social_satisfaction %>%
-                </td>
-                <td>
-                  <%= play.decorate.formatted_budget_reserve %>
-                </td>
-                <td>
+                </p>
+                <p><strong>Miesiąc:</strong> <%= play.name_of_current_month %></p>
+                <p><strong>Zadowolenie:</strong> <%= play.social_satisfaction %>%</p>
+                <p><strong>Rezerwa:</strong> <%= play.decorate.formatted_budget_reserve %></p>
+                <p><strong>Rezultat:</strong>
                   <% if play.result == "win" %>
                     <%= icon_tag("face-smile", options: { class: "is-success" }) %>
                   <% elsif play.result == "defeat" %>
                     <%= icon_tag("face-frown", options: { class: "is-danger" }) %>
                   <% end %>
                   <%= play.decorate.name_of_result %>
-                </td>
-              </tr>
-              </tbody>
+                </p>
+              </div>
             <% end %>
-          </table>
+          </div>
         <% else %>
           <p>Brak skończonych gier</p>
         <% end %>

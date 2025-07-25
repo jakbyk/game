@@ -1,7 +1,7 @@
 <section class="section">
   <div class="container">
     <% if @plays.any? %>
-      <div class="table-container">
+      <div class="table-container is-hidden-touch">
         <table class="table is-fullwidth is-striped is-hoverable is-narrow">
           <thead>
           <tr>
@@ -9,7 +9,7 @@
             <th class="has-text-centered">Miesiąc gry</th>
             <th class="has-text-centered">Ilość graczy</th>
             <th class="has-text-centered">Zadowolenie społeczne</th>
-            <th class="has-text-centered"></th>
+            <th class="has-text-centered">Rezultat</th>
           </tr>
           </thead>
           <tbody>
@@ -32,6 +32,26 @@
           </tbody>
         </table>
       </div>
+
+      <div class="is-hidden-desktop">
+        <% @plays.each do |play| %>
+          <div class="box mb-4">
+            <p><strong>Numer gry:</strong> <%= play.id %></p>
+            <p><strong>Miesiąc gry:</strong> <%= play.name_of_current_month %></p>
+            <p><strong>Ilość graczy:</strong> <%= play.users.count %></p>
+            <p><strong>Zadowolenie społeczne:</strong> <%= play.social_satisfaction.round(2).to_s.gsub('.', ',') %>%</p>
+            <p><strong>Rezultat:</strong>
+              <% if play.result == "win" %>
+                <%= icon_tag("face-smile", options: { class: "is-success" }) %>
+              <% elsif play.result == "defeat" %>
+                <%= icon_tag("face-frown", options: { class: "is-danger" }) %>
+              <% end %>
+              <%= play.decorate.name_of_result %>
+            </p>
+          </div>
+        <% end %>
+      </div>
+
     <% else %>
       <div class="is-fullwidth has-text-centered">
         <p>Nie znaleziono zakończonych rozgrywek.</p>

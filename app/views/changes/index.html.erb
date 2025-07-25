@@ -5,43 +5,38 @@
         <h2 class="title is-5 has-text-centered">
           Zmiany do wydarzeń
         </h2>
-        <p>
-          <%= link_to info_changes_path do %>
+
+        <p class="mb-3">
+          <%= link_to info_changes_path, class: "has-text-link" do %>
+            <%= icon_tag("info-circle", options: { class: "mr-1" }) %>
             Jak dokonywać zmian? - Instrukcja
           <% end %>
         </p>
 
-        <p>Obecnie istnieje <%= @events.count %> zdarzeń, które mogą wystąpić w grze.</p>
+        <p>Obecnie istnieje <strong><%= @events.count %></strong> zdarzeń, które mogą wystąpić w grze.</p>
 
-        <div class="is-fullwidth mt-2 mb-2" style="justify-items: center;">
-          <%= button_to new_change_path,
-                        method: :get,
-                        class: "button is-success is-flex is-vcentered",
-                        data: {
-                          turbo: false,
-                        } do %>
-            <%= icon_tag("plus-circle", options: { class: "menu-icon" }) %> Dodaj propozycję nowego wydarzenie
+        <div class="is-flex is-justify-content-center my-4">
+          <%= link_to new_change_path, class: "button is-success is-flex is-vcentered" do %>
+            <%= icon_tag("plus-circle", options: { class: "menu-icon" }) %> Dodaj propozycję nowego wydarzenia
           <% end %>
         </div>
 
-        <table style="width: 100%; border-collapse: separate; border-spacing: 0 6px;">
-          <% @events.each_with_index do |event| %>
-            <tbody class="color-background-on-hover">
+        <table class="table is-fullwidth is-hoverable">
+          <tbody>
+          <% @events.each do |event| %>
             <tr>
+              <td><strong><%= event.title %></strong></td>
               <td>
-                <strong><%= event.title %></strong>
-              </td>
-              <td>
-                <%= link_to change_path(event), class: "button is-light" do %>
+                <%= link_to change_path(event), class: "button is-light is-small" do %>
                   Szczegóły
                 <% end %>
               </td>
             </tr>
-            </tbody>
           <% end %>
+          </tbody>
         </table>
 
-        <hr/>
+        <hr />
 
         <%= form_with model: ChangeProposal.new, url: changes_path, method: :post, local: true do |f| %>
           <%= render 'shared/wysiwyg', form: f, title: "Ogólny pomysł na zmianę", field_name: :content, value: "" %>

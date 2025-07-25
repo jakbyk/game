@@ -4,8 +4,9 @@
       <h2 class="title is-5 has-text-centered">
         Tabela rozgrywek
       </h2>
+
       <% if @plays.any? %>
-        <div class="table-container">
+        <div class="table-container is-hidden-touch">
           <table class="table is-fullwidth is-striped is-hoverable is-narrow">
             <thead>
             <tr>
@@ -20,24 +21,15 @@
             <tbody>
             <% @plays.each do |play| %>
               <tr class="color-background-on-hover">
-                <td>
-                  <%= play.id %>
-                </td>
+                <td><%= play.id %></td>
                 <td>
                   <% play.users.each do |u| %>
-                    <p><%= link_to admin_user_path(u) do %><%= u.name %>
-                      <% end %></p>
+                    <p><%= link_to admin_user_path(u) do %><%= u.name %><% end %></p>
                   <% end %>
                 </td>
-                <td class="is-flex is-vcentered">
-                  <%= play.name_of_current_month %>
-                </td>
-                <td>
-                  <%= play.social_satisfaction %>%
-                </td>
-                <td>
-                  <%= play.decorate.formatted_budget_reserve %>
-                </td>
+                <td class="is-flex is-vcentered"><%= play.name_of_current_month %></td>
+                <td><%= play.social_satisfaction %>%</td>
+                <td><%= play.decorate.formatted_budget_reserve %></td>
                 <td>
                   <% if play.result == "win" %>
                     <%= icon_tag("face-smile", options: { class: "is-success" }) %>
@@ -51,6 +43,34 @@
             </tbody>
           </table>
         </div>
+
+        <div class="is-hidden-desktop">
+          <% @plays.each do |play| %>
+            <div class="box mb-4">
+              <p><strong>Id:</strong> <%= play.id %></p>
+
+              <p><strong>Gracze:</strong><br>
+                <% play.users.each do |u| %>
+                  <span><%= link_to admin_user_path(u) do %><%= u.name %><% end %></span><br>
+                <% end %>
+              </p>
+
+              <p><strong>Obecny miesiąc:</strong> <%= play.name_of_current_month %></p>
+              <p><strong>Zadowolenie społeczne:</strong> <%= play.social_satisfaction %>%</p>
+              <p><strong>Rezerwa budżetowa:</strong> <%= play.decorate.formatted_budget_reserve %></p>
+
+              <p><strong>Rezultat:</strong>
+                <% if play.result == "win" %>
+                  <%= icon_tag("face-smile", options: { class: "is-success" }) %>
+                <% elsif play.result == "defeat" %>
+                  <%= icon_tag("face-frown", options: { class: "is-danger" }) %>
+                <% end %>
+                <%= play.decorate.name_of_result %>
+              </p>
+            </div>
+          <% end %>
+        </div>
+
       <% else %>
         <div class="has-text-centered">
           <p>Nie znaleziono żadnych zakończonych rozgrywek.</p>

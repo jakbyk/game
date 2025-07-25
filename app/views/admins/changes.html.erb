@@ -5,84 +5,156 @@
       <h2 class="title is-5 has-text-centered">
         Lista aktywnych zmian
       </h2>
+
       <% if @changes.any? %>
-        <table style="width: 100%; border-collapse: separate; border-spacing: 0 6px;">
-          <tr>
-            <td>Kto zgłosił</td>
-            <td>Czego dotyczy?</td>
-            <td>Dlaczego</td>
-            <td>Co zmienia?</td>
-            <td></td>
-          </tr>
-          <% @changes.each do |change| %>
-            <tbody class="color-background-on-hover">
+        <div class="is-hidden-touch">
+          <table style="width: 100%; border-collapse: separate; border-spacing: 0 6px;">
+            <thead>
             <tr>
-              <td>
+              <th>Kto zgłosił</th>
+              <th>Czego dotyczy?</th>
+              <th>Dlaczego</th>
+              <th>Co zmienia?</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @changes.each do |change| %>
+              <tr class="color-background-on-hover">
+                <td>
+                  <%= link_to profile_path(change.user) do %>
+                    <%= change.user.name %>
+                  <% end %>
+                  <br>
+                  <small><%= change.created_at.strftime("%d-%m-%Y %H:%M:%S") %></small>
+                </td>
+                <td>
+                  <% if change.event %>
+                    <p><b>Event</b> <%= change.event.title %></p>
+                  <% elsif change.is_adding_new_event %>
+                    <p><b>Nowy Event</b> <%= change.title %></p>
+                  <% else %>
+                    <p><b>Ogólny</b></p>
+                  <% end %>
+                </td>
+                <% if change.event %>
+                  <td>
+                <% else %>
+                  <td colspan="2">
+                <% end %>
+                <%= raw rich_text_sanitize(change.content) %>
+                </td>
+                <% if change.event %>
+                  <td>
+                    <% if change.event.title != change.title %>
+                      <p>Tytuł eventu</p>
+                    <% end %>
+                    <% if change.event.frequency != change.frequency %>
+                      <p>Częstotliwość</p>
+                    <% end %>
+                    <% if change.event.region != change.region %>
+                      <p>Region</p>
+                    <% end %>
+                    <% if change.event.budget_name != change.budget_name %>
+                      <p>Nazwa budżetu</p>
+                    <% end %>
+                    <% if change.event.budget_change != change.budget_change %>
+                      <p>Wielkość zmiany budżetu</p>
+                    <% end %>
+                    <% if change.event.is_adding_to_budget != change.is_adding_to_budget %>
+                      <p>Kierunek zmiany budżetu</p>
+                    <% end %>
+                    <% if change.event.budget_reserve_change != change.budget_reserve_change %>
+                      <p>Wielkość zmiany rezerwy budżetowej</p>
+                    <% end %>
+                    <% if change.event.need_increase_budget_reserve != change.need_increase_budget_reserve %>
+                      <p>Kierunek zmiany rezerwy budżetowej</p>
+                    <% end %>
+                    <% if change.event.positive_description != change.positive_description %>
+                      <p>Opis pozytywnego wyniku</p>
+                    <% end %>
+                    <% if change.event.negative_description != change.negative_description %>
+                      <p>Opis negatywnego wyniku</p>
+                    <% end %>
+                  </td>
+                <% end %>
+                <td>
+                  <% if change.event || change.is_adding_new_event %>
+                    <% unless change.implemented? %>
+                      <%= link_to "Szczegóły", admin_change_path(change), class: "button is-light" %>
+                    <% end %>
+                  <% else %>
+                    <% unless show_archived %>
+                      <%= button_to admin_not_implement_change_path(change),
+                                    method: :delete,
+                                    class: "button is-light is-flex is-vcentered",
+                                    data: {
+                                      turbo: false,
+                                      controller: "confirm",
+                                      confirm_target: "confirm",
+                                      message: "Czy na pewno chcesz usunąć propozycję?",
+                                      action: "confirm#confirm"
+                                    } do %>
+                        <%= icon_tag("trash", options: { class: "menu-icon" }) %> Usuń
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="is-hidden-desktop">
+          <% @changes.each do |change| %>
+            <div class="box mb-3">
+              <p><strong>Kto zgłosił:</strong>
                 <%= link_to profile_path(change.user) do %>
                   <%= change.user.name %>
                 <% end %>
-                <%= change.created_at.strftime("%d-%m-%Y %H:%M:%S") %>
-              </td>
-              <td>
+              </p>
+              <p><small><%= change.created_at.strftime("%d-%m-%Y %H:%M:%S") %></small></p>
+
+              <p><strong>Czego dotyczy?</strong>
                 <% if change.event %>
-                  <p><b>Event</b> <%= change.event.title %></p>
+                  <b>Event</b> <%= change.event.title %>
                 <% elsif change.is_adding_new_event %>
-                  <p><b>Nowy Event</b> <%= change.title %></p>
+                  <b>Nowy Event</b> <%= change.title %>
                 <% else %>
-                  <p><b>Ogólny</b></p>
+                  <b>Ogólny</b>
                 <% end %>
-              </td>
+              </p>
+
+              <p><strong>Dlaczego:</strong></p>
+              <div><%= raw rich_text_sanitize(change.content) %></div>
+
               <% if change.event %>
-                <td>
-              <% else %>
-                <td colspan="2">
+                <p><strong>Co zmienia?</strong></p>
+                <ul style="margin-left: 1rem;">
+                  <% if change.event.title != change.title %><li>Tytuł eventu</li><% end %>
+                  <% if change.event.frequency != change.frequency %><li>Częstotliwość</li><% end %>
+                  <% if change.event.region != change.region %><li>Region</li><% end %>
+                  <% if change.event.budget_name != change.budget_name %><li>Nazwa budżetu</li><% end %>
+                  <% if change.event.budget_change != change.budget_change %><li>Wielkość zmiany budżetu</li><% end %>
+                  <% if change.event.is_adding_to_budget != change.is_adding_to_budget %><li>Kierunek zmiany budżetu</li><% end %>
+                  <% if change.event.budget_reserve_change != change.budget_reserve_change %><li>Wielkość zmiany rezerwy budżetowej</li><% end %>
+                  <% if change.event.need_increase_budget_reserve != change.need_increase_budget_reserve %><li>Kierunek zmiany rezerwy budżetowej</li><% end %>
+                  <% if change.event.positive_description != change.positive_description %><li>Opis pozytywnego wyniku</li><% end %>
+                  <% if change.event.negative_description != change.negative_description %><li>Opis negatywnego wyniku</li><% end %>
+                </ul>
               <% end %>
-              <%= raw rich_text_sanitize(change.content) %>
-              </td>
-              <% if change.event %>
-                <td>
-                  <% if change.event.title != change.title %>
-                    <p>Tytuł eventu</p>
-                  <% end %>
-                  <% if change.event.frequency != change.frequency %>
-                    <p>Częstotliwość</p>
-                  <% end %>
-                  <% if change.event.region != change.region %>
-                    <p>Region</p>
-                  <% end %>
-                  <% if change.event.budget_name != change.budget_name %>
-                    <p>Nazwa budżetu</p>
-                  <% end %>
-                  <% if change.event.budget_change != change.budget_change %>
-                    <p>Wielkość zmiany budżetu</p>
-                  <% end %>
-                  <% if change.event.is_adding_to_budget != change.is_adding_to_budget %>
-                    <p>Kierunek zmiany budżetu</p>
-                  <% end %>
-                  <% if change.event.budget_reserve_change != change.budget_reserve_change %>
-                    <p>Wielkość zmiany rezerwy budżetowej</p>
-                  <% end %>
-                  <% if change.event.need_increase_budget_reserve != change.need_increase_budget_reserve %>
-                    <p>Kierunek zmiany rezerwy budżetowej</p>
-                  <% end %>
-                  <% if change.event.positive_description != change.positive_description %>
-                    <p>Opis pozytywnego wyniku</p>
-                  <% end %>
-                  <% if change.event.negative_description != change.negative_description %>
-                    <p>Opis negatywnego wyniku</p>
-                  <% end %>
-                </td>
-              <% end %>
-              <td>
+
+              <p>
                 <% if change.event || change.is_adding_new_event %>
                   <% unless change.implemented? %>
-                    <%= link_to "Szczegóły", admin_change_path(change), class: "button is-light" %>
+                    <%= link_to "Szczegóły", admin_change_path(change), class: "button is-light is-small" %>
                   <% end %>
                 <% else %>
                   <% unless show_archived %>
                     <%= button_to admin_not_implement_change_path(change),
                                   method: :delete,
-                                  class: "button is-light is-flex is-vcentered",
+                                  class: "button is-light is-small",
                                   data: {
                                     turbo: false,
                                     controller: "confirm",
@@ -94,14 +166,15 @@
                     <% end %>
                   <% end %>
                 <% end %>
-              </td>
-            </tr>
-            </tbody>
+              </p>
+            </div>
           <% end %>
-        </table>
+        </div>
+
       <% else %>
         <p>Brak zmian do sprawdzenia.</p>
       <% end %>
+
       <% unless show_archived %>
         <div class="is-fullwidth mt-2 mb-2 is-flex is-vcentered" style="justify-content: center;">
           <%= link_to "Rozpatrzone zgłoszenia", admin_archived_changes_path, class: "button is-light" %>
