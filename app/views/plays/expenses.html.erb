@@ -1,52 +1,60 @@
 <%= render 'shared/plays' do %>
   <h2 class="title is-5 has-text-centered">Rezerwa budżetowa: <%= @play.decorate.formatted_budget_reserve %></h2>
-  <table style="width: 100%; border-collapse: separate; border-spacing: 0 6px;">
-    <tr class="has-text-centered">
-      <td><strong>Nazwa</strong></td>
-      <td><strong>Obecna kwota</strong></td>
-      <td><strong>Dodaj</strong> (w tys zł)</td>
-      <td><strong>Odejmij</strong> (w tys zł)</td>
-    </tr>
-    <% @budgets.each_with_index do |budget, i| %>
-      <tbody class="color-background-on-hover">
-      <tr>
-        <td>
-          <strong><%= budget.name %></strong>
-        </td>
-        <td style="text-align: right; padding-right: 6px;">
-          <%= budget.decorate.formatted_current_budget %>
-        </td>
-        <td>
-          <%= form_with url: play_budget_change_path(@play), method: :post, local: true do |f| %>
-            <%= f.hidden_field :is_adding, value: true %>
-            <%= f.hidden_field :name, value: budget.name %>
-            <div class="field has-addons is-justify-content-end">
-              <div class="control is-expanded">
-                <%= f.number_field :value, class: "input is-small", placeholder: "Kwota", min: 1 %>
-              </div>
-              <div class="control">
-                <%= f.submit "+", class: "button is-success is-small" %>
-              </div>
-            </div>
-          <% end %>
-        </td>
 
-        <td>
-          <%= form_with url: play_budget_change_path(@play), method: :post, local: true do |f| %>
-            <%= f.hidden_field :is_adding, value: false %>
-            <%= f.hidden_field :name, value: budget.name %>
-            <div class="field has-addons is-justify-content-end">
-              <div class="control is-expanded">
-                <%= f.number_field :value, class: "input is-small", placeholder: "Kwota", min: 1 %>
-              </div>
-              <div class="control">
-                <%= f.submit "-", class: "button is-danger is-small" %>
-              </div>
-            </div>
-          <% end %>
-        </td>
+  <div class="table-container" style="overflow-x: auto;">
+    <table class="table is-fullwidth" style="width: 100%; border-collapse: separate; border-spacing: 0 6px; min-width: 700px;">
+      <thead>
+      <tr>
+        <th class="has-text-centered" style="word-break: break-word;"><strong>Nazwa</strong></th>
+        <th class="has-text-centered"><strong>Obecna kwota</strong></th>
+        <th class="has-text-centered"><strong>Dodaj</strong> (w tys zł)</th>
+        <th class="has-text-centered"><strong>Odejmij</strong> (w tys zł)</th>
       </tr>
+      </thead>
+
+      <tbody>
+      <% @budgets.each do |budget| %>
+        <tr class="color-background-on-hover">
+          <td style="word-break: break-word;">
+            <strong><%= budget.name %></strong>
+          </td>
+
+          <td style="text-align: right; padding-right: 6px; white-space: nowrap;">
+            <%= budget.decorate.formatted_current_budget %>
+          </td>
+
+          <td>
+            <%= form_with url: play_budget_change_path(@play), method: :post, local: true do |f| %>
+              <%= f.hidden_field :is_adding, value: true %>
+              <%= f.hidden_field :name, value: budget.name %>
+              <div class="field has-addons is-justify-content-end">
+                <div class="control is-expanded">
+                  <%= f.number_field :value, class: "input is-small", placeholder: "Kwota", min: 1 %>
+                </div>
+                <div class="control">
+                  <%= f.submit "+", class: "button is-success is-small" %>
+                </div>
+              </div>
+            <% end %>
+          </td>
+
+          <td>
+            <%= form_with url: play_budget_change_path(@play), method: :post, local: true do |f| %>
+              <%= f.hidden_field :is_adding, value: false %>
+              <%= f.hidden_field :name, value: budget.name %>
+              <div class="field has-addons is-justify-content-end">
+                <div class="control is-expanded">
+                  <%= f.number_field :value, class: "input is-small", placeholder: "Kwota", min: 1 %>
+                </div>
+                <div class="control">
+                  <%= f.submit "-", class: "button is-danger is-small" %>
+                </div>
+              </div>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
       </tbody>
-    <% end %>
-  </table>
+    </table>
+  </div>
 <% end %>

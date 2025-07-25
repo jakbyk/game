@@ -1,5 +1,5 @@
 class PlaysController < ApplicationController
-  before_action :set_play, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :invite_player, :accept_invitation, :online_users ]
+  before_action :set_play, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :invite_player, :accept_invitation, :online_users, :make_leader ]
   before_action :fetch_even_if_finished, only: [ :show ]
   before_action :fetch_finished, only: [ :result ]
   before_action :set_chat, only: [ :show, :budgets_descriptions, :budget_changes, :expenses, :players ]
@@ -9,6 +9,7 @@ class PlaysController < ApplicationController
   before_action :check_proceed, only: [ :proceed ]
   before_action :check_create_budget_change, only: [ :create_budget_change ]
   before_action :check_invite, only: [ :invite_player ]
+  before_action :check_make_leader, only: [ :make_leader ]
   before_action :player_exists, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :result, :show ]
   before_action :check_budget_vote, only: [ :budget_vote ]
 
@@ -127,10 +128,21 @@ class PlaysController < ApplicationController
 
   def online_users
     render inline: <<~HTML
-    <turbo-frame id="game_online_users">
-      #{render_to_string(partial: "plays/online_users")}
-    </turbo-frame>
-  HTML
+      <turbo-frame id="game_online_users">
+        #{render_to_string(partial: "plays/online_users")}
+      </turbo-frame>
+    HTML
+  end
+
+  def make_leader
+    @player = User.find_by(id: params[:user_id])
+    if @player
+      pu = PlayUser.find_by(user: @player, play: @play)
+      if pu.update(is_leader: true)
+        return redirect_to play_players_path, notice: "Dodano nowego lidera."
+      end
+    end
+    redirect_to play_players_path, alert: "Nie udało się dodać nowego lidera."
   end
 
   private
@@ -215,5 +227,11 @@ class PlaysController < ApplicationController
     return if current_user.allowed_to_invite_to_game?(@play)
 
     redirect_to play_path(@play), alert: "Nie możesz zapraszać do gry."
+  end
+
+  def check_make_leader
+    return if current_user.allowed_to_make_leader_to_game?(@play)
+
+    redirect_to play_path(@play), alert: "Nie możesz dodawać lidera do tej gry."
   end
 end

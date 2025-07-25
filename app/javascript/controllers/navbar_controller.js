@@ -1,12 +1,14 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["burger", "menu"]
+  static targets = ["menu", "burger"]
 
   connect() {
-    this.burgerTarget.addEventListener("click", () => {
-      this.burgerTarget.classList.toggle("is-active")
-      this.menuTarget.classList.toggle("is-active")
-    })
+    this.toggle = this.toggle.bind(this)
+  }
+
+  toggle() {
+    this.menuTarget.classList.toggle("is-active")
+    this.burgerTarget.classList.toggle("is-active")
   }
 }

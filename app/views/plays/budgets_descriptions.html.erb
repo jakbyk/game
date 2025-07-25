@@ -1,25 +1,32 @@
 <%= render 'shared/plays' do %>
-  <table>
-    <tr class="has-text-centered">
-      <td><strong>Nazwa</strong></td>
-      <td><strong>Kwota startowa</strong></td>
-    </tr>
-    <% @budgets.each do |budget| %>
-      <tbody class="color-background-on-hover">
-        <tr>
-          <td>
+  <div class="table-container">
+    <table class="is-mobile-stack">
+      <thead>
+      <tr class="has-text-centered">
+        <th>
+          <div class="header-stack">
+            <span>Nazwa</span>
+            <span class="header-subtitle">Opis</span>
+          </div>
+        </th>
+        <th style="text-align: right;">Kwota startowa</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @budgets.each do |budget| %>
+        <tr class="color-background-on-hover">
+          <td data-label="Nazwa / Opis">
             <strong><%= budget.name %></strong>
+            <div class="description-mobile">
+              <%= budget.description %>
+            </div>
           </td>
-          <td style="text-align: right;">
+          <td data-label="Kwota startowa" class="no-wrap" style="text-align: right;">
             <%= budget.decorate.formatted_start_budget %>
           </td>
         </tr>
-        <tr>
-          <td colspan="2">
-            <%= budget.description %>
-          </td>
-        </tr>
+      <% end %>
       </tbody>
-    <% end %>
-  </table>
+    </table>
+  </div>
 <% end %>

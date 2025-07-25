@@ -1,50 +1,40 @@
 <section class="section">
   <div class="container">
     <% if @plays.any? %>
-      <div class="is-fullwidth columns has-text-centered is-flex is-vcentered">
-        <div class="column">
-          Numer gry
-        </div>
-        <div class="column">
-          Miesiąc gry
-        </div>
-        <div class="column">
-          Ilość graczy
-        </div>
-        <div class="column">
-          Zadowolenie społeczne
-        </div>
-        <div class="column">
-        </div>
+      <div class="table-container">
+        <table class="table is-fullwidth is-striped is-hoverable is-narrow">
+          <thead>
+          <tr>
+            <th class="has-text-centered">Numer gry</th>
+            <th class="has-text-centered">Miesiąc gry</th>
+            <th class="has-text-centered">Ilość graczy</th>
+            <th class="has-text-centered">Zadowolenie społeczne</th>
+            <th class="has-text-centered"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @plays.each do |play| %>
+            <tr class="color-background-on-hover has-text-centered">
+              <td><%= play.id %></td>
+              <td><%= play.name_of_current_month %></td>
+              <td><%= play.users.count %></td>
+              <td><%= play.social_satisfaction.round(2).to_s.gsub('.', ',') %>%</td>
+              <td>
+                <% if play.result == "win" %>
+                  <%= icon_tag("face-smile", options: { class: "is-success" }) %>
+                <% elsif play.result == "defeat" %>
+                  <%= icon_tag("face-frown", options: { class: "is-danger" }) %>
+                <% end %>
+                <%= play.decorate.name_of_result %>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
       </div>
-      <% @plays.each do |play| %>
-        <div class="is-fullwidth columns has-text-centered color-background-on-hover is-flex is-vcentered">
-          <div class="column">
-            <%= play.id %>
-          </div>
-          <div class="column">
-            <%= play.name_of_current_month %>
-          </div>
-          <div class="column">
-            <%= play.users.count %>
-          </div>
-          <div class="column">
-            <%= play.social_satisfaction.round(2).to_s.gsub('.', ',') %>%
-          </div>
-          <div class="column">
-            <% if play.result == "win" %>
-              <%= icon_tag("face-smile", options: { class: "is-success" }) %>
-            <% elsif play.result == "defeat" %>
-              <%= icon_tag("face-frown", options: { class: "is-danger" }) %>
-            <% end %>
-            <%= play.decorate.name_of_result %>
-          </div>
-        </div>
-      <% end %>
     <% else %>
       <div class="is-fullwidth has-text-centered">
-        <p>
-          Nie znaleziono zakończonych rozgrywek.</p>
+        <p>Nie znaleziono zakończonych rozgrywek.</p>
       </div>
     <% end %>
   </div>

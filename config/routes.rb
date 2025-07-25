@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     post "invite_player", to: "plays#invite_player"
     post "accept_invitation", to: "plays#accept_invitation"
     get "online_users", to: "plays#online_users"
+    post "make_leader", to: "plays#make_leader"
   end
 
   resources :archived_plays, only: [ :index, :show ]

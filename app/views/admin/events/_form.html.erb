@@ -1,5 +1,4 @@
 <div data-controller="toggle-section">
-  <!-- Sekcja 1  (zawsze widoczna) -->
   <div class="field">
     <%= f.label :title, "Tytuł" %>
     <%= f.text_field :title, class: "input #{'is-danger' if @event.errors[:title].any?}", required: true %>
@@ -37,7 +36,6 @@
     <% end %>
   </div>
 
-  <!-- ════════════════════════  B U D Ż E T  ════════════════════════ -->
   <div class="field is-flex is-align-items-center mb-2">
     <label class="label mr-3">Zmiany do oczekiwanego budżetu</label>
 
@@ -106,7 +104,6 @@
     </div>
   </div>
 
-  <!-- ════════════════════════  R E Z E R W A  ════════════════════════ -->
   <div class="field is-flex is-align-items-center mt-4 mb-2">
     <label class="label mr-3">Zmiany do rezerwy budżetowej</label>
 
@@ -144,7 +141,6 @@
     </div>
   </div>
 
-  <!--  Zapisz  -->
   <div class="field mt-4">
     <%= f.submit "Zapisz", class: "button is-success" %>
   </div>

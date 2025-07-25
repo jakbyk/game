@@ -1,58 +1,92 @@
 <%= render 'shared/plays' do %>
   <h2 class="title is-5 has-text-centered">Rezerwa budżetowa: <%= @play.decorate.formatted_budget_reserve %></h2>
+
   <% if @players.any? %>
-    <table style="width: 100%; border-collapse: separate; border-spacing: 0 6px;">
-      <tr class="has-text-centered">
-        <td><strong>Nazwa</strong></td>
-        <td><strong>Status</strong></td>
-      </tr>
-      <% @players.each do |player| %>
-        <tbody class="color-background-on-hover">
-        <tr style="padding-top: 6px; padding-bottom: 6px;" class="has-text-centered">
-          <td>
-            <%= link_to profile_path(player) do %>
-              <%= player.name %>
-            <% end %>
-          </td>
-          <td>
-            <%= PlayUser.find_by(user_id: player.id, play_id: @play.id).is_leader? ? "Leader" : "Gracz" %>
-          </td>
+    <div class="table-container budget-table-container">
+      <table class="table is-fullwidth is-mobile-stack" style="border-collapse: separate; border-spacing: 0 6px;">
+        <thead>
+        <tr class="has-text-centered">
+          <th>Nazwa</th>
+          <th>Status</th>
+          <% if current_user.allowed_to_make_leader_to_game?(@play) %>
+            <th></th>
+          <% end %>
         </tr>
-        </tbody>
-      <% end %>
-    </table>
-  <% end %>
-  <% if @invitations.any? %>
-    <p>Zaproszeni do gry:</p>
-    <% @invitations.each do |i| %>
-      <p>
-        <%= link_to profile_path(i.user) do %>
-          <%= i.user.name %>
+        </thead>
+        <tbody>
+        <% @players.each do |player| %>
+          <tr class="color-background-on-hover has-text-centered" style="padding-top: 6px; padding-bottom: 6px;">
+            <td>
+              <%= link_to profile_path(player), class: "has-text-link" do %>
+                <%= player.name %>
+              <% end %>
+            </td>
+            <td>
+              <%= PlayUser.find_by(user_id: player.id, play_id: @play.id).is_leader? ? "Leader" : "Gracz" %>
+            </td>
+            <% if current_user.allowed_to_make_leader_to_game?(@play) %>
+              <td>
+                <% unless PlayUser.find_by(user_id: player.id, play_id: @play.id).is_leader? %>
+                  <%= button_to play_make_leader_path(play_id: @play.id, user_id: player.id),
+                                method: :post,
+                                class: "button is-light is-flex is-vcentered is-fullwidth",
+                                data: {
+                                  turbo: false,
+                                  controller: "confirm",
+                                  confirm_target: "confirm",
+                                  message: "Czy na pewno chcesz uczynić gracza #{player.name} liderem?",
+                                  action: "confirm#confirm"
+                                } do %>
+                    <%= icon_tag("academic-cap", options: { class: "menu-icon" }) %> Dodaj lidera
+                  <% end %>
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
         <% end %>
-      </p>
-    <% end %>
+        </tbody>
+      </table>
+    </div>
   <% end %>
+
+  <% if @invitations.any? %>
+    <div class="mt-4">
+      <p class="has-text-weight-semibold">Zaproszeni do gry:</p>
+      <ul>
+        <% @invitations.each do |i| %>
+          <li class="mb-1">
+            <%= link_to profile_path(i.user), class: "has-text-link" do %>
+              <%= i.user.name %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <% if current_user.allowed_to_invite_to_game?(@play) %>
-    <p>Dodaj do gry:</p>
-    <%= form_with url: play_invite_player_path(@play), method: :post, data: { controller: "exclusive-fields" }, class: "box" do |f| %>
-      <div class="field" data-exclusive-fields-target="idBox">
-        <%= label_tag :id, "Znajomy" %>
-        <%= f.select :id, @friends_table, { selected: 0 }, { class: "input", data: { exclusive_fields_target: "id" } } %>
-      </div>
+    <div class="mt-5">
+      <p class="has-text-weight-semibold mb-3">Dodaj do gry:</p>
+      <%= form_with url: play_invite_player_path(@play), method: :post, data: { controller: "exclusive-fields" }, class: "box" do |f| %>
+        <div class="field" data-exclusive-fields-target="idBox">
+          <%= label_tag :id, "Znajomy" %>
+          <%= f.select :id, @friends_table, { selected: 0 }, { class: "input", data: { exclusive_fields_target: "id" } } %>
+        </div>
 
-      <div class="field" data-exclusive-fields-target="nameBox">
-        <%= label_tag :name, "Nazwa użytkownika" %>
-        <%= text_field_tag :name, nil, class: "input", data: { exclusive_fields_target: "name" }, placeholder: "np. janek" %>
-      </div>
+        <div class="field" data-exclusive-fields-target="nameBox">
+          <%= label_tag :name, "Nazwa użytkownika" %>
+          <%= text_field_tag :name, nil, class: "input", data: { exclusive_fields_target: "name" }, placeholder: "np. janek" %>
+        </div>
 
-      <div class="field mt-2" data-exclusive-fields-target="emailBox">
-        <%= label_tag :email, "Email użytkownika" %>
-        <%= email_field_tag :email, nil, class: "input", data: { exclusive_fields_target: "email" }, placeholder: "np. jan@ex.com" %>
-      </div>
+        <div class="field" data-exclusive-fields-target="emailBox">
+          <%= label_tag :email, "Email użytkownika" %>
+          <%= email_field_tag :email, nil, class: "input", data: { exclusive_fields_target: "email" }, placeholder: "np. jan@ex.com" %>
+        </div>
 
-      <div class="mt-4">
-        <%= submit_tag "Zaproś", class: "button is-success" %>
-      </div>
-    <% end %>
+        <div class="mt-4">
+          <%= submit_tag "Zaproś", class: "button is-success" %>
+        </div>
+      <% end %>
+    </div>
   <% end %>
 <% end %>

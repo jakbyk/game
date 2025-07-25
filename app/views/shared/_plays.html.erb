@@ -1,16 +1,33 @@
-<section class="section">
+<section class="section is-paddingless">
   <div class="container has-text-centered">
     <h1 class="title is-2">Gra o Polskę</h1>
   </div>
 </section>
-<div id="gameboard" class="columns is-gapless" data-controller="fullscreen" data-fullscreen-target="board">
-  <aside class="column is-2 has-background-light p-4">
+
+<div id="gameboard" class="columns is-gapless" data-controller="fullscreen menu" data-fullscreen-target="board">
+  <button class="mobile-menu-button button is-white is-hidden-desktop"
+          data-action="menu#toggle"
+          data-menu-target="button">
+    <span class="icon" data-menu-target="openIcon">
+      <%= icon_tag("bars-3") %>
+    </span>
+    <span class="icon is-hidden" data-menu-target="closeIcon">
+      <%= icon_tag("x-mark") %>
+    </span>
+  </button>
+
+  <aside id="game-menu"
+         class="menu-shared column is-2 has-background-light p-4"
+         data-menu-target="menu"
+         data-fullscreen-target="sidebar">
+
     <p class="subtitle is-5 has-text-centered">
       <%= @play.name_of_current_month %>
     </p>
     <p class="subtitle is-5 has-text-centered">
       Zadowolenie społeczne<br><%= @play.social_satisfaction.round(2).to_s.gsub('.', ',') %>%
     </p>
+
     <ul class="menu-list">
       <li>
         <a class="button is-light is-flex is-vcentered" data-action="fullscreen#toggle" data-fullscreen-target="minButton">
@@ -45,18 +62,9 @@
           <%= icon_tag("user-group", options: { class: "menu-icon" }) %> Lista graczy
         <% end %>
       </li>
+
       <% if current_user.allowed_to_proceed_game?(@play) %>
         <li>
-          <%#= button_to play_proceed_path(play_id: @play.id),
-                        method: :patch,
-                        class: "button is-light is-flex is-vcentered is-fullwidth",
-                        data: {
-                          turbo: false,
-                          controller: "confirm",
-                          confirm_target: "confirm",
-                          message: "Czy na pewno chcesz przejść na kolejny miesiąc?",
-                          action: "confirm#confirm"
-                        } do %>
           <%= button_to play_proceed_path(play_id: @play.id),
                         method: :patch,
                         class: "button is-light is-flex is-vcentered is-fullwidth" do %>
@@ -64,6 +72,7 @@
           <% end %>
         </li>
       <% end %>
+
       <% if current_user.allowed_to_archive_game?(@play) %>
         <li>
           <%= button_to play_archive_path(play_id: @play.id),
@@ -81,13 +90,19 @@
         </li>
       <% end %>
     </ul>
-    <turbo-frame id="game_online_users" src="<%= play_online_users_path(play_id: @play.id) %>" data-controller="reload" data-reload-interval-value="5000">
+
+    <turbo-frame id="game_online_users"
+                 src="<%= play_online_users_path(play_id: @play.id) %>"
+                 data-controller="reload"
+                 data-reload-interval-value="5000">
       Loading online users…
     </turbo-frame>
   </aside>
 
-  <main class="column is-10 p-5" style="display: flex; flex-direction: column;" data-fullscreen-target="main">
-    <section class="section" data-fullscreen-target="scrolled">
+  <main class="column is-10 p-3 mb-2-mobile"
+        style="display: flex; flex-direction: column; overflow-x: auto; min-width: 0;"
+        data-fullscreen-target="main">
+    <section class="section is-paddingless" data-fullscreen-target="scrolled">
       <%= yield %>
     </section>
     <% if @chat %>
@@ -97,4 +112,3 @@
     <% end %>
   </main>
 </div>
-

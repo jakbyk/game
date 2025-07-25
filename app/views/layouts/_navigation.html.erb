@@ -1,11 +1,11 @@
-<nav class="navbar is-light mb-4" data-controller="navbar">
+<nav class="navbar is-light" data-controller="navbar">
   <div class="container">
     <div class="navbar-brand">
       <%= link_to "Gra o Polskę", root_path, class: "navbar-item has-text-weight-bold" %>
 
-      <!-- Burger -->
       <a role="button"
          class="navbar-burger"
+         data-action="click->navbar#toggle"
          data-navbar-target="burger"
          aria-label="menu"
          aria-expanded="false">

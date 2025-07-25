@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-    static targets = ["board", "minButton", "maxButton", "main", "scrolled"]
+    static targets = ["board", "minButton", "maxButton", "main", "scrolled", "sidebar"]
 
     connect() {
         this.fullscreen = this.#cookieGet("gameboard_fullscreen") === "true"
@@ -17,6 +17,8 @@ export default class extends Controller {
     #applyFullscreenStyles() {
         if (this.fullscreen) {
             this.boardTarget.classList.add("fullscreen-mode")
+            document.body.classList.add('fullscreen-mode')
+            document.documentElement.classList.add('fullscreen-mode')
             this.minButtonTarget.classList.remove("is-hidden")
             this.maxButtonTarget.classList.add("is-hidden")
 
@@ -27,6 +29,8 @@ export default class extends Controller {
             this.scrolledTarget.style.flexGrow   = "1"
         } else {
             this.boardTarget.classList.remove("fullscreen-mode")
+            document.body.classList.remove('fullscreen-mode')
+            document.documentElement.classList.remove('fullscreen-mode')
             this.minButtonTarget.classList.add("is-hidden")
             this.maxButtonTarget.classList.remove("is-hidden")
 
@@ -46,5 +50,9 @@ export default class extends Controller {
     #cookieSet(name, value, days) {
         const expires = new Date(Date.now() + days*24*60*60*1000).toUTCString()
         document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`
+    }
+
+    toggleSidebar() {
+        this.sidebarTarget.classList.toggle("is-hidden-mobile")
     }
 }

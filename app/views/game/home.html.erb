@@ -1,75 +1,67 @@
 <section class="section">
   <div class="container">
     <% if @plays.any? %>
-      <div class="is-fullwidth columns has-text-centered is-flex is-vcentered">
-        <div class="column">
-          Numer gry
-        </div>
-        <div class="column">
-          Miesiąc gry
-        </div>
-        <div class="column">
-          Ilość graczy
-        </div>
-        <div class="column">
-          Zadowolenie społeczne
-        </div>
-        <div class="column">
-        </div>
+      <div class="table-container">
+        <table class="table is-fullwidth is-striped is-hoverable is-narrow">
+          <thead>
+          <tr>
+            <th class="has-text-centered">Numer gry</th>
+            <th class="has-text-centered">Miesiąc gry</th>
+            <th class="has-text-centered">Ilość graczy</th>
+            <th class="has-text-centered">Zadowolenie społeczne</th>
+            <th class="has-text-centered"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @plays.each do |play| %>
+            <tr class="has-text-centered color-background-on-hover">
+              <td><%= play.id %></td>
+              <td><%= play.name_of_current_month %></td>
+              <td><%= play.users.count %></td>
+              <td><%= play.social_satisfaction.round(2).to_s.gsub('.', ',') %>%</td>
+              <td>
+                <%= link_to play_path(play), class: "button is-success is-small" do %>
+                  <%= icon_tag("arrow-left-end-on-rectangle", options: { class: "menu-icon" }) %> Wejdź
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
       </div>
-      <% @plays.each do |play| %>
-        <div class="is-fullwidth columns has-text-centered color-background-on-hover is-flex is-vcentered">
-          <div class="column">
-            <%= play.id %>
-          </div>
-          <div class="column">
-            <%= play.name_of_current_month %>
-          </div>
-          <div class="column">
-            <%= play.users.count %>
-          </div>
-          <div class="column">
-            <%= play.social_satisfaction.round(2).to_s.gsub('.', ',') %>%
-          </div>
-          <div class="column">
-            <%= link_to play_path(play), class: "button is-success" do %>
-              <%= icon_tag("arrow-left-end-on-rectangle", options: { class: "menu-icon" }) %> Wejdź do gry
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-      <div class="is-fullwidth has-text-centered">
-        <%= button_to plays_path, method: :post, class: "button is-light mt-4", data: { turbo: false } do %>
+
+      <div class="has-text-centered mt-4">
+        <%= button_to plays_path, method: :post, class: "button is-light", data: { turbo: false } do %>
           <%= icon_tag("plus", options: { class: "menu-icon" }) %> Stwórz nową grę
         <% end %>
       </div>
     <% else %>
-      <div class="is-fullwidth has-text-centered">
-        <p>
-          Nie znaleziono żadnych aktywnych rozgrywek, możesz zacząć nową klikając poniższy
-          przycisk.</p>
+      <div class="has-text-centered">
+        <p>Nie znaleziono żadnych aktywnych rozgrywek, możesz zacząć nową klikając poniższy przycisk.</p>
         <%= button_to plays_path, method: :post, class: "button is-success mt-4", data: { turbo: false } do %>
           <%= icon_tag("plus", options: { class: "menu-icon" }) %> Stwórz nową grę
         <% end %>
       </div>
     <% end %>
+
     <% if @invitations.any? %>
-      <div class="is-fullwidth has-text-centered">
-        <% if @invitations.each do |i| %>
+      <div class="mt-6">
+        <% @invitations.each do |i| %>
           <div class="box">
-            Zaproszenie do gry nr <%= i.play.id %> od gracza <%= link_to profile_path(i.invitor) do
-            i.invitor.name
-          end %>
+            Zaproszenie do gry nr <%= i.play.id %> od gracza
+            <%= link_to profile_path(i.invitor) do %>
+              <%= i.invitor.name %>
+            <% end %>
             <%= form_with url: play_accept_invitation_path(i.play), method: :post do |f| %>
               <%= f.submit "Dołącz do gry", class: "button is-success mt-2" %>
             <% end %>
           </div>
         <% end %>
-          </div>
-        <% end %>
+      </div>
     <% end %>
-    <div class="is-fullwidth has-text-centered">
-      <%= button_to archived_plays_path, method: :get, class: "button is-light mt-4", data: { turbo: false } do %>
+
+    <div class="has-text-centered mt-4">
+      <%= button_to archived_plays_path, method: :get, class: "button is-light", data: { turbo: false } do %>
         <%= icon_tag("archive-box", options: { class: "menu-icon" }) %> Zakończone gry
       <% end %>
     </div>
