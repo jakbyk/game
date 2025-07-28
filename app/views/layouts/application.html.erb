@@ -29,7 +29,7 @@
   <% show = 'danger' if key == 'alert' %>
   <% show = 'success' if key == 'notice' %>
   <% disappear = show == 'warning' || show == 'success' %>
-      <div class="notification is-<%= show %> mx-6 my-1 <%= disappear ? "auto-hide" : "long-auto-hide" %>"><%= message %></div>
+      <div class="notification is-<%= show %> <%= disappear ? "auto-hide" : "long-auto-hide" %>"><%= message %></div>
     <% end %>
   <% end %>
 

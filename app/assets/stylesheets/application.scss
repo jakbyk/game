@@ -29,12 +29,12 @@ $linker: #5099ff;
   --vh: 100vh;
 }
 
-html,
-body {
+html {
   background: $body-background-color;
 }
 
 body {
+  background: $body-background-color;
   font-size: 16px;
 
   @media (max-width: 768px) {
@@ -80,6 +80,7 @@ input[type="checkbox"] {
   padding: 0.75rem 1rem;
   border-radius: 8px;
   word-break: break-word;
+  margin: auto;
 }
 
 .button[disabled] {
@@ -131,7 +132,7 @@ input[type="checkbox"] {
   width: 100vw;
   height: 100vh;
   z-index: 999;
-  background: white;
+  background: $body-background-color;
   overflow: auto;
 }
 

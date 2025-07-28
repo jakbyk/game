@@ -1,0 +1,81 @@
+<section class="section">
+  <div class="container">
+    <h1 class="title is-2 has-text-centered">Ranking</h1>
+
+    <div class="content">
+      <% if @plays.any? && @plays.count > 2 %>
+        <% podium = @plays.first(3) %>
+        <% rest = @plays.drop(3).first(7) %>
+
+        <div class="columns is-variable is-4 is-vcentered has-text-centered mb-6">
+          <% podium.each_with_index do |play, index| %>
+            <div class="column">
+              <div class="card has-background-light">
+                <div class="card-content">
+                  <p class="has-text-centered">
+                    <img src="<%= asset_path("medals/#{index + 1}.png") %>" style="width: 64px; height: 64px;"/>
+                  </p>
+                  <p class="title is-4">
+                    <%= "#{index + 1} miejsce" %>
+                  </p>
+                  <p class="has-text-centered has-text-grey is-7 is-paddingless is-marginless">
+                    Zadowolenie społeczne:
+                  </p>
+                  <p class="subtitle is-5 has-text-success">
+                    <strong><%= play.social_satisfaction.round(2) %>%</strong>
+                  </p>
+                  <p class="is-size-6 has-text-weight-semibold mb-2">Gracze:</p>
+                  <% play.users.each do |user| %>
+                    <p class="has-text-centered is-marginless">
+                      <%= link_to profile_path(user) do %>
+                        <%= user.name %>
+                      <% end %>
+                    </p>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <% if rest.any? %>
+          <div class="box">
+            <h2 class="title is-5">Kolejne miejsca</h2>
+            <table class="table is-fullwidth">
+              <thead>
+              <tr>
+                <th>Miejsce</th>
+                <th>Wynik (%)</th>
+                <th>Gracze</th>
+              </tr>
+              </thead>
+              <tbody>
+              <% rest.each_with_index do |play, index| %>
+                <tr class="color-background-on-hover">
+                  <td><%= index + 4 %></td>
+                  <td><%= play.social_satisfaction.round(2) %>%</td>
+                  <td>
+                    <p>
+                      <% play.users.each_with_index do |user, i| %>
+                        <% if i > 0 %>,
+                        <% end %>
+                        <%= link_to profile_path(user) do %>
+                          <%= user.name %>
+                        <% end %>
+                      <% end %>
+                    </p>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="has-text-centered">
+          Obecnie nie można przedstawić rankingu, gdyż brakuje minimum trzech wygranych gier.
+        </p>
+      <% end %>
+    </div>
+  </div>
+</section>

@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   get "pages/home"
   get "pages/regulation"
   get "pages/information_on_the_processing_of_personal_data"
+  get "pages/how_to_play"
+  get "pages/contact"
+  get "pages/ranking"
   root "pages#home"
   resources :users, only: [ :new, :create ] do
     collection do

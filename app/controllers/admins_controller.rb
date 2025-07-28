@@ -77,6 +77,8 @@ class AdminsController < ApplicationController
       :information_on_the_processing_of_personal_data,
       :defeat_description,
       :subjected_description,
+      :how_to_play,
+      :contact,
       social_satisfaction_levels: [ :threshold, :text ]
     )
   end

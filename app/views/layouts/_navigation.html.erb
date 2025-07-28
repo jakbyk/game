@@ -23,6 +23,18 @@
               <%= icon_tag("banknotes", options: { class: "menu-icon" }) %> Gra
             <% end %>
           </div>
+        <% end %>
+        <div class="navbar-item">
+          <%= link_to pages_how_to_play_path, class: "button is-light" do %>
+            <%= icon_tag("book-open", options: { class: "menu-icon" }) %> Jak grać?
+          <% end %>
+        </div>
+        <div class="navbar-item">
+          <%= link_to pages_ranking_path, class: "button is-light" do %>
+            <%= icon_tag("trophy", options: { class: "menu-icon" }) %> Ranking
+          <% end %>
+        </div>
+        <% if logged_in? %>
           <div class="navbar-item">
             <%= link_to profile_path(current_user), class: "button is-light" do %>
               <%= render 'shared/avatar', user: current_user, size: 24, classes: 'menu-icon' %> Profil
@@ -49,9 +61,9 @@
           </div>
         <% else %>
           <div class="navbar-item">
-              <%= link_to new_user_path, class: "button is-light" do %>
-                <%= icon_tag("identification", options: { class: "menu-icon" }) %> Rejestracja
-              <% end %>
+            <%= link_to new_user_path, class: "button is-light" do %>
+              <%= icon_tag("identification", options: { class: "menu-icon" }) %> Rejestracja
+            <% end %>
           </div>
           <div class="navbar-item">
             <%= link_to login_path, class: "button is-light" do %>
@@ -59,6 +71,11 @@
             <% end %>
           </div>
         <% end %>
+        <div class="navbar-item">
+          <%= link_to pages_contact_path, class: "button is-light" do %>
+            <%= icon_tag("phone", options: { class: "menu-icon" }) %> Kontakt
+          <% end %>
+        </div>
       </div>
     </div>
   </div>

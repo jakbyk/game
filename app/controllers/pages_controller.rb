@@ -1,12 +1,6 @@
 class PagesController < ApplicationController
-  before_action :require_login, only: [ :inbox ]
-
   def home
     @chat = current_user&.is_admin ? Chat.find_or_create_by!(play_id: nil) : nil
-  end
-
-  def inbox
-    @chats = current_user.private_chats
   end
 
   def regulation
@@ -21,5 +15,23 @@ class PagesController < ApplicationController
     @title = "Informacja o procesowaniu danych osobowych"
 
     render "pages/content_page"
+  end
+
+  def how_to_play
+    @content = Setting.first.how_to_play
+    @title = "Jak grać?"
+
+    render "pages/content_page"
+  end
+
+  def contact
+    @content = Setting.first.contact
+    @title = "Kontakt"
+
+    render "pages/content_page"
+  end
+
+  def ranking
+    @plays = Play.rank
   end
 end

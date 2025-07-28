@@ -3,7 +3,7 @@
     <div class="column is-12-mobile is-6-desktop" id="map" data-src="<%= asset_path("pl.svg") %>" data-map-target="map" data-regions="<%= Play::REGIONS %>" data-game-id="<%= @play.id %>" data-active-id="<%= params[:map_id] %>">
       <% unless params["map_id"].blank? %>
         <p class="has-text-centered">
-          <%= link_to play_path(@play), class: "button is-light" do %>
+          <%= link_to play_path(@play), class: "button is-light mt-2 mb-2" do %>
             <%= icon_tag("arrow-left", options: { class: "menu-icon" }) %> Newsy z całego kraju
           <% end %>
         </p>
@@ -12,7 +12,7 @@
       <div id="tooltip" class="tooltip"></div>
     </div>
     <div class="column is-12-mobile is-6-desktop" style="overflow: auto;">
-      <div>
+      <div class="mt-2 mb-2">
         <% if @region_name %>
           <p class="has-text-centered is-size-4">Wiadomości z <%= @region_name %></p>
         <% else %>

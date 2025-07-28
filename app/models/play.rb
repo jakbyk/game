@@ -42,6 +42,7 @@ class Play < ApplicationRecord
                          .or(where.not(finished_at: nil))
                          .order(id: :desc)
   }
+  scope :rank, -> { where.not(finished_at: nil).where(current_month: 48).order(social_satisfaction: :desc).limit(10) }
 
   validate :only_one_of_archived_or_finished
   validates :current_month, inclusion: { in: (0..48) }

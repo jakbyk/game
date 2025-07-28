@@ -9,7 +9,11 @@
 
         <%= render 'shared/wysiwyg', form: f, title: "Regulamin", field_name: :regulations, value: @settings.regulations %>
 
-        <%= render 'shared/wysiwyg', form: f, title: "Przetwarzanie danych osobowych", field_name: :information_on_the_processing_of_personal_data, value: @settings.information_on_the_processing_of_personal_data %>
+        <%= render 'shared/wysiwyg', form: f, title: "Przetwarzanie danych osobowych", field_name: :information_on_the_processing_of_personal_data, value: @settings.information_on_the_processing_of_personal_data %>\
+
+        <%= render 'shared/wysiwyg', form: f, title: "Jak grać?", field_name: :how_to_play, value: @settings.how_to_play %>
+
+        <%= render 'shared/wysiwyg', form: f, title: "Kontakt", field_name: :contact, value: @settings.contact %>
 
         <h1 class="title mt-6">Informacje po zakończonych grach</h1>
 
