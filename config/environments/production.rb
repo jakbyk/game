@@ -106,16 +106,16 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: ENV.fetch("MAILGUN_ADDRESS"),
-    port: 587,
-    domain: ENV.fetch("MAILGUN_DOMAIN"),
-    user_name: ENV.fetch("MAILGUN_USERNAME"),
-    password: ENV.fetch("MAILGUN_PASSWORD"),
-    authentication: :plain,
+    address:              "smtp.home.pl",
+    port:                 587,
+    domain:               "graopolske.pl",
+    user_name:            "admin@graopolske.pl",
+    password:             ENV.fetch("SMTP_PASSWORD"),
+    authentication:       :login,
     enable_starttls_auto: true
   }
 
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_url_options = { host: "game-a2c6.onrender.com" }
+  config.action_mailer.default_url_options = { host: "graopolske.pl" }
 end

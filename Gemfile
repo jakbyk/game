@@ -76,5 +76,3 @@ gem "devise-i18n-views"
 gem "rails_12factor", group: :production
 gem "redis"
 gem "aws-sdk-s3", group: :production
-gem "mailgun-ruby", "~>1.2.6"
-gem "mailgun_rails"
