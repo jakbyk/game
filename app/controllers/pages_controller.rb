@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   def home
-    @content = Setting.first.main_page
+    @content = Setting.first ? Setting.first.main_page : ""
     @chat = (current_user&.is_admin || current_user&.is_tester) ? Chat.find_or_create_by!(play_id: nil) : nil
   end
 

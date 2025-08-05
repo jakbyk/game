@@ -34,4 +34,8 @@ local:
 #   mirrors: [ amazon, google, microsoft ]
 
 amazon:
-  service: Disk
+  service: S3
+  access_key_id: AKIA2YUYL2HGCIHAAJSP
+  secret_access_key: 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
+  region: eu-central-1
+  bucket: game-storage-production
