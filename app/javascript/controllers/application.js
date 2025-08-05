@@ -2,6 +2,9 @@ import { Application } from "@hotwired/stimulus"
 
 console.log("✅ Stimulus booting...")
 
-export const application = Application.start()
+const application = Application.start()
 
-window.Stimulus = application
+application.debug = false
+window.Stimulus   = application
+
+export { application }

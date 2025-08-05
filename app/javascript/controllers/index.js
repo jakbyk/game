@@ -2,58 +2,7 @@
 // Run that command whenever you add a new controller or create them with
 // ./bin/rails generate stimulus controllerName
 
-import { application } from "./application"
+import { application } from "controllers/application"
 
-import AvatarPreviewController from "./avatar_preview_controller"
-application.register("avatar-preview", AvatarPreviewController)
-
-import ChatFormController from "./chat_form_controller"
-application.register("chat-form", ChatFormController)
-
-import ChatScrollController from "./chat_scroll_controller"
-application.register("chat-scroll", ChatScrollController)
-
-import ConfirmController from "./confirm_controller"
-application.register("confirm", ConfirmController)
-
-import DropdownController from "./dropdown_controller"
-application.register("dropdown", DropdownController)
-
-import ExclusiveFieldsController from "./exclusive_fields_controller"
-application.register("exclusive-fields", ExclusiveFieldsController)
-
-import FullscreenController from "./fullscreen_controller"
-application.register("fullscreen", FullscreenController)
-
-import MapController from "./map_controller"
-application.register("map", MapController)
-
-import MenuController from "./menu_controller"
-application.register("menu", MenuController)
-
-import MessageController from "./message_controller"
-application.register("message", MessageController)
-
-import NavbarController from "./navbar_controller"
-application.register("navbar", NavbarController)
-
-import PresenceController from "./presence_controller"
-application.register("presence", PresenceController)
-
-import ReloadController from "./reload_controller"
-application.register("reload", ReloadController)
-
-import SliderController from "./slider_controller"
-application.register("slider", SliderController)
-
-import TextEditorController from "./text_editor_controller"
-application.register("text-editor", TextEditorController)
-
-import ThresholdsController from "./thresholds_controller"
-application.register("thresholds", ThresholdsController)
-
-import ToggleSectionController from "./toggle_section_controller"
-application.register("toggle-section", ToggleSectionController)
-
-import WysiwygController from "./wysiwyg_controller"
-application.register("wysiwyg", WysiwygController)
+import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
+eagerLoadControllersFrom("controllers", application)
