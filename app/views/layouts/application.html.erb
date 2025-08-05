@@ -18,7 +18,7 @@
     <%= javascript_importmap_tags %>
     <script type="module">import "application"</script>
     <script>window.currentUserId = "<%= current_user&.id %>";</script>
-    <script>window.isAdmin = <%= current_user&.is_admin %>;</script>
+    <script>window.isAdmin = <%= current_user&.is_admin || "false" %>;</script>
   </head>
 
   <body class="is-flex is-flex-direction-column min-vh-100" data-controller="presence">
