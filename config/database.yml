@@ -79,11 +79,7 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
   adapter: postgresql
   encoding: unicode
-  host: database-game.chscqs64g91q.eu-central-1.rds.amazonaws.com
-  username: postgres
-  password: MyMasterPas123$*%
-  database: database-game
-  pool: 5
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  url: <%= ENV['DATABASE_URL'] %>
