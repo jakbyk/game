@@ -106,7 +106,7 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:              "smtp.home.pl",
+    address:              "serwer2560089.home.pl",
     port:                 587,
     domain:               "graopolske.pl",
     user_name:            "admin@graopolske.pl",
