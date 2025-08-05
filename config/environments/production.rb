@@ -104,10 +104,18 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  config.action_mailer.delivery_method = :mailgun
-  config.action_mailer.mailgun_settings = {
-    api_key: ENV.fetch("MAILGUN_API_KEY"),
-    domain: "game-a2c6.onrender.com"
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: ENV.fetch("MAILGUN_ADDRESS"),
+    port: 587,
+    domain: ENV.fetch("MAILGUN_DOMAIN"),
+    user_name: ENV.fetch("MAILGUN_USERNAME"),
+    password: ENV.fetch("MAILGUN_PASSWORD"),
+    authentication: :plain,
+    enable_starttls_auto: true
   }
+
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_url_options = { host: "game-a2c6.onrender.com" }
 end
