@@ -1,29 +1,19 @@
 <section class="section">
   <div class="container">
-    <h1 class="title is-2">Welcome to MyApp</h1>
-    <p class="subtitle is-5">
-      This is a simple demo app using Rails 7, Turbo, and Bulma.
-    </p>
-
-    <hr>
+    <h1 class="title is-2 has-text-centered">Gra o Polskę</h1>
 
     <div class="content">
-      <p><strong>Lorem ipsum dolor sit amet</strong>, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua.</p>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-      <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.</p>
+      <%= raw rich_text_sanitize(@content) %>
     </div>
 
     <div class="content">
-      <p>Turbo list:</p>
       <turbo-frame id="online_users" src="<%= online_users_path %>" data-controller="reload" data-reload-interval-value="5000">
         Loading online users…
       </turbo-frame>
     </div>
 
-    <% if current_user&.is_admin %>
+    <% if current_user&.is_admin || current_user&.is_tester %>
+      <p class="mb-2 mt-2">Chat dla administracji i testerów:</p>
       <%= render 'messages/chat' %>
     <% end %>
   </div>

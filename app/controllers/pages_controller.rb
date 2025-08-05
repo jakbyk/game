@@ -1,6 +1,7 @@
 class PagesController < ApplicationController
   def home
-    @chat = current_user&.is_admin ? Chat.find_or_create_by!(play_id: nil) : nil
+    @content = Setting.first.main_page
+    @chat = (current_user&.is_admin || current_user&.is_tester) ? Chat.find_or_create_by!(play_id: nil) : nil
   end
 
   def regulation

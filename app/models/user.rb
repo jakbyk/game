@@ -96,6 +96,10 @@ class User < ApplicationRecord
       received_friendships.where(status: "declined_by_sender")
   end
 
+  def is_super_admin?
+    is_admin? && email === "jakbyk@wp.pl"
+  end
+
   private
 
   def generate_confirmation_token

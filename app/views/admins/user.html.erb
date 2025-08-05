@@ -1,29 +1,74 @@
 <%= render 'shared/admins' do %>
   <section class="section">
     <div class="container">
+      <% if current_user.is_admin && !@user.is_admin %>
+        <div class="box mb-5 has-text-centered">
+          <% if @user.is_tester %>
+            <%= button_to remove_tester_user_path(@user),
+                          method: :delete,
+                          class: "button is-light is-danger" do %>
+              Usuń status testera
+            <% end %>
+          <% else %>
+            <%= button_to add_tester_user_path(@user),
+                          method: :post,
+                          class: "button is-light is-success" do %>
+              Dodaj status testera
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+      <% if current_user.is_super_admin? %>
+        <div class="box mb-5 has-text-centered">
+          <% if @user.is_admin %>
+            <%= button_to remove_admin_user_path(@user),
+                          method: :delete,
+                          class: "button is-light is-danger mt-2" do %>
+              Usuń status admina
+            <% end %>
+          <% else %>
+            <%= button_to add_admin_user_path(@user),
+                          method: :post,
+                          class: "button is-light is-success mt-2" do %>
+              Dodaj status admina
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
       <div class="box mb-5">
         <h2 class="title is-5 has-text-centered">Użytkownik <%= @user.name %></h2>
         <div class="has-text-centered mb-3"><%= render 'shared/avatar', user: @user %></div>
 
-        <p><strong>Typ:</strong> <%= @user.is_admin ? "Jest administratorem" : "Jest graczem" %></p>
+        <p>
+          <strong>Typ:</strong> <%= if @user.is_admin
+                                      "Jest administratorem"
+                                    else
+                                      @user.is_tester ? "Jest testerem" : "Jest graczem"
+                                    end %>
+        </p>
         <p><strong>Imię:</strong> <%= @user.first_name %></p>
         <p><strong>Nazwisko:</strong> <%= @user.last_name %></p>
         <p><strong>Email:</strong> <%= @user.email %></p>
         <p><strong>Potwierdzenie maila:</strong>
-          <%= @user.confirmed? ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %></p>
+          <%= @user.confirmed? ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %>
+        </p>
         <p><strong>Data rejestracji:</strong> <%= @user.created_at&.strftime("%d-%m-%Y %H:%M:%S") %></p>
         <p><strong>Ostatnio widziany:</strong> <%= @user.last_seen_at&.strftime("%d-%m-%Y %H:%M:%S") %></p>
         <p><strong>Zgoda na przetwarzanie danych:</strong>
-          <%= @user.time_of_acceptance_of_information_on_the_processing_of_personal ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %></p>
+          <%= @user.time_of_acceptance_of_information_on_the_processing_of_personal ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %>
+        </p>
         <p><strong>Zgoda na regulamin:</strong>
-          <%= @user.time_of_acceptance_of_the_regulations ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %></p>
+          <%= @user.time_of_acceptance_of_the_regulations ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %>
+        </p>
       </div>
 
       <div class="box mb-5">
         <h2 class="title is-5">Znajomi</h2>
         <% if @user.friend_users.any? %>
           <% @user.friend_users.each do |u| %>
-            <p><%= link_to admin_user_path(u) do %><%= u.name %><% end %></p>
+            <p><%= link_to admin_user_path(u) do %><%= u.name %>
+              <% end %></p>
           <% end %>
         <% else %>
           <p>Brak znajomych</p>

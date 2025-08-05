@@ -79,6 +79,7 @@ class AdminsController < ApplicationController
       :subjected_description,
       :how_to_play,
       :contact,
+      :main_page,
       social_satisfaction_levels: [ :threshold, :text ]
     )
   end

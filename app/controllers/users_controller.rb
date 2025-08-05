@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_action :authenticate_admin!, only: [ :add_tester, :remove_tester, :add_admin, :remove_admin ]
+  before_action :set_user, only: [ :add_tester, :remove_tester, :add_admin, :remove_admin ]
+  before_action :authenticate_super_admin!, only: [ :add_admin, :remove_admin ]
   def new
     @user = User.new
   end
@@ -41,9 +44,40 @@ class UsersController < ApplicationController
   HTML
   end
 
+  def add_tester
+    @user.update(is_tester: true)
+    redirect_to admin_user_path(@user), notice: "Dodano status testera"
+  end
+
+  def remove_tester
+    @user.update(is_tester: false)
+    redirect_to admin_user_path(@user), notice: "Usunięto status testera"
+  end
+
+  def add_admin
+    @user.update(is_admin: true)
+    redirect_to admin_user_path(@user), notice: "Dodano status testera"
+  end
+
+  def remove_admin
+    @user.update(is_admin: false)
+    redirect_to admin_user_path(@user), notice: "Usunięto status testera"
+  end
+
   private
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :first_name, :last_name, :password_confirmation, :accept_data_processing, :accept_regulations)
+  end
+
+  def set_user
+    @user = User.find(params[:id])
+    redirect_to root_path, alert: "Nie znaleziono takiego użytkownika" unless @user
+  end
+
+  def authenticate_super_admin!
+    return if logged_in? && current_user.is_super_admin?
+
+    redirect_to root_path, alert: "Nie masz dostępu do tej funkcji."
   end
 end

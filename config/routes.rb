@@ -13,6 +13,12 @@ Rails.application.routes.draw do
     collection do
       get :confirm
     end
+    member do
+      post :add_tester
+      delete :remove_tester
+      post :add_admin
+      delete :remove_admin
+    end
   end
   get :online_users, to: "users#online"
 
