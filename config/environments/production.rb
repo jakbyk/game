@@ -118,4 +118,6 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_url_options = { host: "graopolske.pl" }
+  config.action_mailer.logger = Logger.new(STDOUT)
+  config.action_mailer.logger.level = Logger::DEBUG
 end
