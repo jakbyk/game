@@ -510,6 +510,7 @@ DEPENDENCIES
   inline_svg
   jbuilder
   letter_opener
+  mail
   overcommit
   pg (~> 1.1)
   pry
