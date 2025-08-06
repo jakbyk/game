@@ -70,6 +70,9 @@
                     <% if change.event.need_increase_budget_reserve != change.need_increase_budget_reserve %>
                       <p>Kierunek zmiany rezerwy budżetowej</p>
                     <% end %>
+                    <% if change.event.description != change.description %>
+                      <p>Opis pozytywnego wyniku</p>
+                    <% end %>
                     <% if change.event.positive_description != change.positive_description %>
                       <p>Opis pozytywnego wyniku</p>
                     <% end %>
