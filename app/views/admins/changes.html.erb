@@ -71,7 +71,7 @@
                       <p>Kierunek zmiany rezerwy budżetowej</p>
                     <% end %>
                     <% if change.event.description != change.description %>
-                      <p>Opis pozytywnego wyniku</p>
+                      <p>Opis wydarzenia</p>
                     <% end %>
                     <% if change.event.positive_description != change.positive_description %>
                       <p>Opis pozytywnego wyniku</p>
@@ -143,6 +143,7 @@
                   <% if change.event.is_adding_to_budget != change.is_adding_to_budget %><li>Kierunek zmiany budżetu</li><% end %>
                   <% if change.event.budget_reserve_change != change.budget_reserve_change %><li>Wielkość zmiany rezerwy budżetowej</li><% end %>
                   <% if change.event.need_increase_budget_reserve != change.need_increase_budget_reserve %><li>Kierunek zmiany rezerwy budżetowej</li><% end %>
+                  <% if change.event.description != change.description %><li>Opis wydarzenia</li><% end %>
                   <% if change.event.positive_description != change.positive_description %><li>Opis pozytywnego wyniku</li><% end %>
                   <% if change.event.negative_description != change.negative_description %><li>Opis negatywnego wyniku</li><% end %>
                 </ul>
