@@ -13,9 +13,11 @@ export default class extends Controller {
                     .replace(/:(\w+)/g, '"$1"')
                     .replace(/=>/g, ':');
                 const regionsList = JSON.parse(json);
+
                 this.wrapperTarget.innerHTML = svgText;
                 const raw = this.mapTarget.dataset.regions;
                 const pairs = [...raw.matchAll(/:([A-Z]+\d+)\s*=>\s*"([^"]+)"/g)];
+                const regionsSatisfaction = JSON.parse(this.mapTarget.dataset.regionsSatisfaction);
 
                 const voivodeships = Object.fromEntries(
                     pairs.map(([, code, name]) => [code, name])
@@ -24,6 +26,8 @@ export default class extends Controller {
                 document.querySelectorAll("#map svg [name]").forEach(path => {
                     path.classList.add("region");
                     path.classList.add(path.id);
+
+                    path.classList.add("satisfaction-background-" + regionsSatisfaction[path.id])
 
                     if (path.getAttribute("id") === activeId) {
                         path.classList.add("active");

@@ -52,6 +52,17 @@ class PlayProceed
 
     outcome = check_budget_status(event)
 
+    if event.region
+      if outcome == "positive"
+        @play.increment_region_satisfaction(Play::REGIONS.key(event.region).to_s)
+        @play.increment_region_satisfaction(Play::REGIONS.key(event.region).to_s) if event.budget_change > 1000
+        @play.increment_region_satisfaction(Play::REGIONS.key(event.region).to_s) if event.budget_change > 10000
+      elsif outcome == "negative"
+        @play.decrement_region_satisfaction(Play::REGIONS.key(event.region).to_s)
+        @play.decrement_region_satisfaction(Play::REGIONS.key(event.region).to_s) if event.budget_change > 1000
+        @play.decrement_region_satisfaction(Play::REGIONS.key(event.region).to_s) if event.budget_change > 10000
+      end
+    end
     previous_event.update!(outcome: outcome, resolved_at: Time.current)
   end
 
@@ -118,6 +129,7 @@ class PlayProceed
       last_seen_multiplier = was_last_exists(game_budget) ? 250 : 5
       expected = game_budget.expected_value.to_f
       current = game_budget.current_value.to_f
+      important_to_region_multiplier = calculate_important_to_region(game_budget, current >= expected)
       next if expected.zero?
 
       percent_diff = (current.to_f - expected.to_f) / expected.to_f
@@ -127,7 +139,7 @@ class PlayProceed
       combo = 1 if combo == 0
       impact = 1 if impact == 0
 
-      change = percent_diff.to_f * budget_share.to_f * combo.to_f * last_seen_multiplier.to_f * impact.to_f
+      change = percent_diff.to_f * budget_share.to_f * combo.to_f * last_seen_multiplier.to_f * impact.to_f * important_to_region_multiplier.to_f
       change = change.clamp(-1.0, 1.0)
 
       new_satisfaction += change
@@ -154,5 +166,25 @@ class PlayProceed
         game_budget.update(expected_value: new_expected)
       end
     end
+  end
+
+  def calculate_important_to_region(game_budget, positive)
+    previous_month = @play.current_month - 1
+    previous_events_for_this_game_budget = @play.play_events.includes(:event).where(month: previous_month).where("event.budget_name": game_budget.name)
+    return 1 unless previous_events_for_this_game_budget.any?
+
+    important_region_multiplier = 1
+    previous_events_for_this_game_budget.each do |play_event|
+      if play_event.event.region
+        id_of_region = Play::REGIONS.key(play_event.event.region).to_s
+        satisfy = @play.get_region_satisfaction(id_of_region)
+        if (1..10).include?(satisfy) && play_event.outcome == "negative" && !positive
+          important_region_multiplier += (satisfy - 10).abs
+        elsif (11..20).include?(satisfy) && play_event.outcome == "positive" && positive
+          important_region_multiplier += (satisfy - 11)
+        end
+      end
+    end
+    important_region_multiplier
   end
 end

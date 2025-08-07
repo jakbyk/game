@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_05_073036) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_07_203449) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -207,6 +207,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_05_073036) do
     t.integer "current_month", default: 0
     t.datetime "finished_at"
     t.bigint "budget_reserve"
+    t.jsonb "regions_satisfaction", default: "{\"PL32\":11,\"PL22\":11,\"PL28\":11,\"PL20\":11,\"PL14\":11,\"PL04\":11,\"PL30\":11,\"PL08\":11,\"PL02\":11,\"PL16\":11,\"PL24\":11,\"PL10\":11,\"PL26\":11,\"PL12\":11,\"PL18\":11,\"PL06\":11}"
     t.index ["archived_by_id"], name: "index_plays_on_archived_by_id"
   end
 

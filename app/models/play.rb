@@ -96,6 +96,23 @@ class Play < ApplicationRecord
     applicable&.dig("text").to_s.html_safe
   end
 
+  def increment_region_satisfaction(region_key)
+    data = JSON.parse(regions_satisfaction)
+    data[region_key] += 1 if data.key?(region_key) && data[region_key] < 20
+    update(regions_satisfaction: data.to_json)
+  end
+
+  def decrement_region_satisfaction(region_key)
+    data = JSON.parse(regions_satisfaction)
+    data[region_key] -= 1 if data.key?(region_key) && data[region_key] > 1
+    update(regions_satisfaction: data.to_json)
+  end
+
+  def get_region_satisfaction(region_key)
+    data = JSON.parse(regions_satisfaction)
+    data[region_key]
+  end
+
   private
 
   def create_chat
