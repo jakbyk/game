@@ -24,10 +24,10 @@
 
     <ul class="menu-list">
       <li>
-        <a class="button is-light is-flex is-vcentered" data-action="fullscreen#toggle" data-fullscreen-target="minButton">
+        <a class="button is-light is-flex is-vcentered resize-button" data-action="fullscreen#toggle" data-fullscreen-target="minButton">
           <%= icon_tag("arrows-pointing-in", options: { class: "menu-icon" }) %>Mały ekran
         </a>
-        <a class="button is-light is-flex is-vcentered" data-action="fullscreen#toggle" data-fullscreen-target="maxButton">
+        <a class="button is-light is-flex is-vcentered resize-button" data-action="fullscreen#toggle" data-fullscreen-target="maxButton">
           <%= icon_tag("arrows-pointing-out", options: { class: "menu-icon" }) %>Pełny ekran
         </a>
       </li>
@@ -96,7 +96,7 @@
   <main class="column is-10 p-3 mb-2-mobile"
         style="display: flex; flex-direction: column; overflow-x: auto; min-width: 0;"
         data-fullscreen-target="main">
-    <section class="section is-paddingless" data-fullscreen-target="scrolled">
+    <section class="section is-paddingless" data-fullscreen-target="scrolled" id="inner-window">
       <%= yield %>
     </section>
     <% if @chat %>

@@ -63,14 +63,17 @@ export default class extends Controller {
                 })
                 this.setNewsColumnHeight();
                 window.addEventListener("resize", () => this.setNewsColumnHeight());
+                document.querySelectorAll('a.resize-button').forEach(button => {
+                    button.addEventListener("click", () =>{
+                        this.setNewsColumnHeight();
+                    })
+                })
             })
             .catch(err => console.error("Nie można załadować mapy:", err));
     }
 
     setNewsColumnHeight() {
-        if (!this.hasWrapperTarget || !this.hasNewsColumnTarget) return
-
-        const mapHeight = this.wrapperTarget.offsetHeight
+        const mapHeight = document.querySelector('#inner-window').offsetHeight
         this.newsColumnTarget.style.maxHeight = `${mapHeight}px`
         this.newsColumnTarget.style.overflowY = "auto"
     }
