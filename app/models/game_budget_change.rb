@@ -17,6 +17,14 @@ class GameBudgetChange < ApplicationRecord
     game_budget_change_votes.against.count
   end
 
+  def votes_favor_names
+    game_budget_change_votes.favor.includes(:user).map { |vote| vote.user.name }.join(", ")
+  end
+
+  def votes_against_names
+    game_budget_change_votes.against.includes(:user).map { |vote| vote.user.name }.join(", ")
+  end
+
   def apply_if_should
     users_count = play.users.count
     if votes_favor_count > 0 && votes_favor_count * 2 >= users_count

@@ -21,8 +21,8 @@
                 <td></td>
                 <td></td>
               </tr>
-              <tr class="has-text-centered">
-                <% @friendship_to_approve.each do |f| %>
+              <% @friendship_to_approve.each do |f| %>
+                <tr class="has-text-centered">
                   <% other_user = f.other_user(current_user) %>
                   <td>
                     <%= link_to profile_path(other_user) do %>
@@ -48,8 +48,8 @@
                       </div>
                     <% end %>
                   </td>
-                <% end %>
-              </tr>
+                </tr>
+              <% end %>
             </table>
           <% end %>
         <% else %>

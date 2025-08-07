@@ -73,7 +73,16 @@ export default class extends Controller {
     }
 
     setNewsColumnHeight() {
-        const mapHeight = document.querySelector('#inner-window').offsetHeight
+        if (!this.hasWrapperTarget || !this.hasNewsColumnTarget) return
+
+        let mapHeight = this.wrapperTarget.offsetHeight
+        if (document.querySelector('#inner-window').offsetHeight > this.wrapperTarget.offsetHeight){
+            mapHeight = document.querySelector('#inner-window').offsetHeight
+        }
+        if(mapHeight > 700){
+            mapHeight = 700
+        }
+
         this.newsColumnTarget.style.maxHeight = `${mapHeight}px`
         this.newsColumnTarget.style.overflowY = "auto"
     }
