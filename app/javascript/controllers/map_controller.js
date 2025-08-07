@@ -1,7 +1,7 @@
 import {Controller} from "@hotwired/stimulus"
 
 export default class extends Controller {
-    static targets = ["map", "wrapper", "event"]
+    static targets = ["map", "wrapper", "event", "newsColumn"]
 
     connect() {
         fetch(this.mapTarget.dataset.src)
@@ -61,7 +61,17 @@ export default class extends Controller {
                         });
                     }
                 })
+                this.setNewsColumnHeight();
+                window.addEventListener("resize", () => this.setNewsColumnHeight());
             })
             .catch(err => console.error("Nie można załadować mapy:", err));
+    }
+
+    setNewsColumnHeight() {
+        if (!this.hasWrapperTarget || !this.hasNewsColumnTarget) return
+
+        const mapHeight = this.wrapperTarget.offsetHeight
+        this.newsColumnTarget.style.maxHeight = `${mapHeight}px`
+        this.newsColumnTarget.style.overflowY = "auto"
     }
 }
