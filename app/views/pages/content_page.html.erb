@@ -3,7 +3,16 @@
     <h1 class="title is-2 has-text-centered"><%= @title %></h1>
 
     <div class="content">
-      <%= raw rich_text_sanitize(@content) %>
+      <%= raw @content %>
+      <% if @title == "Jak grać?" %>
+        <div class="columns">
+          <div class="column is-3 has-text-centered"></div>
+          <div class="column is-6 has-text-centered">
+            <img src="<%= asset_path("dofinansowano.jpg") %>" class="mt-6"/>
+          </div>
+          <div class="column is-3 has-text-centered"></div>
+        </div>
+      <% end %>
     </div>
   </div>
 </section>

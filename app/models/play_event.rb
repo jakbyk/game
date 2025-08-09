@@ -19,6 +19,31 @@ class PlayEvent < ApplicationRecord
     Play::REGIONS.invert[event.region]
   end
 
+  def self.name_of_potential(int)
+    case int
+    when 0..10
+      "Marginalne"
+    when 11..50
+      "Niewielkie"
+    when 51..180
+      "Niskie"
+    when 181..500
+      "Umiarkowane"
+    when 501..1_500
+      "Średnie"
+    when 1_501..5_000
+      "Znaczące"
+    when 5_001..20_000
+      "Wysokie"
+    when 20_001..100_000
+      "Podwyższone"
+    when 100_001..500_000
+      "Krytyczne"
+    else
+      "Ekstremalne"
+    end
+  end
+
   private
 
   def change_value_in_play

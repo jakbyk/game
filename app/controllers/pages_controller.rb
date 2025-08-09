@@ -34,5 +34,6 @@ class PagesController < ApplicationController
 
   def ranking
     @plays = Play.rank
+    @almost_done = Play.next_rank
   end
 end

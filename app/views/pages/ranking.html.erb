@@ -76,6 +76,47 @@
           Obecnie nie można przedstawić rankingu, gdyż brakuje minimum trzech wygranych gier.
         </p>
       <% end %>
+      <% if @almost_done.any? %>
+        <h1 class="title is-2 has-text-centered">Ci, którym niewiele brakuje</h1>
+        <div class="box">
+          <table class="table is-fullwidth">
+            <thead>
+            <tr>
+              <th>Stan gry</th>
+              <th>Miesiąc gry</th>
+              <th>Zadowolenie społeczne (%)</th>
+              <th>Gracze</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @almost_done.each do |play| %>
+              <tr class="color-background-on-hover">
+                <td><% if play.result == "win" %>
+                    <%= icon_tag("face-smile", options: { class: "is-success" }) %>
+                  <% elsif play.result == "defeat" %>
+                    <%= icon_tag("face-frown", options: { class: "is-danger" }) %>
+                  <% end %>
+                  <%= play.decorate.name_of_result %>
+                </td>
+                <td><%= play.name_of_current_month %></td>
+                <td><%= play.social_satisfaction.round(2) %>%</td>
+                <td>
+                  <p>
+                    <% play.users.each_with_index do |user, i| %>
+                      <% if i > 0 %>,
+                      <% end %>
+                      <%= link_to profile_path(user) do %>
+                        <%= user.name %>
+                      <% end %>
+                    <% end %>
+                  </p>
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
     </div>
   </div>
 </section>

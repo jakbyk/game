@@ -1,6 +1,10 @@
 <%= render 'shared/plays' do %>
   <div class="columns is-variable is-0 is-multiline is-flex-direction-column-mobile" data-controller="map">
     <div class="column is-12-mobile is-6-desktop" id="map" data-src="<%= asset_path("pl.svg") %>" data-map-target="map" data-regions="<%= Play::REGIONS %>" data-game-id="<%= @play.id %>" data-active-id="<%= params[:map_id] %>" data-regions-satisfaction="<%= @play.regions_satisfaction %>">
+      <h2 class="title is-5 has-text-centered mt-6">
+        Zadowolenie społeczne <%= @play.social_satisfaction.round(2).to_s.gsub('.', ',') %>%
+      </h2>
+      <h2 class="title is-5 has-text-centered">Rezerwa budżetowa: <%= @play.decorate.formatted_budget_reserve %></h2>
       <% unless params["map_id"].blank? %>
         <p class="has-text-centered">
           <%= link_to play_path(@play), class: "button is-light mt-2 mb-2" do %>
@@ -12,7 +16,7 @@
       <div id="tooltip" class="tooltip"></div>
     </div>
     <div class="column is-12-mobile is-6-desktop" style="overflow: auto;" data-map-target="newsColumn">
-      <div class="mt-2 mb-2">
+      <div class="mt-6 mb-2">
         <% if @region_name %>
           <p class="has-text-centered is-size-4">Wiadomości z <%= @region_name %></p>
         <% else %>
@@ -48,10 +52,10 @@
                 <% end %>
               <% end %>
               <% if play_event.potential_increase_of_satisfaction %>
-                <span class="tag is-success is-light">+<%= play_event.potential_increase_of_satisfaction.to_i %></span>
+                <span class="tag is-success is-light"><%= PlayEvent.name_of_potential(play_event.potential_increase_of_satisfaction.to_i) %></span>
               <% end %>
               <% if play_event.potential_decrease_of_satisfaction %>
-                <span class="tag is-danger is-light">-<%= play_event.potential_decrease_of_satisfaction.to_i %></span>
+                <span class="tag is-danger is-light"><%= PlayEvent.name_of_potential(play_event.potential_decrease_of_satisfaction.to_i) %></span>
               <% end %>
               <span class="has-text-grey"><%= play_event.decorate.name_of_month %></span>
             </div>

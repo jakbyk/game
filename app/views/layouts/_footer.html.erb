@@ -3,7 +3,6 @@
     <div class="has-text-centered">
       <img src="<%= asset_path("ministerstwo.png") %>" class="footer-image"/>
       <img src="<%= asset_path("novum.png") %>" class="footer-image"/>
-      <img src="<%= asset_path("dofinansowano.jpg") %>" class="footer-image"/>
       <img src="<%= asset_path("znaki.png") %>" class="footer-image"/>
     </div>
     <p class="has-text-centered">
@@ -11,7 +10,7 @@
       Obywatele
     </p>
     <p class="has-text-right">
-      Baczus &copy; <%= Time.current.year %>. All rights reserved.
+      Jakub Bączyk (<%= link_to "https://github.com/jakbyk", target: "_blank" do %>jakbyk<% end %>) &copy; <%= Time.current.year %>. All rights reserved.
     </p>
   </div>
 </footer>
