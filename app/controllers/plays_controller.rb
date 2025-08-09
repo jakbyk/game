@@ -1,8 +1,8 @@
 class PlaysController < ApplicationController
-  before_action :set_play, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :invite_player, :accept_invitation, :online_users, :make_leader ]
+  before_action :set_play, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :invite_player, :accept_invitation, :online_users, :make_leader, :how_to_play ]
   before_action :fetch_even_if_finished, only: [ :show ]
   before_action :fetch_finished, only: [ :result ]
-  before_action :set_chat, only: [ :show, :budgets_descriptions, :budget_changes, :expenses, :players ]
+  before_action :set_chat, only: [ :show, :budgets_descriptions, :budget_changes, :expenses, :players, :how_to_play ]
   before_action :check_allowed, only: [ :create ]
   before_action :check_delete, only: [ :destroy ]
   before_action :check_archive, only: [ :archive ]
@@ -10,7 +10,7 @@ class PlaysController < ApplicationController
   before_action :check_create_budget_change, only: [ :create_budget_change ]
   before_action :check_invite, only: [ :invite_player ]
   before_action :check_make_leader, only: [ :make_leader ]
-  before_action :player_exists, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :result, :show ]
+  before_action :player_exists, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :result, :show, :how_to_play ]
   before_action :check_budget_vote, only: [ :budget_vote ]
 
   def show
@@ -143,6 +143,10 @@ class PlaysController < ApplicationController
       end
     end
     redirect_to play_players_path, alert: "Nie udało się dodać nowego lidera."
+  end
+
+  def how_to_play
+    @content = Setting.first.how_to_play
   end
 
   private

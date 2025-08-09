@@ -62,9 +62,25 @@
              @proposal&.budget_name.present? ||
              @proposal&.budget_change != 0) %>">
 
+        <div class="field">
+          <%= f.label :positive_title, "Pozytywny tytuł" %>
+          <%= f.text_field :positive_title, class: "input #{'is-danger' if @event.errors[:positive_title].any?}" %>
+          <% @event.errors[:positive_title].each do |error| %>
+            <p class="help is-danger"><%= error %></p>
+          <% end %>
+        </div>
+
         <div class="field <%= "background-danger" if @proposal.errors[:positive_description].any? %>">
           <%= render 'shared/wysiwyg', form: f, title: "Opis pozytywnego skutku", field_name: :positive_description, value: @proposal.positive_description %>
           <% @proposal.errors[:positive_description].each do |error| %>
+            <p class="help is-danger"><%= error %></p>
+          <% end %>
+        </div>
+
+        <div class="field">
+          <%= f.label :negative_title, "Negatywny tytuł" %>
+          <%= f.text_field :negative_title, class: "input #{'is-danger' if @event.errors[:negative_title].any?}" %>
+          <% @event.errors[:negative_title].each do |error| %>
             <p class="help is-danger"><%= error %></p>
           <% end %>
         </div>

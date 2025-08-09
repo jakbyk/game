@@ -53,6 +53,11 @@
           <%= icon_tag("user-group", options: { class: "menu-icon" }) %> Lista graczy
         <% end %>
       </li>
+      <li>
+        <%= link_to play_how_to_play_path(@play), class: "button is-light is-flex is-vcentered" do %>
+          <%= icon_tag("book-open", options: { class: "menu-icon" }) %> Jak grać?
+        <% end %>
+      </li>
 
       <% if current_user.allowed_to_proceed_game?(@play) %>
         <li>

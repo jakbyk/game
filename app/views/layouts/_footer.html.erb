@@ -9,8 +9,18 @@
       Projekt dofinansowany ze środków budżetu państwa, przyznanych przez Ministra Edukacji w ramach programu Młodzi
       Obywatele
     </p>
-    <p class="has-text-right">
-      Jakub Bączyk (<%= link_to "https://github.com/jakbyk", target: "_blank" do %>jakbyk<% end %>) &copy; <%= Time.current.year %>. All rights reserved.
+    <p class="has-text-right is-marginless">
+      Coded by: Jakub Bączyk
+      (<%= link_to "jakbyk", "https://github.com/jakbyk", target: "_blank" %>)
+      &copy; <%= Time.current.year %>.
+    </p>
+    <p class="has-text-right is-marginless is-size-7">
+      Wszelkie prawa do kodu zastrzeżone. Treści publikowane przez użytkowników należą do ich autorów.
+    </p>
+    <p class="has-text-right is-marginless is-size-7">
+      <%= link_to pages_regulation_path, target: "_blank" do %>
+        Regulamin
+      <% end %>
     </p>
   </div>
 </footer>

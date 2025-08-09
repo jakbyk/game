@@ -34,6 +34,9 @@
                            else play_event.event.description
                            end
           %>
+          <% title = play_event.event.title %>
+          <% title = play_event.event.negative_title if outcome == "negative" && play_event.event.negative_title? %>
+          <% title = play_event.event.positive_title if outcome == "positive" && play_event.event.positive_title? %>
 
           <div class="box mb-5" style="font-family: 'Merriweather', Georgia, serif; <%= "background-color: rgba(128, 128, 128, 0.1);" if outcome %>" data-map-target="event" data-region-id="<%= play_event.region_id if params["map_id"].blank? %>">
             <div class="is-size-7 is-flex is-justify-content-space-between">
@@ -61,7 +64,7 @@
             </div>
             <div class="is-flex is-align-items-flex-start is-justify-content-space-between">
               <h2 class="title is-5 mb-2 mr-4" style="word-break: break-word; flex: 1 1 auto;">
-                <%= play_event.event.title %>
+                <%= title %>
               </h2>
               <span class="icon <%= icon_class %> ml-2" style="flex-shrink: 0;"><%= icon_tag(icon_name) %></span>
             </div>

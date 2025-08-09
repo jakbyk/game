@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     get "budget_changes", to: "plays#budget_changes"
     post "budget_vote", to: "plays#budget_vote"
     get "players", to: "plays#players"
+    get "how_to_play", to: "plays#how_to_play"
     post "invite_player", to: "plays#invite_player"
     post "accept_invitation", to: "plays#accept_invitation"
     get "online_users", to: "plays#online_users"

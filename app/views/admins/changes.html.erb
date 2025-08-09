@@ -79,6 +79,12 @@
                     <% if change.event.negative_description != change.negative_description %>
                       <p>Opis negatywnego wyniku</p>
                     <% end %>
+                    <% if change.event.positive_title != change.positive_title %>
+                      <p>Tytuł pozytywnego wyniku</p>
+                    <% end %>
+                    <% if change.event.negative_title != change.negative_title %>
+                      <p>Tytuł negatywnego wyniku</p>
+                    <% end %>
                   </td>
                 <% end %>
                 <td>
@@ -146,6 +152,8 @@
                   <% if change.event.description != change.description %><li>Opis wydarzenia</li><% end %>
                   <% if change.event.positive_description != change.positive_description %><li>Opis pozytywnego wyniku</li><% end %>
                   <% if change.event.negative_description != change.negative_description %><li>Opis negatywnego wyniku</li><% end %>
+                  <% if change.event.positive_title != change.positive_title %><li>Tytuł pozytywnego wyniku</li><% end %>
+                  <% if change.event.negative_title != change.negative_title %><li>Tytuł negatywnego wyniku</li><% end %>
                 </ul>
               <% end %>
 

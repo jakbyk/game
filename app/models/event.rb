@@ -27,6 +27,14 @@ class Event < ApplicationRecord
     end
   end
 
+  def positive_title?
+    !wysiwyg_blank?(positive_title)
+  end
+
+  def negative_title?
+    !wysiwyg_blank?(negative_title)
+  end
+
   private
 
   def validate_budget_section
