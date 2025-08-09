@@ -35,18 +35,22 @@ class GameBudgetChange < ApplicationRecord
   end
 
   def apply_to_game
-    budget = play.game_budget_categories.find_by(name: name).current_value
-    reserve = play.budget_reserve
-    if is_adding
-      new_budget = budget + value
-      new_reserve = reserve - value
+    if votes_favor_count > 0
+      budget = play.game_budget_categories.find_by(name: name).current_value
+      reserve = play.budget_reserve
+      if is_adding
+        new_budget = budget + value
+        new_reserve = reserve - value
+      else
+        new_budget = budget - value
+        new_reserve = reserve + value
+      end
+      if new_reserve >= 0
+        play.update(budget_reserve: new_reserve)
+        play.game_budget_categories.find_by(name: name).update(current_value: new_budget)
+        update(is_votable: false)
+      end
     else
-      new_budget = budget - value
-      new_reserve = reserve + value
-    end
-    if new_reserve >= 0
-      play.update(budget_reserve: new_reserve)
-      play.game_budget_categories.find_by(name: name).update(current_value: new_budget)
       update(is_votable: false)
     end
   end
@@ -60,6 +64,6 @@ class GameBudgetChange < ApplicationRecord
   end
 
   def implement?
-    votes_favor_count >= votes_against_count
+    votes_favor_count > 1 && votes_favor_count >= votes_against_count
   end
 end

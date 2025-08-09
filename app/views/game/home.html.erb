@@ -15,7 +15,7 @@
           <tbody>
           <% @plays.each do |play| %>
             <tr class="has-text-centered color-background-on-hover">
-              <td><%= play.id %></td>
+              <td><%= play.name || play.id %></td>
               <td><%= play.name_of_current_month %></td>
               <td><%= play.users.count %></td>
               <td><%= play.social_satisfaction.round(2).to_s.gsub('.', ',') %>%</td>
@@ -33,7 +33,7 @@
       <div class="is-hidden-desktop">
         <% @plays.each do |play| %>
           <div class="box mb-3">
-            <p><strong>Numer gry:</strong> <%= play.id %></p>
+            <p><strong>Numer gry:</strong> <%= play.name || play.id %></p>
             <p><strong>Miesiąc gry:</strong> <%= play.name_of_current_month %></p>
             <p><strong>Ilość graczy:</strong> <%= play.users.count %></p>
             <p><strong>Zadowolenie społeczne:</strong> <%= play.social_satisfaction.round(2).to_s.gsub('.', ',') %>%</p>
@@ -64,7 +64,7 @@
       <div class="mt-6">
         <% @invitations.each do |i| %>
           <div class="box">
-            Zaproszenie do gry nr <%= i.play.id %> od gracza
+            Zaproszenie do gry nr <%= i.play.name || i.play.id %> od gracza
             <%= link_to profile_path(i.invitor) do %>
               <%= i.invitor.name %>
             <% end %>

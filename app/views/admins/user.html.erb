@@ -92,7 +92,7 @@
               <tbody>
               <% @user.plays.active.each do |play| %>
                 <tr class="color-background-on-hover">
-                  <td><%= play.id %></td>
+                  <td><%= play.name || play.id %></td>
                   <td>
                     <% play.users.each do |u| %>
                       <% if u == @user %>
@@ -114,7 +114,7 @@
           <div class="is-hidden-desktop">
             <% @user.plays.active.each do |play| %>
               <div class="box color-background-on-hover mb-3">
-                <p><strong>Id:</strong> <%= play.id %></p>
+                <p><strong>Id:</strong> <%= play.name || play.id %></p>
                 <p><strong>Gracze:</strong>
                   <% play.users.each do |u| %>
                     <% if u == @user %>
@@ -154,7 +154,7 @@
               <tbody>
               <% @user.plays.done.each do |play| %>
                 <tr class="color-background-on-hover">
-                  <td><%= play.id %></td>
+                  <td><%= play.name || play.id %></td>
                   <td>
                     <% play.users.each do |u| %>
                       <% if u == @user %>
@@ -184,7 +184,7 @@
           <div class="is-hidden-desktop">
             <% @user.plays.done.each do |play| %>
               <div class="box color-background-on-hover mb-3">
-                <p><strong>Id:</strong> <%= play.id %></p>
+                <p><strong>Id:</strong> <%= play.name || play.id %></p>
                 <p><strong>Gracze:</strong>
                   <% play.users.each do |u| %>
                     <% if u == @user %>

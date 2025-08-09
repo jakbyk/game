@@ -21,7 +21,7 @@
             <tbody>
             <% @plays.each do |play| %>
               <tr class="color-background-on-hover">
-                <td><%= play.id %></td>
+                <td><%= play.name || play.id %></td>
                 <td>
                   <% play.users.each do |u| %>
                     <p><%= link_to admin_user_path(u) do %><%= u.name %><% end %></p>
@@ -47,7 +47,7 @@
         <div class="is-hidden-desktop">
           <% @plays.each do |play| %>
             <div class="box mb-4">
-              <p><strong>Id:</strong> <%= play.id %></p>
+              <p><strong>Id:</strong> <%= play.name || play.id %></p>
 
               <p><strong>Gracze:</strong><br>
                 <% play.users.each do |u| %>

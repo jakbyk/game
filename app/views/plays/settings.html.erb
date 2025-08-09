@@ -1,0 +1,32 @@
+<%= render 'shared/plays' do %>
+  <h2 class="title is-5 has-text-centered mt-6">Ustawienia gry</h2>
+
+  <%= form_with url: play_settings_path(@play), method: :patch do |f| %>
+    <div class="field">
+      <%= label_tag :name, "Nazwa gry (drużyny)" %>
+      <%= text_field_tag :name, nil, class: "input", placeholder: "np. Najlepsi gracze w galaktyce", value: @play.name %>
+    </div>
+    <div class="field">
+      <%= label_tag :minutes_for_voting, "Czas na oddanie głosu" %>
+      <%= f.select :minutes_for_voting,
+                   [
+                     ["brak limitu czasowego", 0],
+                     ["5 minut", 5],
+                     ["10 minut", 10],
+                     ["15 minut", 15],
+                     ["30 minut", 30],
+                     ["1 godzina", 60],
+                     ["2 godziny", 120],
+                     ["4 godziny", 240],
+                     ["12 godzin", 720],
+                     ["1 doba", 1440],
+                     ["2 doby", 2880]
+                   ],
+                   { selected: @play.minutes_for_voting },
+                   { class: "input" } %>
+    </div>
+    <div class="mt-4">
+      <%= submit_tag "Zapisz", class: "button is-success" %>
+    </div>
+  <% end %>
+<% end %>

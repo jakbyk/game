@@ -8,10 +8,25 @@ class GameBudgetChangeVote < ApplicationRecord
   scope :against, -> { where(vote: false) }
 
   after_save :check_for_applying
+  after_save :check_for_expired_changes
 
   private
 
   def check_for_applying
     game_budget_change.apply_if_should
+  end
+
+  def check_for_expired_changes
+    Play.active.where.not(minutes_for_voting: 0).each do |game|
+      voting_limit = game.minutes_for_voting
+
+      expired_changes = GameBudgetChange.where(is_votable: true, play: game)
+                                        .where("created_at <= ?", Time.current - voting_limit.minutes)
+
+      expired_changes.find_each do |change|
+        puts "expired change is #{change.inspect}"
+        change.apply_to_game
+      end
+    end
   end
 end

@@ -69,6 +69,15 @@
         </li>
       <% end %>
 
+      <% if current_user.allowed_to_change_settings_to_game?(@play) %>
+        <li>
+          <%= link_to play_settings_path(play_id: @play.id),
+                      class: "button is-light is-flex is-vcentered is-fullwidth" do %>
+            <%= icon_tag("cog-6-tooth", options: { class: "menu-icon" }) %> Ustawienia gry
+          <% end %>
+        </li>
+      <% end %>
+
       <% if current_user.allowed_to_archive_game?(@play) %>
         <li>
           <%= button_to play_archive_path(play_id: @play.id),

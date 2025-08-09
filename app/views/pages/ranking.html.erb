@@ -24,6 +24,12 @@
                   <p class="subtitle is-5 has-text-success">
                     <strong><%= play.social_satisfaction.round(2) %>%</strong>
                   </p>
+                  <% if play.name %>
+                    <p class="has-text-centered has-text-grey is-7 is-paddingless is-marginless">
+                      Nazwa drużyny:
+                    </p>
+                    <p class="is-size-4 has-text-weight-semibold"><%= play.name %></p>
+                  <% end %>
                   <p class="is-size-6 has-text-weight-semibold mb-2">Gracze:</p>
                   <% play.users.each do |user| %>
                     <p class="has-text-centered is-marginless">
@@ -46,7 +52,7 @@
               <tr>
                 <th>Miejsce</th>
                 <th>Wynik (%)</th>
-                <th>Gracze</th>
+                <th>Nazwa drużyny/gracze</th>
               </tr>
               </thead>
               <tbody>
@@ -55,15 +61,19 @@
                   <td><%= index + 4 %></td>
                   <td><%= play.social_satisfaction.round(2) %>%</td>
                   <td>
-                    <p>
-                      <% play.users.each_with_index do |user, i| %>
-                        <% if i > 0 %>,
+                    <% if play.name %>
+                      <p><%= play.name %></p>
+                    <% else %>
+                      <p>
+                        <% play.users.each_with_index do |user, i| %>
+                          <% if i > 0 %>,
+                          <% end %>
+                          <%= link_to profile_path(user) do %>
+                            <%= user.name %>
+                          <% end %>
                         <% end %>
-                        <%= link_to profile_path(user) do %>
-                          <%= user.name %>
-                        <% end %>
-                      <% end %>
-                    </p>
+                      </p>
+                    <% end %>
                   </td>
                 </tr>
               <% end %>
@@ -85,13 +95,14 @@
               <th>Stan gry</th>
               <th>Miesiąc gry</th>
               <th>Zadowolenie społeczne (%)</th>
-              <th>Gracze</th>
+              <th>Nazwa drużyny/gracze</th>
             </tr>
             </thead>
             <tbody>
             <% @almost_done.each do |play| %>
               <tr class="color-background-on-hover">
-                <td><% if play.result == "win" %>
+                <td>
+                  <% if play.result == "win" %>
                     <%= icon_tag("face-smile", options: { class: "is-success" }) %>
                   <% elsif play.result == "defeat" %>
                     <%= icon_tag("face-frown", options: { class: "is-danger" }) %>
@@ -101,15 +112,19 @@
                 <td><%= play.name_of_current_month %></td>
                 <td><%= play.social_satisfaction.round(2) %>%</td>
                 <td>
-                  <p>
-                    <% play.users.each_with_index do |user, i| %>
-                      <% if i > 0 %>,
+                  <% if play.name %>
+                    <p><%= play.name %></p>
+                  <% else %>
+                    <p>
+                      <% play.users.each_with_index do |user, i| %>
+                        <% if i > 0 %>,
+                        <% end %>
+                        <%= link_to profile_path(user) do %>
+                          <%= user.name %>
+                        <% end %>
                       <% end %>
-                      <%= link_to profile_path(user) do %>
-                        <%= user.name %>
-                      <% end %>
-                    <% end %>
-                  </p>
+                    </p>
+                  <% end %>
                 </td>
               </tr>
             <% end %>

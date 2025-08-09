@@ -47,6 +47,8 @@ class Play < ApplicationRecord
 
   validate :only_one_of_archived_or_finished
   validates :current_month, inclusion: { in: (0..48) }
+  validates :name, uniqueness: true, allow_blank: true
+  validates :minutes_for_voting, inclusion: { in: [ 0, 5, 10, 15, 30, 60, 120, 240, 720, 1440, 2880 ] }
 
   def archive(user)
     return unless user.is_admin? || play_users.find_by(user: user).is_leader

@@ -76,6 +76,10 @@ class User < ApplicationRecord
     PlayUser.find_by(user: self, play: play)&.is_leader
   end
 
+  def allowed_to_change_settings_to_game?(play)
+    PlayUser.find_by(user: self, play: play)&.is_leader
+  end
+
   def friend_users
     sent = sent_friendships.where(status: "active").includes(:receiver).map(&:receiver)
     received = received_friendships.where(status: "active").includes(:sender).map(&:sender)
