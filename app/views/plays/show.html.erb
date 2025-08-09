@@ -31,9 +31,29 @@
                            end
           %>
 
-          <div class="box mb-5" style="font-family: 'Merriweather', Georgia, serif;" data-map-target="event" data-region-id="<%= play_event.region_id if params["map_id"].blank? %>">
-            <div class="is-size-7 has-text-grey has-text-right">
-              <p><%= play_event.decorate.name_of_month %></p>
+          <div class="box mb-5" style="font-family: 'Merriweather', Georgia, serif; <%= "background-color: rgba(128, 128, 128, 0.1);" if outcome %>" data-map-target="event" data-region-id="<%= play_event.region_id if params["map_id"].blank? %>">
+            <div class="is-size-7 is-flex is-justify-content-space-between">
+              <% if play_event.event.budget_change != 0 %>
+                <% if play_event.event.is_adding_to_budget %>
+                  <span>Wymagana kwota: <%= play_event.event.decorate.formatted_budget_change %></span>
+                <% else %>
+                  <span>Możliwa oszczędność: <%= play_event.event.decorate.formatted_budget_change %></span>
+                <% end %>
+              <% end %>
+              <% if play_event.event.budget_reserve_change != 0 %>
+                <% if play_event.event.need_increase_budget_reserve %>
+                  <span>Wpływ do rezerwy: <%= play_event.event.decorate.formatted_budget_reserve_change %></span>
+                <% else %>
+                  <span>Potrącono z rezerwy: <%= play_event.event.decorate.formatted_budget_reserve_change %></span>
+                <% end %>
+              <% end %>
+              <% if play_event.potential_increase_of_satisfaction %>
+                <span class="tag is-success is-light">+<%= play_event.potential_increase_of_satisfaction.to_i %></span>
+              <% end %>
+              <% if play_event.potential_decrease_of_satisfaction %>
+                <span class="tag is-danger is-light">-<%= play_event.potential_decrease_of_satisfaction.to_i %></span>
+              <% end %>
+              <span class="has-text-grey"><%= play_event.decorate.name_of_month %></span>
             </div>
             <div class="is-flex is-align-items-flex-start is-justify-content-space-between">
               <h2 class="title is-5 mb-2 mr-4" style="word-break: break-word; flex: 1 1 auto;">
