@@ -85,6 +85,6 @@ class AdminsController < ApplicationController
   end
 
   def change_params
-    params.require(:change_proposal).permit(:content, :event_id, :title, :description, :positive_description, :negative_description, :budget_name, :budget_change, :is_adding_to_budget, :budget_reserve_change, :need_increase_budget_reserve, :region, :frequency)
+    params.require(:change_proposal).permit(:content, :event_id, :title, :description, :positive_description, :negative_description, :budget_name, :budget_change, :is_adding_to_budget, :budget_reserve_change, :need_increase_budget_reserve, :region, :frequency, :negative_title, :positive_title)
   end
 end

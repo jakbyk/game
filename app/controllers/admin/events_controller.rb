@@ -34,6 +34,6 @@ class Admin::EventsController < ApplicationController
   private
 
   def event_params
-    params[:event].permit(:title, :description, :positive_description, :negative_description, :budget_name, :budget_change, :is_adding_to_budget, :budget_reserve_change, :need_increase_budget_reserve, :region, :frequency)
+    params[:event].permit(:title, :description, :positive_description, :negative_description, :budget_name, :budget_change, :is_adding_to_budget, :budget_reserve_change, :need_increase_budget_reserve, :region, :frequency, :negative_title, :positive_title)
   end
 end
