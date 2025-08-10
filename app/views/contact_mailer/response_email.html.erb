@@ -1,15 +1,35 @@
 <!DOCTYPE html>
 <html>
-<body style="font-family: Arial, sans-serif; line-height: 1.5; background-color: #f9f9f9; padding: 20px;">
-<h2 style="color: #363636;">Gra o Polskę</h2>
-<h2>Odpowiedź od twórców</h2>
+<body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px; margin: 0;">
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+  <tr>
+    <td align="center">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+        <tr>
+          <td style="padding: 30px; text-align: center; background-color: #3273dc; color: white;">
+            <h1 style="margin: 0; font-size: 24px;">Gra o Polskę</h1>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 30px;">
+            <h2 style="color: #363636; margin-top: 0;">Odpowiedź od twórców</h2>
 
-<p>Hej, ostatnio dostaliśmy od Ciebie wiadomość:</p>
-<%= raw rich_text_sanitize(@contact.message).gsub("\n", "<br>") %>
+            <p>Hej, ostatnio dostaliśmy od Ciebie wiadomość:</p>
+            <div style="background-color: #f9f9f9; padding: 15px; border-left: 4px solid #3273dc; margin-bottom: 20px;">
+              <%= raw rich_text_sanitize(@contact.message).gsub("\n", "<br>") %>
+            </div>
 
-<p>W związku z tym przesyłamy odpowiedź:</p>
-<%= raw rich_text_sanitize(@message).gsub("\n", "<br>") %>
+            <p>W związku z tym przesyłamy odpowiedź:</p>
+            <div style="background-color: #f0f8ff; padding: 15px; border-left: 4px solid #00d1b2; margin-bottom: 20px;">
+              <%= raw rich_text_sanitize(@message).gsub("\n", "<br>") %>
+            </div>
 
-<p>Pozdrawiamy, twórcy gry "Gra o Polskę"</p>
+            <p>Pozdrawiamy,<br>Twórcy gry „<a href="https://www.graopolske.pl">Gra o Polskę</a>”</p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
 </body>
 </html>
