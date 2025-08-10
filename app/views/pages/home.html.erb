@@ -3,7 +3,7 @@
     <h1 class="title is-2 has-text-centered">Gra o Polskę</h1>
 
     <div class="content">
-      <%= raw rich_text_sanitize(@content) %>
+      <%= raw rich_text_sanitize(@content).gsub("\n", "<br>") %>
     </div>
 
     <div class="content">

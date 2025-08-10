@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_09_100144) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_10_132854) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -93,6 +93,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_09_100144) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["type"], name: "index_ckeditor_assets_on_type"
+  end
+
+  create_table "contact_messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "email_to_respond"
+    t.text "message"
+    t.boolean "is_read", default: false
+    t.uuid "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_contact_messages_on_user_id"
   end
 
   create_table "events", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -218,6 +228,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_09_100144) do
     t.index ["archived_by_id"], name: "index_plays_on_archived_by_id"
   end
 
+  create_table "responses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "contact_message_id", null: false
+    t.uuid "user_id"
+    t.text "message", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contact_message_id"], name: "index_responses_on_contact_message_id"
+    t.index ["user_id"], name: "index_responses_on_user_id"
+  end
+
   create_table "settings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "information_on_the_processing_of_personal_data"
     t.text "regulations"
@@ -254,6 +274,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_09_100144) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "change_proposals", "users"
   add_foreign_key "chats", "plays"
+  add_foreign_key "contact_messages", "users"
   add_foreign_key "friendships", "users", column: "receiver_id"
   add_foreign_key "friendships", "users", column: "sender_id"
   add_foreign_key "game_budget_categories", "plays"
@@ -271,4 +292,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_09_100144) do
   add_foreign_key "play_users", "plays"
   add_foreign_key "play_users", "users"
   add_foreign_key "plays", "users", column: "archived_by_id"
+  add_foreign_key "responses", "contact_messages"
+  add_foreign_key "responses", "users"
 end

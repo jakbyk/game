@@ -1,0 +1,61 @@
+<%= render 'shared/admins' do %>
+  <section class="section">
+    <h2 class="title is-5 has-text-centered">Wiadomość z <%= @contact.created_at&.strftime("%d-%m-%Y %H:%M:%S") %></h2>
+
+
+    <p class="mt-2 mb-2">
+      <b>Status</b>:
+      <% if @contact.is_read %>przeczytana
+      <% else %>nie przeczytana
+      <% end %>
+    </p>
+    <p class="mt-2 mb-2"><b>Wysyłający</b>
+      <% if @contact.user %>: <%= link_to @contact.user.name, admin_user_path(@contact.user) %>
+      <% else %>nie był zalogowany
+      <% end %></p>
+
+    <p class="mt-2 mb-2"><b>Treść:</b></p>
+
+    <div class="is-fullwidth box">
+      <%= raw rich_text_sanitize(@contact.message).gsub("\n", "<br>") %>
+    </div>
+
+    <div class="is-fullwidth has-text-right">
+      <% if @contact.is_read %>
+        <%= button_to admin_contact_mark_un_readed_path(id: @contact.id),
+                      method: :post,
+                      class: "button is-light is-warning" do %>
+          Oznacz jako nie przeczytane
+        <% end %>
+      <% else %>
+        <%= button_to admin_contact_mark_readed_path(id: @contact.id),
+                      method: :post,
+                      class: "button is-light is-success" do %>
+          Oznacz jako przeczytane
+        <% end %>
+      <% end %>
+    </div>
+
+    <% if @contact.responses.any? %>
+      <div class="is-fullwidth">
+        <p><b>Odpowiedzi od nas</b></p>
+        <% @contact.responses.order(created_at: :desc).each do |response| %>
+          <div class="is-fullwidth box">
+            <p><b><%= response.user.name %></b>:</p>
+            <%= raw rich_text_sanitize(response.message).gsub("\n", "<br>") %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= form_with model: @contact.responses.new, url: admin_contact_make_response_path(id: @contact.id), method: :post, local: true do |f| %>
+      <%= render 'shared/wysiwyg', form: f, title: "Odpowiedz", field_name: :message, value: nil %>
+
+      <div class="field mt-4">
+        <div class="control is-flex is-align-items-flex-start is-justify-content-space-between">
+          <%= f.submit "Wyślij odpowiedź mailem", class: "button is-success" %>
+        </div>
+      </div>
+    <% end %>
+  </section>
+<% end %>

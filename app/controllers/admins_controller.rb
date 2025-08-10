@@ -69,6 +69,42 @@ class AdminsController < ApplicationController
     redirect_to admin_changes_path, notice: "Oznaczono propozycję jako nie wdrożoną."
   end
 
+  def contacts
+    @contacts = ContactMessage.to_read
+  end
+
+  def archived_contacts
+    @contacts = ContactMessage.readed
+  end
+
+  def contact
+    @contact = ContactMessage.find_by(id: params[:id])
+    redirect_to admin_contacts_path, warning: "Nie znaleziono takiej wiadomości" unless @contact
+  end
+
+  def mark_readed
+    if ContactMessage.find_by(id: params[:id]).update(is_read: true)
+      return redirect_to admin_contact_path(id: params[:id]), notice: "Oznaczono wiadomość jako przeczytaną"
+    end
+    redirect_to admin_contacts_path, warning: "Coś poszło nie tak"
+  end
+
+  def mark_un_readed
+    if ContactMessage.find_by(id: params[:id]).update(is_read: false)
+      return redirect_to admin_contact_path(id: params[:id]), notice: "Oznaczono wiadomość jako nie przeczytaną"
+    end
+    redirect_to admin_contacts_path, warning: "Coś poszło nie tak"
+  end
+
+  def make_response
+    resp = ContactMessage.find_by(id: params[:id]).responses.new(message: params.dig(:response, :message), user: current_user)
+    if resp.save
+      ContactMailer.response_email(resp).deliver_later
+      return redirect_to admin_contact_path(id: params[:id]), notice: "Pomyślnie odpowiedziano"
+    end
+    redirect_to admin_contacts_path, warning: "Coś poszło nie tak"
+  end
+
   private
 
   def settings_params

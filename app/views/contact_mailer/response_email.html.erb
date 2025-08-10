@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: Arial, sans-serif; line-height: 1.5; background-color: #f9f9f9; padding: 20px;">
+<h2 style="color: #363636;">Gra o Polskę</h2>
+<h2>Odpowiedź od twórców</h2>
+
+<p>Hej, ostatnio dostaliśmy od Ciebie wiadomość:</p>
+<%= raw rich_text_sanitize(@contact.message).gsub("\n", "<br>") %>
+
+<p>W związku z tym przesyłamy odpowiedź:</p>
+<%= raw rich_text_sanitize(@contact.last_response.message).gsub("\n", "<br>") %>
+
+<p>Pozdrawiamy, twórcy gry "Gra o Polskę"</p>
+</body>
+</html>

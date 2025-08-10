@@ -3,7 +3,7 @@
     <h1 class="title is-2 has-text-centered"><%= @title %></h1>
 
     <div class="content">
-      <%= raw @content %>
+      <%= raw rich_text_sanitize(@content).gsub("\n", "<br>") %>
       <% if @title == "Jak grać?" %>
         <div class="columns">
           <div class="column is-3 has-text-centered"></div>
@@ -12,6 +12,31 @@
           </div>
           <div class="column is-3 has-text-centered"></div>
         </div>
+      <% end %>
+      <% if @title == "Kontakt" && @contact %>
+        <%= form_with model: @contact, url: send_contact_path, method: :post, local: true do |f| %>
+          <div class="field  <%= "background-danger" if @contact.errors[:email_to_respond].any? %>">
+            <%= f.label :email_to_respond, "Email do odpowiedzi" %>
+            <%= f.text_field :email_to_respond, class: "input #{'is-danger' if @contact.errors[:email_to_respond].any?}", required: true, value: @contact.email_to_respond, placeholder: "Podaj email na który wyślemy ewentualną wiadomość zwrotną" %>
+            <% @contact.errors[:email_to_respond].each do |error| %>
+              <p class="help is-danger"><%= error %></p>
+            <% end %>
+          </div>
+
+          <div class="field mt-4">
+            <%= f.label :message, "Wiadomość do twórców gry" %>
+            <%= f.text_area :message, placeholder: "Napisz coś do twórców gry", class: "input #{'is-danger' if @contact.errors[:message].any?}" %>
+            <% @contact.errors[:message].each do |error| %>
+              <p class="help is-danger"><%= error %></p>
+            <% end %>
+          </div>
+
+          <div class="field mt-4">
+            <div class="control is-flex is-align-items-flex-start is-justify-content-space-between">
+              <%= f.submit "Wyślij wiadomość", class: "button is-success" %>
+            </div>
+          </div>
+        <% end %>
       <% end %>
     </div>
   </div>

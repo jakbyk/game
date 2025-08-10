@@ -28,6 +28,13 @@ class PagesController < ApplicationController
   def contact
     @content = Setting.first.contact
     @title = "Kontakt"
+    if flash[:cm]
+      @contact = ContactMessage.new(flash[:cm])
+      @contact.valid?
+    else
+      email_to_respond = current_user ? current_user.email : nil
+      @contact = ContactMessage.new(email_to_respond: email_to_respond)
+    end
 
     render "pages/content_page"
   end

@@ -1,0 +1,43 @@
+<%= render 'shared/admins' do %>
+  <section class="section">
+    <h2 class="title is-5 has-text-centered">Nowe wiadomości</h2>
+
+    <p class="has-text-centered mb-4">
+      <%= link_to admin_archived_contacts_path, class: "button is-light" do %>
+        <%= icon_tag("archive-box", options: { class: "menu-icon" }) %>
+        Stare wiadomości
+      <% end %>
+    </p>
+
+    <div class="table-container is-hidden-touch">
+      <table class="table is-fullwidth is-hoverable" style="border-collapse: separate; border-spacing: 0 6px;">
+        <thead>
+        <tr>
+          <th>Email</th>
+          <th>Gracz</th>
+          <th>Wiadomość</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @contacts.each do |contact| %>
+          <tr class="color-background-on-hover">
+            <td><%= contact.email_to_respond %></td>
+            <td>
+              <p>
+                <% if contact.user %>
+                  <%= link_to contact.user.name, admin_user_path(contact.user) %>
+                <% else %>
+                  -
+                <% end %>
+              </p>
+            </td>
+            <td><%= raw rich_text_sanitize(contact.message).gsub("\n", "<br>") %></td>
+            <td><%= link_to "Szczegóły", admin_contact_path(id: contact.id), class: "button is-light" %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+<% end %>

@@ -38,7 +38,7 @@
       </div>
 
       <p class="mt-2"><b>Opis:</b></p>
-      <%= raw rich_text_sanitize(@event.description) %>
+      <%= raw rich_text_sanitize(@event.description).gsub("\n", "<br>") %>
       <div class="field <%= "background-danger" if @proposal.errors[:description].any? %>">
         <%= render 'shared/wysiwyg', form: f, title: "Nowy opis", field_name: :description, value: @proposal.description %>
         <% @proposal.errors[:description].each do |error| %>
@@ -65,13 +65,13 @@
       <%= @event.positive_title %>
 
       <p class="mt-2"><b>Pozytyny wynik:</b></p>
-      <%= raw rich_text_sanitize(@event.positive_description) %>
+      <%= raw rich_text_sanitize(@event.positive_description).gsub("\n", "<br>") %>
 
       <p class="mt-2"><b>Negatywny tytuł:</b></p>
       <%= @event.negative_title %>
 
       <p class="mt-2"><b>Negatywny wynik:</b></p>
-      <%= raw rich_text_sanitize(@event.negative_description) %>
+      <%= raw rich_text_sanitize(@event.negative_description).gsub("\n", "<br>") %>
 
       <p class="mt-2"><b>Oczekiwana zmiana budżetu:</b></p>
       <% if @event.budget_change != 0 %>

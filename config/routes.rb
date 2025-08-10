@@ -61,6 +61,8 @@ Rails.application.routes.draw do
     end
   end
 
+  post :send_contact, to: "contacts#create_contact"
+
   get "admin", to: "admins#index", as: :admin
   get "admin/users", to: "admins#users", as: :admin_users
   get "admin/users/:id", to: "admins#user", as: :admin_user
@@ -73,6 +75,12 @@ Rails.application.routes.draw do
   post "admin/changes/:id", to: "admins#implement_change", as: :admin_implement_change
   delete "admin/changes/:id", to: "admins#not_implement_change", as: :admin_not_implement_change
   patch "admin/update_settings", to: "admins#update_settings", as: :admin_update_settings
+  get "admin/archived_contacts", to: "admins#archived_contacts", as: :admin_archived_contacts
+  get "admin/contacts", to: "admins#contacts", as: :admin_contacts
+  get "admin/contact/:id", to: "admins#contact", as: :admin_contact
+  post "admin/contact/:id/mark_readed", to: "admins#mark_readed", as: :admin_contact_mark_readed
+  post "admin/contact/:id/mark_un_readed", to: "admins#mark_un_readed", as: :admin_contact_mark_un_readed
+  post "admin/contact/:id/make_response", to: "admins#make_response", as: :admin_contact_make_response
 
   namespace :admin do
     resources :events, only: [ :index, :edit, :update, :create, :new ]

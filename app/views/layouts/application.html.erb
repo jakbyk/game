@@ -1,41 +1,41 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= content_for(:title) || "Gra o Polskę" %></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title><%= content_for(:title) || "Gra o Polskę" %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= yield :head %>
+  <%= yield :head %>
 
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-    <script type="module">import "application"</script>
-    <script>window.currentUserId = "<%= current_user&.id %>";</script>
-    <script>window.isAdmin = <%= current_user&.is_admin || "false" %>;</script>
-  </head>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icon.png" type="image/png">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+  <script type="module">import "application"</script>
+  <script>window.currentUserId = "<%= current_user&.id %>";</script>
+  <script>window.isAdmin = <%= current_user&.is_admin || "false" %>;</script>
+</head>
 
-  <body class="is-flex is-flex-direction-column min-vh-100" data-controller="presence">
-  <%= render "layouts/navigation" %>
-  <% flash.each do |key, message| %>
-    <% if message.present? %>
-  <% show = 'warning' %>
-  <% show = 'danger' if key == 'alert' %>
-  <% show = 'success' if key == 'notice' %>
-  <% disappear = show == 'warning' || show == 'success' %>
-      <div class="notification is-<%= show %> <%= disappear ? "auto-hide" : "long-auto-hide" %>"><%= message %></div>
-    <% end %>
+<body class="is-flex is-flex-direction-column min-vh-100" data-controller="presence">
+<%= render "layouts/navigation" %>
+<% flash.to_hash.slice('warning', 'alert', 'notice').each do |key, message| %>
+  <% if message.present? %>
+    <% show = 'warning' %>
+    <% show = 'danger' if key == 'alert' %>
+    <% show = 'success' if key == 'notice' %>
+    <% disappear = show == 'warning' || show == 'success' %>
+    <div class="notification is-<%= show %> <%= disappear ? "auto-hide" : "long-auto-hide" %>"><%= message %></div>
   <% end %>
+<% end %>
 
-  <main class="flex-grow-1">
-    <%= yield %>
-  </main>
-  <%= render "layouts/footer" %>
-  </body>
+<main class="flex-grow-1">
+  <%= yield %>
+</main>
+<%= render "layouts/footer" %>
+</body>
 </html>

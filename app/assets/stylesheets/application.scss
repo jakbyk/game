@@ -291,26 +291,105 @@ div.background-danger {
     transition: fill .25s;
   }
 
-  .satisfaction-background-1  { fill: #FF0000; fill-opacity: 100%; }
-  .satisfaction-background-2  { fill: #FF1900; fill-opacity: 95%; }
-  .satisfaction-background-3  { fill: #FF3200; fill-opacity: 90%; }
-  .satisfaction-background-4  { fill: #FF4C00; fill-opacity: 85%; }
-  .satisfaction-background-5  { fill: #FF6500; fill-opacity: 80%; }
-  .satisfaction-background-6  { fill: #FF7F00; fill-opacity: 75%; }
-  .satisfaction-background-7  { fill: #FF9800; fill-opacity: 70%; }
-  .satisfaction-background-8  { fill: #FFB200; fill-opacity: 65%; }
-  .satisfaction-background-9  { fill: #FFCB00; fill-opacity: 60%; }
-  .satisfaction-background-10 { fill: #FFE500; fill-opacity: 55%; }
-  .satisfaction-background-11 { fill: #F7FF00; fill-opacity: 55%; }
-  .satisfaction-background-12 { fill: #DDFF00; fill-opacity: 60%; }
-  .satisfaction-background-13 { fill: #C4FF00; fill-opacity: 65%; }
-  .satisfaction-background-14 { fill: #AAFF00; fill-opacity: 70%; }
-  .satisfaction-background-15 { fill: #90FF00; fill-opacity: 75%; }
-  .satisfaction-background-16 { fill: #77FF00; fill-opacity: 80%; }
-  .satisfaction-background-17 { fill: #5DFF00; fill-opacity: 85%; }
-  .satisfaction-background-18 { fill: #44FF00; fill-opacity: 90%; }
-  .satisfaction-background-19 { fill: #2AFF00; fill-opacity: 95%; }
-  .satisfaction-background-20 { fill: #10FF00; fill-opacity: 100%; }
+  .satisfaction-background-1 {
+    fill: #FF0000;
+    fill-opacity: 100%;
+  }
+
+  .satisfaction-background-2 {
+    fill: #FF1900;
+    fill-opacity: 95%;
+  }
+
+  .satisfaction-background-3 {
+    fill: #FF3200;
+    fill-opacity: 90%;
+  }
+
+  .satisfaction-background-4 {
+    fill: #FF4C00;
+    fill-opacity: 85%;
+  }
+
+  .satisfaction-background-5 {
+    fill: #FF6500;
+    fill-opacity: 80%;
+  }
+
+  .satisfaction-background-6 {
+    fill: #FF7F00;
+    fill-opacity: 75%;
+  }
+
+  .satisfaction-background-7 {
+    fill: #FF9800;
+    fill-opacity: 70%;
+  }
+
+  .satisfaction-background-8 {
+    fill: #FFB200;
+    fill-opacity: 65%;
+  }
+
+  .satisfaction-background-9 {
+    fill: #FFCB00;
+    fill-opacity: 60%;
+  }
+
+  .satisfaction-background-10 {
+    fill: #FFE500;
+    fill-opacity: 55%;
+  }
+
+  .satisfaction-background-11 {
+    fill: #F7FF00;
+    fill-opacity: 55%;
+  }
+
+  .satisfaction-background-12 {
+    fill: #DDFF00;
+    fill-opacity: 60%;
+  }
+
+  .satisfaction-background-13 {
+    fill: #C4FF00;
+    fill-opacity: 65%;
+  }
+
+  .satisfaction-background-14 {
+    fill: #AAFF00;
+    fill-opacity: 70%;
+  }
+
+  .satisfaction-background-15 {
+    fill: #90FF00;
+    fill-opacity: 75%;
+  }
+
+  .satisfaction-background-16 {
+    fill: #77FF00;
+    fill-opacity: 80%;
+  }
+
+  .satisfaction-background-17 {
+    fill: #5DFF00;
+    fill-opacity: 85%;
+  }
+
+  .satisfaction-background-18 {
+    fill: #44FF00;
+    fill-opacity: 90%;
+  }
+
+  .satisfaction-background-19 {
+    fill: #2AFF00;
+    fill-opacity: 95%;
+  }
+
+  .satisfaction-background-20 {
+    fill: #10FF00;
+    fill-opacity: 100%;
+  }
 
   .region:hover {
     fill: $info;
@@ -477,6 +556,13 @@ body.fullscreen-mode {
   background-color: inherit;
 }
 
+textarea.input {
+  min-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #dbdbdb;
+  padding: 0.5rem;
+}
+
 @media (max-width: 768px) {
   .is-mobile-stack {
     thead {
@@ -537,6 +623,7 @@ body.fullscreen-mode {
     }
   }
 }
+
 .header-stack {
   display: flex;
   flex-direction: column;
