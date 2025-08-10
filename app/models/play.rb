@@ -1,5 +1,5 @@
 class Play < ApplicationRecord
-  START_YEAR = 2025
+  START_YEAR = 2026
   MONTH_NAMES = %w[Styczeń Luty Marzec Kwiecień Maj Czerwiec Lipiec Sierpień Wrzesień Październik Listopad Grudzień].freeze
   REGIONS = {
     "PL32": "Zachodniopomorskie",
@@ -33,6 +33,7 @@ class Play < ApplicationRecord
   after_create :create_chat
   after_create :create_game_budget_categories
   after_create :set_budget_reserve
+  after_create :provide_first_events
 
   scope :archived, -> { where.not(archived_at: nil).order(id: :desc) }
   scope :active, -> { where(archived_at: nil).where(finished_at: nil).order(id: :desc) }
@@ -140,5 +141,9 @@ class Play < ApplicationRecord
 
   def set_budget_reserve
     self.update(budget_reserve: 10_000_000)
+  end
+
+  def provide_first_events
+    PlayProceed.new(self).make_new_events(current_month)
   end
 end

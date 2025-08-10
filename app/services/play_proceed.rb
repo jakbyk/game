@@ -3,52 +3,20 @@ class PlayProceed
     @play = play
   end
 
-  def calculate_potentials(event)
-    return [ nil, nil ] unless event.is_adding_to_budget
-    full_budget = @play.game_budget_categories.sum(&:expected_value)
-    impact_multiplier = 5
-    positive_impact, negative_impact = calculate_impacts
-    positive_impact = impact_multiplier * positive_impact
-    negative_impact = impact_multiplier * negative_impact
-    game_budget = @play.game_budget_categories.find_by(name: event.budget_name)
-    last_seen_multiplier = 250000
-    expected = game_budget.expected_value.to_f + event.budget_change
-    negative_current = game_budget.current_value.to_f
-    positive_current = game_budget.current_value.to_f + event.budget_change
-    positive_important_to_region_multiplier = calculate_important_to_region(game_budget, true)
-    negative_important_to_region_multiplier = calculate_important_to_region(game_budget, false)
-    return [ nil, nil ] if expected.zero?
-
-    positive_percent_diff = (positive_current.to_f - expected.to_f) / expected.to_f
-    negative_percent_diff = (negative_current.to_f - expected.to_f) / expected.to_f
-    budget_share = expected.to_f / full_budget.to_f
-    negative_combo = game_budget.negative_combo
-    positive_combo = game_budget.positive_combo
-    negative_impact = negative_impact.clamp(0, 20)
-    positive_impact = positive_impact.clamp(0, 20)
-    negative_combo = 1 if negative_combo == 0
-    positive_combo = 1 if positive_combo == 0
-    negative_impact = 1 if negative_impact == 0
-    positive_impact = 1 if positive_impact == 0
-    positive = positive_percent_diff.to_f * budget_share.to_f * positive_combo * last_seen_multiplier.to_f * positive_impact.to_f * positive_important_to_region_multiplier.to_f
-    negative = negative_percent_diff.to_f * budget_share.to_f * negative_combo * last_seen_multiplier.to_f * negative_impact.to_f * negative_important_to_region_multiplier.to_f
-    positive = positive.abs
-    negative = negative.abs
-
-    [ positive, negative ]
-  end
-
   def proceed
     current_month = @play.current_month
-    next_month = current_month + 1
-    resolve_previous_events(current_month) if current_month > 0
-    rand(3..6).times do
-      draw_event_for_next_month(next_month)
-    end
+    resolve_previous_events(current_month)
+    make_new_events(current_month + 1)
     proceed_play_to_next_month
     calculate_combo
     calculate_satisfaction
     eliminate_overloaded
+  end
+
+  def make_new_events(month)
+    rand(3..6).times do
+      draw_event_for_next_month(month)
+    end
   end
 
   private
@@ -222,5 +190,40 @@ class PlayProceed
       end
     end
     important_region_multiplier
+  end
+
+  def calculate_potentials(event)
+    return [ nil, nil ] unless event.is_adding_to_budget
+    full_budget = @play.game_budget_categories.sum(&:expected_value)
+    impact_multiplier = 5
+    positive_impact, negative_impact = calculate_impacts
+    positive_impact = impact_multiplier * positive_impact
+    negative_impact = impact_multiplier * negative_impact
+    game_budget = @play.game_budget_categories.find_by(name: event.budget_name)
+    last_seen_multiplier = 250000
+    expected = game_budget.expected_value.to_f + event.budget_change
+    negative_current = game_budget.current_value.to_f
+    positive_current = game_budget.current_value.to_f + event.budget_change
+    positive_important_to_region_multiplier = calculate_important_to_region(game_budget, true)
+    negative_important_to_region_multiplier = calculate_important_to_region(game_budget, false)
+    return [ nil, nil ] if expected.zero?
+
+    positive_percent_diff = (positive_current.to_f - expected.to_f) / expected.to_f
+    negative_percent_diff = (negative_current.to_f - expected.to_f) / expected.to_f
+    budget_share = expected.to_f / full_budget.to_f
+    negative_combo = game_budget.negative_combo
+    positive_combo = game_budget.positive_combo
+    negative_impact = negative_impact.clamp(0, 20)
+    positive_impact = positive_impact.clamp(0, 20)
+    negative_combo = 1 if negative_combo == 0
+    positive_combo = 1 if positive_combo == 0
+    negative_impact = 1 if negative_impact == 0
+    positive_impact = 1 if positive_impact == 0
+    positive = positive_percent_diff.to_f * budget_share.to_f * positive_combo * last_seen_multiplier.to_f * positive_impact.to_f * positive_important_to_region_multiplier.to_f
+    negative = negative_percent_diff.to_f * budget_share.to_f * negative_combo * last_seen_multiplier.to_f * negative_impact.to_f * negative_important_to_region_multiplier.to_f
+    positive = positive.abs
+    negative = negative.abs
+
+    [ positive, negative ]
   end
 end
