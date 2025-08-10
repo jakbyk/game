@@ -1,4 +1,6 @@
 class ContactMailer < ApplicationMailer
+  helper :sanitizer
+
   def response_email(response)
     @contact = response.contact_message
     @message = response.message
