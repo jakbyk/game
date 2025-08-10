@@ -8,7 +8,7 @@
 <%= raw rich_text_sanitize(@contact.message).gsub("\n", "<br>") %>
 
 <p>W związku z tym przesyłamy odpowiedź:</p>
-<%= raw rich_text_sanitize(@contact.last_response.message).gsub("\n", "<br>") %>
+<%= raw rich_text_sanitize(@message).gsub("\n", "<br>") %>
 
 <p>Pozdrawiamy, twórcy gry "Gra o Polskę"</p>
 </body>
