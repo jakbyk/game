@@ -10,6 +10,7 @@
           <th>Status</th>
           <% if current_user.allowed_to_make_leader_to_game?(@play) %>
             <th></th>
+            <th></th>
           <% end %>
         </tr>
         </thead>
@@ -34,10 +35,24 @@
                                   turbo: false,
                                   controller: "confirm",
                                   confirm_target: "confirm",
-                                  message: "Czy na pewno chcesz uczynić gracza #{player.name} liderem?",
+                                  message: "Czy na pewno chcesz uczynić gracza #{player.name} liderem? Spowoduje to, że sam go stracisz.",
                                   action: "confirm#confirm"
                                 } do %>
-                    <%= icon_tag("academic-cap", options: { class: "menu-icon" }) %> Dodaj lidera
+                    <%= icon_tag("academic-cap", options: { class: "menu-icon" }) %> Oddaj lidera
+                  <% end %>
+                </td>
+                <td>
+                  <%= button_to play_remove_player_path(play_id: @play.id, user_id: player.id),
+                                method: :delete,
+                                class: "button is-light is-flex is-vcentered is-fullwidth is-danger",
+                                data: {
+                                  turbo: false,
+                                  controller: "confirm",
+                                  confirm_target: "confirm",
+                                  message: "Czy na pewno chcesz usunąć gracza #{player.name} z tej gry?",
+                                  action: "confirm#confirm"
+                                } do %>
+                    <%= icon_tag("trash", options: { class: "menu-icon" }) %> Usuń gracza
                   <% end %>
                 <% end %>
               </td>

@@ -1,5 +1,5 @@
 class PlaysController < ApplicationController
-  before_action :set_play, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :invite_player, :accept_invitation, :online_users, :make_leader, :how_to_play, :settings, :update_settings ]
+  before_action :set_play, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :invite_player, :accept_invitation, :online_users, :make_leader, :how_to_play, :settings, :update_settings, :remove_player ]
   before_action :fetch_even_if_finished, only: [ :show ]
   before_action :fetch_finished, only: [ :result ]
   before_action :set_chat, only: [ :show, :budgets_descriptions, :budget_changes, :expenses, :players, :how_to_play ]
@@ -10,6 +10,7 @@ class PlaysController < ApplicationController
   before_action :check_create_budget_change, only: [ :create_budget_change ]
   before_action :check_invite, only: [ :invite_player ]
   before_action :check_make_leader, only: [ :make_leader ]
+  before_action :check_remove_player, only: [ :remove_player ]
   before_action :check_settings, only: [ :settings, :update_settings ]
   before_action :player_exists, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :result, :show, :how_to_play ]
   before_action :check_budget_vote, only: [ :budget_vote ]
@@ -140,10 +141,24 @@ class PlaysController < ApplicationController
     if @player
       pu = PlayUser.find_by(user: @player, play: @play)
       if pu.update(is_leader: true)
+        @play.users.where.not(id: @player.id).each do |u|
+          PlayUser.find_by(user: u, play: @play).update(is_leader: false)
+        end
         return redirect_to play_players_path, notice: "Dodano nowego lidera."
       end
     end
     redirect_to play_players_path, alert: "Nie udało się dodać nowego lidera."
+  end
+
+  def remove_player
+    @player = User.find_by(id: params[:user_id])
+    if @player
+      pu = PlayUser.find_by(user: @player, play: @play)
+      if pu.destroy
+        return redirect_to play_players_path, notice: "Usunięto gracza."
+      end
+    end
+    redirect_to play_players_path, alert: "Nie udało się usunąć gracza."
   end
 
   def how_to_play
@@ -249,6 +264,12 @@ class PlaysController < ApplicationController
     return if current_user.allowed_to_make_leader_to_game?(@play)
 
     redirect_to play_path(@play), alert: "Nie możesz dodawać lidera do tej gry."
+  end
+
+  def check_remove_player
+    return if current_user.allowed_to_make_leader_to_game?(@play)
+
+    redirect_to play_path(@play), alert: "Nie możesz usunąć gracza z tej gry."
   end
 
   def check_settings
