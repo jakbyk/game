@@ -42,7 +42,7 @@
                 <% else %>
                   <td colspan="2">
                 <% end %>
-                <%= raw rich_text_sanitize(change.content).gsub("\n", "<br>") %>
+                <%= raw rich_text_sanitize(change.content) %>
                 </td>
                 <% if change.event %>
                   <td>
@@ -136,7 +136,7 @@
               </p>
 
               <p><strong>Dlaczego:</strong></p>
-              <div><%= raw rich_text_sanitize(change.content).gsub("\n", "<br>") %></div>
+              <div><%= raw rich_text_sanitize(change.content) %></div>
 
               <% if change.event %>
                 <p><strong>Co zmienia?</strong></p>

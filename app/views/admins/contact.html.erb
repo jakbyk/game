@@ -42,7 +42,7 @@
         <% @contact.responses.order(created_at: :desc).each do |response| %>
           <div class="is-fullwidth box">
             <p><b><%= response.user.name %></b>:</p>
-            <%= raw rich_text_sanitize(response.message).gsub("\n", "<br>") %>
+            <%= raw rich_text_sanitize(response.message) %>
           </div>
         <% end %>
       </div>

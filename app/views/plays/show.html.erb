@@ -69,7 +69,7 @@
               <span class="icon <%= icon_class %> ml-2" style="flex-shrink: 0;"><%= icon_tag(icon_name) %></span>
             </div>
             <div class="content">
-              <%= raw rich_text_sanitize(description).gsub("\n", "<br>") %>
+              <%= raw rich_text_sanitize(description) %>
             </div>
           </div>
         <% end %>

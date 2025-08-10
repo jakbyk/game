@@ -4,11 +4,11 @@
   </h2>
   <div class="container">
 <% if @play.result == "win" %>
-  <%= raw rich_text_sanitize(@play.social_satisfaction_description).gsub("\n", "<br>") %>
+  <%= raw @play.social_satisfaction_description %>
 <% elsif @play.result == "defeat" %>
-  <%= raw rich_text_sanitize(Setting.first.defeat_description).gsub("\n", "<br>") %>
+  <%= raw Setting.first.defeat_description %>
 <% elsif @play.result == "subjected" %>
-  <%= raw rich_text_sanitize(Setting.first.subjected_description).gsub("\n", "<br>") %>
+  <%= raw Setting.first.subjected_description %>
 <% else %>
   <p>Gra nie została zakończona</p>
 <% end %>

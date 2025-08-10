@@ -21,7 +21,7 @@
 
             <p>W związku z tym przesyłamy odpowiedź:</p>
             <div style="background-color: #f0f8ff; padding: 15px; border-left: 4px solid #00d1b2; margin-bottom: 20px;">
-              <%= raw rich_text_sanitize(@message).gsub("\n", "<br>") %>
+              <%= raw rich_text_sanitize(@message) %>
             </div>
 
             <p>Pozdrawiamy,<br>Twórcy gry „<a href="https://www.graopolske.pl">Gra o Polskę</a>”</p>
