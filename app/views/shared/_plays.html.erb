@@ -94,6 +94,31 @@
           <% end %>
         </li>
       <% end %>
+
+      <% if current_user.is_admin? %>
+        <li>
+          <%= link_to play_preview_events_path(play_id: @play.id),
+                      class: "button is-light is-flex is-vcentered is-fullwidth" do %>
+            <%= icon_tag("eye", options: { class: "menu-icon" }) %> Podgląd wydarzeń
+          <% end %>
+        </li>
+        <li>
+          <%= button_to play_preview_events_path(play_id: @play.id),
+                        method: :get,
+                        params: { outcome: "positive" },
+                        class: "button is-light is-flex is-vcentered is-fullwidth" do %>
+            <%= icon_tag("eye", options: { class: "menu-icon" }) %> Podgląd pozytywnych
+          <% end %>
+        </li>
+        <li>
+          <%= button_to play_preview_events_path(play_id: @play.id),
+                        method: :get,
+                        params: { outcome: "negative" },
+                        class: "button is-light is-flex is-vcentered is-fullwidth" do %>
+            <%= icon_tag("eye", options: { class: "menu-icon" }) %> Podgląd negatywnych
+          <% end %>
+        </li>
+      <% end %>
     </ul>
 
     <turbo-frame id="game_online_users"

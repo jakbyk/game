@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     get "online_users", to: "plays#online_users"
     post "make_leader", to: "plays#make_leader"
     delete "remove_player", to: "plays#remove_player"
+    get "preview_events", to: "plays#preview_events"
   end
 
   resources :archived_plays, only: [ :index, :show ]

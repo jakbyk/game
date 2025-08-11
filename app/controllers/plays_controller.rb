@@ -1,5 +1,5 @@
 class PlaysController < ApplicationController
-  before_action :set_play, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :invite_player, :accept_invitation, :online_users, :make_leader, :how_to_play, :settings, :update_settings, :remove_player ]
+  before_action :set_play, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :invite_player, :accept_invitation, :online_users, :make_leader, :how_to_play, :settings, :update_settings, :remove_player, :preview_events ]
   before_action :fetch_even_if_finished, only: [ :show ]
   before_action :fetch_finished, only: [ :result ]
   before_action :set_chat, only: [ :show, :budgets_descriptions, :budget_changes, :expenses, :players, :how_to_play ]
@@ -14,6 +14,7 @@ class PlaysController < ApplicationController
   before_action :check_settings, only: [ :settings, :update_settings ]
   before_action :player_exists, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :result, :show, :how_to_play ]
   before_action :check_budget_vote, only: [ :budget_vote ]
+  before_action :check_preview_events, only: [ :preview_events ]
 
   def show
     redirect_to play_result_path(play_id: @play.id) if @play.is_finished?
@@ -176,6 +177,20 @@ class PlaysController < ApplicationController
     redirect_to play_settings_path, alert: "Nie udało się zaktualizować ustawień gry. Nazwa gry jest już zajęta."
   end
 
+  def preview_events
+    redirect_to play_result_path(play_id: @play.id) if @play.is_finished?
+
+    @region_name = params[:map_id] ? Play::REGIONS[params[:map_id].to_sym] : nil
+
+    mocked_events = []
+    event_to_be_mocked = @region_name ? Event.where(region: @region_name) : Event.all
+    event_to_be_mocked.each do |event|
+      mocked_events << PlayEvent.new(event: event, play: @play, month: @play.current_month, outcome: params[:outcome])
+    end
+
+    @play_events = mocked_events
+  end
+
   private
 
   def set_play
@@ -276,5 +291,11 @@ class PlaysController < ApplicationController
     return if current_user.allowed_to_change_settings_to_game?(@play)
 
     redirect_to play_path(@play), alert: "Nie masz dostępu do ustawień tej gry."
+  end
+
+  def check_preview_events
+    return if current_user.is_admin?
+
+    redirect_to play_path(@play), alert: "Nie masz dostępu do tej zakładki."
   end
 end
