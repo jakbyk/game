@@ -1,7 +1,9 @@
 <section class="section">
   <div class="container" data-controller="toggle-section">
     <%= form_with model: @proposal, url: changes_path, method: :post, local: true do |f| %>
-      <%= f.hidden_field :event_id, value: @event.id %>
+      <% if @event %>
+        <%= f.hidden_field :event_id, value: @event.id %>
+      <% end %>
       <%= f.hidden_field :is_adding_new_event, value: @proposal.is_adding_new_event %>
 
       <h2 class="title is-5 has-text-centered"><%= @event.title %></h2>
