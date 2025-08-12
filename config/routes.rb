@@ -57,11 +57,7 @@ Rails.application.routes.draw do
     delete "decline_friend", to: "profiles#decline_friend"
   end
 
-  resources "changes", only: [ :index, :show, :create, :new ] do
-    collection do
-      get :info
-    end
-  end
+  resources "changes", only: [ :index, :show, :create, :new ]
 
   post :send_contact, to: "contacts#create_contact"
 

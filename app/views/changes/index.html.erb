@@ -6,14 +6,14 @@
           Zmiany do wydarzeń
         </h2>
 
-        <p class="mb-3">
-          <%= link_to info_changes_path, class: "has-text-link" do %>
+        <p class="mb-3 has-text-centered">
+          <%= link_to asset_path("Instrukcja-dodawania-wydarzeń-w-Grze-o-Polskę.pdf"), target: "_blank", class: "has-text-link" do %>
             <%= icon_tag("info-circle", options: { class: "mr-1" }) %>
             Jak dokonywać zmian? - Instrukcja
           <% end %>
         </p>
 
-        <p>Obecnie istnieje <strong><%= @events.count %></strong> zdarzeń, które mogą wystąpić w grze.</p>
+        <p class="mb-3 has-text-centered">Obecnie istnieje <strong><%= @events.count %></strong> zdarzeń, które mogą wystąpić w grze.</p>
 
         <div class="is-flex is-justify-content-center my-4">
           <%= link_to new_change_path, class: "button is-success is-flex is-vcentered" do %>

@@ -5,8 +5,6 @@ class ChangesController < ApplicationController
     @events = Event.all
   end
 
-  def info; end
-
   def show
     @event = Event.find(params[:id])
     @proposal = ChangeProposal.build(@event.attributes.except("id"))
