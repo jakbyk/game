@@ -5,49 +5,80 @@
         <h2 class="title is-5 has-text-centered">
           Zmiany do wydarzeń
         </h2>
+      </div>
 
+      <div class="column is-12">
         <p class="mb-3 has-text-centered">
           <%= link_to asset_path("Instrukcja-dodawania-wydarzeń-w-Grze-o-Polskę.pdf"), target: "_blank", class: "has-text-link" do %>
             <%= icon_tag("info-circle", options: { class: "mr-1" }) %>
             Jak dokonywać zmian? - Instrukcja
           <% end %>
         </p>
+      </div>
 
-        <p class="mb-3 has-text-centered">Obecnie istnieje <strong><%= @events.count %></strong> zdarzeń, które mogą wystąpić w grze.</p>
-
-        <div class="is-flex is-justify-content-center my-4">
-          <%= link_to new_change_path, class: "button is-success is-flex is-vcentered" do %>
-            <%= icon_tag("plus-circle", options: { class: "menu-icon" }) %> Dodaj propozycję nowego wydarzenia
-          <% end %>
-        </div>
-
-        <table class="table is-fullwidth is-hoverable">
-          <tbody>
-          <% @events.each do |event| %>
-            <tr>
-              <td><strong><%= event.title %></strong></td>
-              <td>
-                <%= link_to change_path(event), class: "button is-light is-small" do %>
-                  Szczegóły
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-          </tbody>
-        </table>
-
-        <hr />
-
-        <%= form_with model: ChangeProposal.new, url: changes_path, method: :post, local: true do |f| %>
-          <%= render 'shared/wysiwyg', form: f, title: "Ogólny pomysł na zmianę", field_name: :content, value: "" %>
-
-          <div class="field mt-4">
-            <div class="control">
-              <%= f.submit "Wyślij propozycję", class: "button is-success" %>
+      <div class="column is-12">
+        <%= form_with url: changes_path, method: :get do |f| %>
+          <div class="columns is-multiline">
+            <div class="column is-12 has-text-centered">
+              <%= f.select :region,
+                           [["Cała Polska", nil]] + Play::REGIONS.values,
+                           { selected: params[:region] },
+                           class: "select" %>
+            </div>
+            <div class="column is-12 has-text-centered">
+              <%= f.select :budget_name,
+                           [["Brak filtrowania kategorii budżetowej", nil]] + BudgetCategory.pluck(:name),
+                           { selected: params[:budget_name] },
+                           class: "select" %>
+            </div>
+            <div class="column is-12 has-text-centered">
+              <%= f.submit "Użyj filtrowania", class: "button is-success mt-2" %>
             </div>
           </div>
         <% end %>
       </div>
     </div>
+
+    <% if @search_all_events %>
+      <p class="mb-3 has-text-centered">Obecnie istnieje <strong><%= @events.count %></strong> zdarzeń, które mogą
+        wystąpić w grze.</p>
+    <% else %>
+      <p class="mb-3 has-text-centered">Znaleziono <strong><%= @events.count %></strong> zdarzeń, które mogą wystąpić w
+        grze i spełniają kryteria
+        wyszukiwania.</p>
+    <% end %>
+
+    <div class="is-flex is-justify-content-center my-4">
+      <%= link_to new_change_path, class: "button is-success is-flex is-vcentered" do %>
+        <%= icon_tag("plus-circle", options: { class: "menu-icon" }) %> Dodaj propozycję nowego wydarzenia
+      <% end %>
+    </div>
+
+    <table class="table is-fullwidth is-hoverable">
+      <tbody>
+      <% @events.each do |event| %>
+        <tr>
+          <td><strong><%= event.title %></strong></td>
+          <td>
+            <%= link_to change_path(event), class: "button is-light is-small" do %>
+              Szczegóły
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <hr/>
+
+    <%= form_with model: ChangeProposal.new, url: changes_path, method: :post, local: true do |f| %>
+      <%= render 'shared/wysiwyg', form: f, title: "Ogólny pomysł na zmianę", field_name: :content, value: "" %>
+
+      <div class="field mt-4">
+        <div class="control">
+          <%= f.submit "Wyślij propozycję", class: "button is-success" %>
+        </div>
+      </div>
+    <% end %>
   </div>
 </section>

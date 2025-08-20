@@ -1,9 +1,8 @@
 class ChangesController < ApplicationController
   before_action :check_tester_status
+  before_action :set_events, only: :index
 
-  def index
-    @events = Event.all
-  end
+  def index; end
 
   def show
     @event = Event.find(params[:id])
@@ -56,5 +55,21 @@ class ChangesController < ApplicationController
 
   def single_change_params
     params.require(:change_proposal).permit(:content)
+  end
+
+  def set_events
+    @search_all_events = true
+    @events = Event
+    if params[:region].present?
+      @events = @events.where(region: params[:region])
+      @search_all_events = false
+    end
+    if params[:budget_name].present?
+      @events = @events.where(budget_name: params[:budget_name])
+      @search_all_events = false
+    end
+    if @search_all_events
+      @events = @events.all
+    end
   end
 end

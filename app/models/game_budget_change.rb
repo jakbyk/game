@@ -64,6 +64,6 @@ class GameBudgetChange < ApplicationRecord
   end
 
   def implement?
-    votes_favor_count > 1 && votes_favor_count >= votes_against_count
+    votes_favor_count >= 1 && votes_favor_count >= votes_against_count
   end
 end
