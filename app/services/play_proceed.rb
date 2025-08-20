@@ -41,7 +41,10 @@ class PlayProceed
     event = nil
     while event == nil
       new_event = Event.take_random
-      event = new_event unless last_10_events_ids.include?(new_event&.id)
+      unless last_10_events_ids.include?(new_event&.id)
+        event = new_event
+        last_10_events_ids << new_event&.id
+      end
     end
     event
   end
