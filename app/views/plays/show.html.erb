@@ -71,14 +71,15 @@
             <div class="content <%= "is-hidden" if outcome %>" data-event-target="description">
               <%= raw rich_text_sanitize(description) %>
               <% if play_event.event.budget_change != 0 %>
-                <hr />
+                <hr/>
                 <div class="columns">
                   <div class="column is-12">
                     <% if play_event.event.is_adding_to_budget %>
-                      Złóż propozycję dodania <%= play_event.event.decorate.formatted_budget_change %> w kategorii
                       <%= form_with url: play_budget_change_path(@play), method: :post, local: true do |f| %>
+                        Złóż propozycję
+                        dodania <%= f.number_field :value, class: "input is-small", placeholder: "Kwota", min: 1, value: play_event.event.budget_change, style: "width: auto;" %>
+                        tys. zł w kategorii
                         <%= f.hidden_field :is_adding, value: true %>
-                        <%= f.hidden_field :value, value: play_event.event.budget_change %>
                         <div class="field has-addons is-justify-content-end">
                           <div class="control is-expanded">
                             <%= f.select :name,
@@ -92,8 +93,10 @@
                         </div>
                       <% end %>
                     <% else %>
-                      Złóż propozycję zaoszczędzenia <%= play_event.event.decorate.formatted_budget_change %> na kategorii
                       <%= form_with url: play_budget_change_path(@play), method: :post, local: true do |f| %>
+                        Złóż propozycję
+                        zaoszczędzenia <%= f.number_field :value, class: "input is-small", placeholder: "Kwota", min: 1, value: play_event.event.budget_change, style: "width: auto;" %>
+                        tys. zł na kategorii
                         <%= f.hidden_field :is_adding, value: false %>
                         <%= f.hidden_field :value, value: play_event.event.budget_change %>
                         <div class="field has-addons is-justify-content-end">
