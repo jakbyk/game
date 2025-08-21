@@ -24,7 +24,6 @@ class GameBudgetChangeVote < ApplicationRecord
                                         .where("created_at <= ?", Time.current - voting_limit.minutes)
 
       expired_changes.find_each do |change|
-        puts "expired change is #{change.inspect}"
         change.apply_to_game
       end
     end
