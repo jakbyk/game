@@ -38,7 +38,7 @@
           <% title = play_event.event.negative_title if outcome == "negative" && play_event.event.negative_title? %>
           <% title = play_event.event.positive_title if outcome == "positive" && play_event.event.positive_title? %>
 
-          <div class="box mb-5" style="font-family: 'Merriweather', Georgia, serif; <%= "background-color: rgba(128, 128, 128, 0.1);" if outcome %>" data-map-target="event" data-region-id="<%= play_event.region_id if params["map_id"].blank? %>">
+          <div class="box mb-5" style="<%= "cursor: pointer; " if outcome %>font-family: 'Merriweather', Georgia, serif; <%= "background-color: rgba(128, 128, 128, 0.1);" if outcome %>" data-map-target="event" data-region-id="<%= play_event.region_id if params["map_id"].blank? %>" data-controller="event" data-action="click->event#toggle" data-event-target="event">
             <div class="is-size-7 is-flex is-justify-content-space-between">
               <% if play_event.event.budget_change != 0 %>
                 <% if play_event.event.is_adding_to_budget %>
@@ -68,8 +68,50 @@
               </h2>
               <span class="icon <%= icon_class %> ml-2" style="flex-shrink: 0;"><%= icon_tag(icon_name) %></span>
             </div>
-            <div class="content">
+            <div class="content <%= "is-hidden" if outcome %>" data-event-target="description">
               <%= raw rich_text_sanitize(description) %>
+              <% if play_event.event.budget_change != 0 %>
+                <hr />
+                <div class="columns">
+                  <div class="column is-12">
+                    <% if play_event.event.is_adding_to_budget %>
+                      Złóż propozycję dodania <%= play_event.event.decorate.formatted_budget_change %> w kategorii
+                      <%= form_with url: play_budget_change_path(@play), method: :post, local: true do |f| %>
+                        <%= f.hidden_field :is_adding, value: true %>
+                        <%= f.hidden_field :value, value: play_event.event.budget_change %>
+                        <div class="field has-addons is-justify-content-end">
+                          <div class="control is-expanded">
+                            <%= f.select :name,
+                                         BudgetCategory.pluck(:name),
+                                         { selected: BudgetCategory.pluck(:name).sample },
+                                         class: "select" %>
+                          </div>
+                          <div class="control">
+                            <%= f.submit "+", class: "button is-success is-small" %>
+                          </div>
+                        </div>
+                      <% end %>
+                    <% else %>
+                      Złóż propozycję zaoszczędzenia <%= play_event.event.decorate.formatted_budget_change %> na kategorii
+                      <%= form_with url: play_budget_change_path(@play), method: :post, local: true do |f| %>
+                        <%= f.hidden_field :is_adding, value: false %>
+                        <%= f.hidden_field :value, value: play_event.event.budget_change %>
+                        <div class="field has-addons is-justify-content-end">
+                          <div class="control is-expanded">
+                            <%= f.select :name,
+                                         BudgetCategory.pluck(:name),
+                                         { selected: BudgetCategory.pluck(:name).sample },
+                                         class: "select" %>
+                          </div>
+                          <div class="control">
+                            <%= f.submit "-", class: "button is-danger is-small" %>
+                          </div>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
             </div>
           </div>
         <% end %>
