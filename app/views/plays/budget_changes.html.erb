@@ -1,7 +1,9 @@
 <%= render 'shared/plays' do %>
-  <h2 class="title is-5 has-text-centered">
-    Rezerwa budżetowa: <%= @play.decorate.formatted_budget_reserve %>
-  </h2>
+  <% if @play.budget_reserve >= 0 %>
+    <h2 class="title is-5 has-text-centered">Rezerwa budżetowa: <%= @play.decorate.formatted_budget_reserve %></h2>
+  <% else %>
+    <h2 class="title is-5 has-text-centered">Zadłużenie budżetu: <span class="is-danger"><%= @play.decorate.formatted_budget_reserve %></span></h2>
+  <% end %>
 
   <% if @active_budget_changes.any? %>
     <div class="table-container budget-table-container">
@@ -28,6 +30,9 @@
 
             <td class="has-text-centered">
               <strong><%= budget_change.name %></strong>
+              <% if budget_change.reason_not_implemented %>
+                <p class="is-danger"><%= budget_change.reason_not_implemented %></p>
+              <% end %>
             </td>
 
             <td class="is-flex is-vcentered is-justify-content-center">
@@ -39,8 +44,10 @@
               <span class="ml-1"><%= budget_change.decorate.formatted_value %></span>
             </td>
 
-            <td class="has-text-centered"><p title="<%= budget_change.votes_favor_names %>"><%= budget_change.votes_favor_count %></p></td>
-            <td class="has-text-centered"><p title="<%= budget_change.votes_against_names %>"><%= budget_change.votes_against_count %></p></td>
+            <td class="has-text-centered">
+              <p title="<%= budget_change.votes_favor_names %>"><%= budget_change.votes_favor_count %></p></td>
+            <td class="has-text-centered">
+              <p title="<%= budget_change.votes_against_names %>"><%= budget_change.votes_against_count %></p></td>
 
 
             <td class="has-text-centered">
@@ -107,8 +114,10 @@
               <% end %>
               <span class="ml-1"><%= budget_change.decorate.formatted_value %></span>
             </td>
-            <td class="has-text-centered"><p title="<%= budget_change.votes_favor_names %>"><%= budget_change.votes_favor_count %></p></td>
-            <td class="has-text-centered"><p title="<%= budget_change.votes_against_names %>"><%= budget_change.votes_against_count %></p></td>
+            <td class="has-text-centered">
+              <p title="<%= budget_change.votes_favor_names %>"><%= budget_change.votes_favor_count %></p></td>
+            <td class="has-text-centered">
+              <p title="<%= budget_change.votes_against_names %>"><%= budget_change.votes_against_count %></p></td>
           </tr>
           </tbody>
         <% end %>

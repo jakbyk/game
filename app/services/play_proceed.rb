@@ -5,6 +5,7 @@ class PlayProceed
 
   def proceed
     current_month = @play.current_month
+    check_budget_reserve_influence
     resolve_previous_events(current_month)
     make_new_events(current_month + 1)
     proceed_play_to_next_month
@@ -159,6 +160,35 @@ class PlayProceed
       @play.update!(finished_at: Time.now)
     end
     @play.update!(social_satisfaction: new_satisfaction)
+  end
+
+  def check_budget_reserve_influence
+    if @play.budget_reserve < 0
+      change = calculate_satisfaction_reduction(@play.budget_reserve.abs)
+      puts "fgndsuigfbdsihifjosd"
+      puts "fgndsuigfbdsihifjosd change: #{change}"
+      new_satisfaction = @play.social_satisfaction.to_f
+      puts "fgndsuigfbdsihifjosd new_satisfaction: #{new_satisfaction}"
+      new_satisfaction -= change
+      new_satisfaction = new_satisfaction.round(5).clamp(0, 99.99)
+      puts "fgndsuigfbdsihifjosd new_satisfaction: #{new_satisfaction}"
+      if new_satisfaction < 10
+        @play.update!(finished_at: Time.now)
+      end
+      @play.update!(social_satisfaction: new_satisfaction)
+    end
+  end
+
+  def calculate_satisfaction_reduction(n)
+    return 0.01 if n <= 1
+    return 100 if n >= 10_000_000
+
+    min_val = 0.01
+    max_val = 100.0
+    alpha = 0.6
+
+    ratio = (n - 1).to_f / (10_000_000.0 - 1)
+    (min_val + (max_val - min_val) * (ratio ** alpha))
   end
 
   def was_last_exists(game_budget)

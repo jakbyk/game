@@ -1,5 +1,9 @@
 <%= render 'shared/plays' do %>
-  <h2 class="title is-5 has-text-centered">Rezerwa budżetowa: <%= @play.decorate.formatted_budget_reserve %></h2>
+  <% if @play.budget_reserve >= 0 %>
+    <h2 class="title is-5 has-text-centered">Rezerwa budżetowa: <%= @play.decorate.formatted_budget_reserve %></h2>
+  <% else %>
+    <h2 class="title is-5 has-text-centered">Zadłużenie budżetu: <span class="is-danger"><%= @play.decorate.formatted_budget_reserve %></span></h2>
+  <% end %>
 
   <div class="table-container" style="overflow-x: auto;">
     <table class="table is-fullwidth" style="width: 100%; border-collapse: separate; border-spacing: 0 6px; min-width: 700px;">

@@ -4,7 +4,11 @@
       <h2 class="title is-5 has-text-centered mt-6">
         Zadowolenie społeczne <%= @play.social_satisfaction.round(2).to_s.gsub('.', ',') %>%
       </h2>
-      <h2 class="title is-5 has-text-centered">Rezerwa budżetowa: <%= @play.decorate.formatted_budget_reserve %></h2>
+      <% if @play.budget_reserve >= 0 %>
+        <h2 class="title is-5 has-text-centered">Rezerwa budżetowa: <%= @play.decorate.formatted_budget_reserve %></h2>
+      <% else %>
+        <h2 class="title is-5 has-text-centered">Zadłużenie budżetu: <span class="is-danger"><%= @play.decorate.formatted_budget_reserve %></span></h2>
+      <% end %>
       <% unless params["map_id"].blank? %>
         <p class="has-text-centered">
           <%= link_to play_preview_events_path(@play), class: "button is-light mt-2 mb-2" do %>
