@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   get :online_users, to: "users#online"
 
   resources :plays, only: [ :show, :create, :destroy ] do
+    get "previous_events", to: "plays#previous_events"
     get "budgets_descriptions", to: "plays#budgets_descriptions"
     delete "archive", to: "plays#archive"
     patch "proceed", to: "plays#proceed"

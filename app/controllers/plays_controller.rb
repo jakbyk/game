@@ -1,8 +1,8 @@
 class PlaysController < ApplicationController
-  before_action :set_play, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :invite_player, :accept_invitation, :online_users, :make_leader, :how_to_play, :settings, :update_settings, :remove_player, :preview_events ]
+  before_action :set_play, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :invite_player, :accept_invitation, :online_users, :make_leader, :how_to_play, :settings, :update_settings, :remove_player, :preview_events, :previous_events ]
   before_action :fetch_even_if_finished, only: [ :show ]
   before_action :fetch_finished, only: [ :result ]
-  before_action :set_chat, only: [ :show, :budgets_descriptions, :budget_changes, :expenses, :players, :how_to_play ]
+  before_action :set_chat, only: [ :show, :budgets_descriptions, :budget_changes, :expenses, :players, :how_to_play, :previous_events ]
   before_action :check_allowed, only: [ :create ]
   before_action :check_delete, only: [ :destroy ]
   before_action :check_archive, only: [ :archive ]
@@ -12,7 +12,7 @@ class PlaysController < ApplicationController
   before_action :check_make_leader, only: [ :make_leader ]
   before_action :check_remove_player, only: [ :remove_player ]
   before_action :check_settings, only: [ :settings, :update_settings ]
-  before_action :player_exists, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :result, :show, :how_to_play ]
+  before_action :player_exists, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :result, :show, :how_to_play, :previous_events ]
   before_action :check_budget_vote, only: [ :budget_vote ]
   before_action :check_preview_events, only: [ :preview_events ]
 
@@ -21,7 +21,7 @@ class PlaysController < ApplicationController
 
     @region_name = params[:map_id] ? Play::REGIONS[params[:map_id].to_sym] : nil
 
-    @play_events = @region_name ? @play.play_events.joins(:event).where(events: { region: @region_name }).limit(20) : @play.play_events.limit(50)
+    @play_events = @region_name ? @play.play_events.joins(:event).where(events: { region: @region_name }).limit(20) : @play.play_events.where(month: @play.current_month)
   end
 
   def create
@@ -38,6 +38,10 @@ class PlaysController < ApplicationController
   def destroy
     @play.destroy
     redirect_to game_home_path, notice: "Gra została usunięta."
+  end
+
+  def previous_events
+    @play_events = @play.play_events.joins(:event)
   end
 
   def budgets_descriptions

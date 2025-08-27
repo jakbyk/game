@@ -287,8 +287,11 @@ div.background-danger {
     fill: #fff;
     stroke: #000;
     stroke-width: 0.8;
-    cursor: pointer;
     transition: fill .25s;
+  }
+
+  .region-clickable {
+    cursor: pointer;
   }
 
   .satisfaction-background-1 {

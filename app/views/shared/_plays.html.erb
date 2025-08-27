@@ -34,6 +34,11 @@
         <% end %>
       </li>
       <li>
+        <%= link_to play_previous_events_path(@play), class: "button is-light is-flex is-vcentered" do %>
+          <%= icon_tag("calendar-days", options: { class: "menu-icon" }) %>Poprzednie wiadomości
+        <% end %>
+      </li>
+      <li>
         <%= link_to play_expenses_path(@play), class: "button is-light is-flex is-vcentered" do %>
           <%= icon_tag("clipboard-document-list", options: { class: "menu-icon" }) %>Stan budżetu
         <% end %>

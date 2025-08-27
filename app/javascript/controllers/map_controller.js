@@ -25,6 +25,9 @@ export default class extends Controller {
 
                 document.querySelectorAll("#map svg [name]").forEach(path => {
                     path.classList.add("region");
+                    if (this.mapTarget.dataset.clickable === "true") {
+                        path.classList.add("region-clickable");
+                    }
                     path.classList.add(path.id);
 
                     path.classList.add("satisfaction-background-" + regionsSatisfaction[path.id])
@@ -48,14 +51,16 @@ export default class extends Controller {
                         tooltip.style.opacity = 0;
                     });
 
-                    path.addEventListener("click", () => {
-                        const myId = path.getAttribute("id");
-                        const myName = path.getAttribute("name");
-                        Turbo.visit("?map_id=" + myId);
-                    });
+                    if (this.mapTarget.dataset.clickable === "true") {
+                        path.addEventListener("click", () => {
+                            const myId = path.getAttribute("id");
+                            const myName = path.getAttribute("name");
+                            Turbo.visit("?map_id=" + myId);
+                        });
+                    }
                 });
                 this.eventTargets.forEach(box => {
-                    if (box.dataset.regionId){
+                    if (box.dataset.regionId) {
                         box.addEventListener("mouseenter", () => {
                             document.querySelector(`#map svg #${box.dataset.regionId}`).classList.add('active');
                         });
@@ -68,7 +73,7 @@ export default class extends Controller {
                 this.setNewsColumnHeight();
                 window.addEventListener("resize", () => this.setNewsColumnHeight());
                 document.querySelectorAll('a.resize-button').forEach(button => {
-                    button.addEventListener("click", () =>{
+                    button.addEventListener("click", () => {
                         this.setNewsColumnHeight();
                     })
                 })
@@ -80,10 +85,10 @@ export default class extends Controller {
         if (!this.hasWrapperTarget || !this.hasNewsColumnTarget) return
 
         let mapHeight = this.wrapperTarget.offsetHeight
-        if (document.querySelector('#inner-window').offsetHeight > this.wrapperTarget.offsetHeight){
+        if (document.querySelector('#inner-window').offsetHeight > this.wrapperTarget.offsetHeight) {
             mapHeight = document.querySelector('#inner-window').offsetHeight
         }
-        if(mapHeight > 700){
+        if (mapHeight > 700) {
             mapHeight = 700
         }
 

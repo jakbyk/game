@@ -1,0 +1,92 @@
+<% outcome = play_event.outcome %>
+<% icon_name = outcome == "positive" ? "face-smile" : outcome == "negative" ? "face-frown" : "face-meh" %>
+<% icon_class = outcome == "positive" ? "has-text-success" : outcome == "negative" ? "has-text-danger" : "has-text-grey" %>
+<% description = case outcome
+                 when "positive" then play_event.event.positive_description
+                 when "negative" then play_event.event.negative_description
+                 else play_event.event.description
+                 end
+%>
+<% title = play_event.event.title %>
+<% title = play_event.event.negative_title if outcome == "negative" && play_event.event.negative_title? %>
+<% title = play_event.event.positive_title if outcome == "positive" && play_event.event.positive_title? %>
+
+<div class="box mb-5" style="cursor: pointer; font-family: 'Merriweather', Georgia, serif; <%= "background-color: rgba(128, 128, 128, 0.1);" if outcome %>" data-map-target="event" data-region-id="<%= play_event.region_id if params["map_id"].blank? %>" data-controller="event" data-action="click->event#toggle" data-event-target="event">
+  <div class="is-size-7 is-flex is-justify-content-space-between">
+    <% if play_event.event.budget_change != 0 %>
+      <% if play_event.event.is_adding_to_budget %>
+        <span>Wymagana kwota: <%= play_event.event.decorate.formatted_budget_change %></span>
+      <% else %>
+        <span>Możliwa oszczędność: <%= play_event.event.decorate.formatted_budget_change %></span>
+      <% end %>
+    <% end %>
+    <% if play_event.event.budget_reserve_change != 0 %>
+      <% if play_event.event.need_increase_budget_reserve %>
+        <span>Wpływ do rezerwy: <%= play_event.event.decorate.formatted_budget_reserve_change %></span>
+      <% else %>
+        <span>Potrącono z rezerwy: <%= play_event.event.decorate.formatted_budget_reserve_change %></span>
+      <% end %>
+    <% end %>
+    <% if play_event.potential_increase_of_satisfaction %>
+      <span class="tag is-success is-light"><%= PlayEvent.name_of_potential(play_event.potential_increase_of_satisfaction.to_i) %></span>
+    <% end %>
+    <% if play_event.potential_decrease_of_satisfaction %>
+      <span class="tag is-danger is-light"><%= PlayEvent.name_of_potential(play_event.potential_decrease_of_satisfaction.to_i) %></span>
+    <% end %>
+    <span class="has-text-grey"><%= play_event.decorate.name_of_month %></span>
+  </div>
+  <div class="is-flex is-align-items-flex-start is-justify-content-space-between">
+    <h2 class="title is-5 mb-2 mr-4" style="word-break: break-word; flex: 1 1 auto;">
+      <%= title %>
+    </h2>
+    <span class="icon <%= icon_class %> ml-2" style="flex-shrink: 0;"><%= icon_tag(icon_name) %></span>
+  </div>
+  <div class="content is-hidden" data-event-target="description">
+    <%= raw rich_text_sanitize(description) %>
+    <% if play_event.event.budget_change != 0 %>
+      <hr/>
+      <div class="columns">
+        <div class="column is-12">
+          <% if play_event.event.is_adding_to_budget %>
+            <%= form_with url: play_budget_change_path(@play), method: :post, local: true do |f| %>
+              Złóż propozycję
+              dodania <%= f.number_field :value, class: "input is-small", placeholder: "Kwota", min: 1, value: play_event.event.budget_change, style: "width: auto;" %>
+              tys. zł w kategorii
+              <%= f.hidden_field :is_adding, value: true %>
+              <div class="field has-addons is-justify-content-end">
+                <div class="control is-expanded">
+                  <%= f.select :name,
+                               [["Wybierz kategorię", nil]] + BudgetCategory.pluck(:name),
+                               { selected: ["Wybierz kategorię", nil] },
+                               class: "select" %>
+                </div>
+                <div class="control">
+                  <%= f.submit "+", class: "button is-success is-small" %>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <%= form_with url: play_budget_change_path(@play), method: :post, local: true do |f| %>
+              Złóż propozycję
+              zaoszczędzenia <%= f.number_field :value, class: "input is-small", placeholder: "Kwota", min: 1, value: play_event.event.budget_change, style: "width: auto;" %>
+              tys. zł na kategorii
+              <%= f.hidden_field :is_adding, value: false %>
+              <%= f.hidden_field :value, value: play_event.event.budget_change %>
+              <div class="field has-addons is-justify-content-end">
+                <div class="control is-expanded">
+                  <%= f.select :name,
+                               [["Wybierz kategorię", nil]] + BudgetCategory.pluck(:name),
+                               { selected: ["Wybierz kategorię", nil] },
+                               class: "select" %>
+                </div>
+                <div class="control">
+                  <%= f.submit "-", class: "button is-danger is-small" %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
