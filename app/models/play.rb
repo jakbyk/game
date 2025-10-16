@@ -140,7 +140,7 @@ class Play < ApplicationRecord
   end
 
   def set_budget_reserve
-    self.update(budget_reserve: 10_000_000)
+    self.update(budget_reserve: 2_500_000)
   end
 
   def provide_first_events
