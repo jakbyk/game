@@ -41,19 +41,12 @@
         <p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp;Udział w Turnieju jest bezpłatny.</p>
       </div>
       <div class="column is-12 has-text-centered">
-        <%= link_to asset_path("Regulamin-Turnieju-Gra-o-Polskę.pdf"), target: "_blank", class: "button is-light" do %>
+        <%= link_to asset_path("Regulamin-Turnieju-Gra-o-Polskę.pdf"), target: "_blank", class: "button is-success" do %>
           Regulamin turnieju
         <% end %>
       </div>
       <div class="column is-12">
         <h2 class="title is-5 has-text-centered">Formularz zgłoszeniowy</h2>
-      </div>
-      <div class="column is-12 has-text-centered">
-        <%= link_to asset_path("Formularz-zgłoszeniowy-do-Turnieju-GOP.pdf"), target: "_blank", class: "button is-light" do %>
-          Formularz do pobrania
-        <% end %>
-        <p>Wypełnione formularze prosimy odsyłać mailowo na adres e-mail: stowarzyszenie.novum@gmail.com</p>
-        <p>Lub wypełnić wersję online poniżej</p>
       </div>
       <div class="column is-12" data-controller="tournament-toggle">
         <%= form_with url: tournament_registration_create_path, method: :post, data: { turbo: false } do |f| %>
@@ -64,7 +57,7 @@
             </label>
           </div>
           <div class="field is-flex is-align-items-center mb-2">
-            <label class="label mr-3">Zaznacz jeśli masz co najmniej 18 lat? (JEŚLI NIE, BĘDZIEMY KONTAKTOWAĆ SIĘ O ZGODĘ
+            <label class="label mr-3">Zaznacz jeśli masz co najmniej 18 lat (JEŚLI NIE, BĘDZIEMY KONTAKTOWAĆ SIĘ O ZGODĘ
               RODZICÓW)</label>
 
             <label class="switch">
@@ -170,6 +163,12 @@
             </div>
           </div>
         <% end %>
+      </div>
+      <div class="column is-12 has-text-centered">
+        <%= link_to asset_path("Formularz-zgłoszeniowy-do-Turnieju-GOP.pdf"), target: "_blank", class: "button is-light" do %>
+          Formularz do pobrania
+        <% end %>
+        <p>Wypełnione formularze prosimy odsyłać mailowo (jako skan lub zdjęcie) na adres e-mail: stowarzyszenie.novum@gmail.com</p>
       </div>
     </div>
   </div>
