@@ -2,7 +2,7 @@
   <div class="container">
     <h1 class="title is-3 has-text-centered">Rejestracja</h1>
 
-    <%= form_with model: @user, data: { turbo: true }, class: "box container is-max-desktop" do |f| %>
+    <%= form_with model: @user, data: { turbo: false }, class: "box container is-max-desktop" do |f| %>
       <div class="columns">
         <div class="field is-6 column pb-0">
           <label class="label">Imię</label>

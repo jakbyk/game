@@ -15,7 +15,15 @@
           <tbody>
           <% @plays.each do |play| %>
             <tr class="has-text-centered color-background-on-hover">
-              <td><%= play.name || play.id %></td>
+              <td>
+                <% if play.is_tournament? %>
+                  <span class="tag is-success is-light">Turniejowa</span>
+                <% else %>
+                  <span class="tag is-light">Rozgrzewkowa</span>
+                <% end %>
+                <br>
+                <%= play.name || play.id %>
+              </td>
               <td><%= play.name_of_current_month %></td>
               <td><%= play.users.count %></td>
               <td><%= play.social_satisfaction.round(2).to_s.gsub('.', ',') %>%</td>
@@ -33,6 +41,13 @@
       <div class="is-hidden-desktop">
         <% @plays.each do |play| %>
           <div class="box mb-3">
+            <p style="text-align: center">
+              <% if play.is_tournament? %>
+                <span class="tag is-success is-light">Turniejowa</span>
+              <% else %>
+                <span class="tag is-light">Rozgrzewkowa</span>
+              <% end %>
+            </p>
             <p><strong>Numer gry:</strong> <%= play.name || play.id %></p>
             <p><strong>Miesiąc gry:</strong> <%= play.name_of_current_month %></p>
             <p><strong>Ilość graczy:</strong> <%= play.users.count %></p>
@@ -45,31 +60,50 @@
           </div>
         <% end %>
       </div>
-
-      <div class="has-text-centered mt-4">
-        <%= button_to plays_path, method: :post, class: "button is-light", data: { turbo: false } do %>
-          <%= icon_tag("plus", options: { class: "menu-icon" }) %> Stwórz nową grę
-        <% end %>
-      </div>
     <% else %>
-      <div class="has-text-centered">
-        <p>Nie znaleziono żadnych aktywnych rozgrywek, możesz zacząć nową klikając poniższy przycisk.</p>
-        <%= button_to plays_path, method: :post, class: "button is-success mt-4", data: { turbo: false } do %>
-          <%= icon_tag("plus", options: { class: "menu-icon" }) %> Stwórz nową grę
-        <% end %>
+      <div class="columns">
+        <div class="column is-12 has-text-centered">
+          <p>Nie znaleziono żadnych aktywnych rozgrywek, możesz zacząć nową klikając poniższy przycisk.</p>
+        </div>
       </div>
     <% end %>
+
+    <% if current_user.allowed_to_create_tournament_new_game? %>
+      <div class="columns">
+        <div class="column is-12 has-text-centered">
+          <%#= button_to new_tournament_play_plays_path, method: :get, class: "button is-success", data: { turbo: false } do %>
+<!--            <%#= icon_tag("plus", options: { class: "menu-icon" }) %> Stwórz grę turniejową-->
+          <%# end %>
+        </div>
+      </div>
+    <% end %>
+    <div class="columns">
+      <div class="column is-12 has-text-centered">
+        <%= button_to plays_path, method: :post, class: "button is-#{current_user.allowed_to_create_tournament_new_game? || @plays.any? ? 'light' : 'success'}", data: { turbo: false } do %>
+          <%= icon_tag("plus", options: { class: "menu-icon" }) %> Stwórz grę rozgrzewkową
+        <% end %>
+      </div>
+    </div>
 
     <% if @invitations.any? %>
       <div class="mt-6">
         <% @invitations.each do |i| %>
-          <div class="box">
-            Zaproszenie do gry nr <%= i.play.name || i.play.id %> od gracza
-            <%= link_to profile_path(i.invitor) do %>
-              <%= i.invitor.name %>
-            <% end %>
+          <div class="box has-text-centered">
+            <p>
+              <% if i.play.is_tournament? %>
+                <span class="tag is-success is-light">Turniejowa</span>
+              <% else %>
+                <span class="tag is-light">Rozgrzewkowa</span>
+              <% end %>
+            </p>
+            <p>
+              Zaproszenie do gry nr <%= i.play.name || i.play.id %> od gracza
+              <%= link_to profile_path(i.invitor) do %>
+                <%= i.invitor.name %>
+              <% end %>
+            </p>
             <%= form_with url: play_accept_invitation_path(i.play), method: :post do |f| %>
-              <%= f.submit "Dołącz do gry", class: "button is-success mt-2" %>
+              <%= f.submit "Dołącz do gry", class: "button is-success mt-2 has-text-centered" %>
             <% end %>
           </div>
         <% end %>

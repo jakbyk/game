@@ -5,6 +5,26 @@
     </h2>
     <div class="container">
       <%= form_with model: @settings, url: admin_update_settings_path, method: :patch, local: true do |f| %>
+        <h1 class="title mt-6">Czas turniejowy</h1>
+
+        <div class="columns">
+          <div class="column is-6">
+            <p>Turniej rozpocznie się</p>
+          </div>
+          <div class="column is-6">
+            <%= f.date_field :tournament_start, class: 'input fit-content' %>
+          </div>
+        </div>
+
+        <div class="columns">
+          <div class="column is-6">
+            <p>Turniej zakończy się</p>
+          </div>
+          <div class="column is-6">
+            <%= f.date_field :tournament_end, class: 'input fit-content' %>
+          </div>
+        </div>
+
         <h1 class="title mt-6">Informacje podczas rejestracji</h1>
 
         <%= render 'shared/wysiwyg', form: f, title: "Regulamin", field_name: :regulations, value: @settings.regulations %>
@@ -43,7 +63,8 @@
                       <div class="control">
                         <%= level_form.range_field :threshold, min: 0, max: 100, class: "slider is-fullwidth", data: { action: "input->slider#update", slider_target: "input" } %>
                       </div>
-                      <p class="help">Aktualna wartość: <span data-slider-target="value"><%= level_form.object.threshold || 0 %></span></p>
+                      <p class="help">Aktualna wartość:
+                        <span data-slider-target="value"><%= level_form.object.threshold || 0 %></span></p>
                     </div>
 
                     <%= render 'shared/wysiwyg',

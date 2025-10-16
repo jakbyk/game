@@ -15,7 +15,15 @@
           <tbody>
           <% @plays.each do |play| %>
             <tr class="color-background-on-hover has-text-centered">
-              <td><%= play.name || play.id %></td>
+              <td>
+                <% if play.is_tournament? %>
+                  <span class="tag is-success is-light">Turniejowa</span>
+                <% else %>
+                  <span class="tag is-light">Rozgrzewkowa</span>
+                <% end %>
+                <br>
+                <%= play.name || play.id %>
+              </td>
               <td><%= play.name_of_current_month %></td>
               <td><%= play.users.count %></td>
               <td><%= play.social_satisfaction.round(2).to_s.gsub('.', ',') %>%</td>
@@ -36,6 +44,13 @@
       <div class="is-hidden-desktop">
         <% @plays.each do |play| %>
           <div class="box mb-4">
+            <p style="text-align: center">
+              <% if play.is_tournament? %>
+                <span class="tag is-success is-light">Turniejowa</span>
+              <% else %>
+                <span class="tag is-light">Rozgrzewkowa</span>
+              <% end %>
+            </p>
             <p><strong>Numer gry:</strong> <%= play.name || play.id %></p>
             <p><strong>Miesiąc gry:</strong> <%= play.name_of_current_month %></p>
             <p><strong>Ilość graczy:</strong> <%= play.users.count %></p>

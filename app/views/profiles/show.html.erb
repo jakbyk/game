@@ -15,43 +15,47 @@
           <% end %>
           <% if @friendship_to_approve&.any? %>
             <p class="has-text-centered">Zaproszenia do znajomych od innych użytkowników</p>
-            <table style="width: 100%; border-collapse: separate; border-spacing: 0 6px;">
-              <tr class="has-text-centered">
-                <td>Użytkownik</td>
-                <td></td>
-                <td></td>
-              </tr>
+            <div class="columns is-multiline">
               <% @friendship_to_approve.each do |f| %>
-                <tr class="has-text-centered">
-                  <% other_user = f.other_user(current_user) %>
-                  <td>
-                    <%= link_to profile_path(other_user) do %>
-                      <%= other_user.name %>
-                    <% end %>
-                  </td>
-                  <td>
-                    <%= form_with model: other_user, url: profile_accept_friend_path(profile_id: other_user.id), method: :post do |f| %>
-                      <div class="control">
-                        <%= button_tag type: "submit", class: "button is-success" do %>
-                          <%= icon_tag("user-plus", options: { class: "menu-icon" }) %> Akceptuj zaproszenie do
-                          znajomych
+                <% other_user = f.other_user(current_user) %>
+
+                <div class="column is-12-mobile is-6-tablet is-4-desktop">
+                  <div class="card has-background-light color-background-on-hover" style="height: 100%;">
+                    <div class="card-content has-text-centered">
+                      <p class="title is-6 mb-2">
+                        <%= link_to profile_path(other_user), class: "has-text-link" do %>
+                          <%= icon_tag("user", options: { class: "menu-icon" }) %>
+                          <%= other_user.name %>
+                        <% end %>
+                      </p>
+
+                      <div class="buttons is-centered mt-3">
+                        <%= form_with model: other_user,
+                                      url: profile_accept_friend_path(profile_id: other_user.id),
+                                      method: :post,
+                                      local: true do |f| %>
+                          <%= button_tag type: "submit", class: "button is-success is-small is-flex is-align-items-center" do %>
+                            <%= icon_tag("user-plus", options: { class: "menu-icon mr-1" }) %>
+                            Akceptuj
+                          <% end %>
+                        <% end %>
+
+                        <%= form_with model: other_user,
+                                      url: profile_decline_friend_path(profile_id: other_user.id),
+                                      method: :delete,
+                                      local: true do |f| %>
+                          <%= button_tag type: "submit", class: "button is-danger is-small is-flex is-align-items-center" do %>
+                            <%= icon_tag("user-minus", options: { class: "menu-icon mr-1" }) %>
+                            Odrzuć
+                          <% end %>
                         <% end %>
                       </div>
-                    <% end %>
-                  </td>
-                  <td>
-                    <%= form_with model: other_user, url: profile_decline_friend_path(profile_id: other_user.id), method: :delete do |f| %>
-                      <div class="control">
-                        <%= button_tag type: "submit", class: "button is-danger" do %>
-                          <%= icon_tag("user-minus", options: { class: "menu-icon" }) %> Odrzuć zaproszenie do znajomych
-                        <% end %>
-                      </div>
-                    <% end %>
-                  </td>
-                </tr>
+                    </div>
+                  </div>
+                </div>
               <% end %>
-            </table>
-          <% end %>
+            </div>
+      <% end %>
         <% else %>
           <% if @is_friend %>
             <p>Użytkownik <%= @user.name %> jest twoim znajomym.</p>

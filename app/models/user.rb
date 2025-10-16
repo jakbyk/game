@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :sent_friends, through: :sent_friendships, source: :receiver
   has_many :received_friends, through: :received_friendships, source: :sender
   has_many :play_invitations, dependent: :destroy
+  has_one :tournament_data, dependent: :destroy
 
   has_one_attached :avatar
 
@@ -50,6 +51,10 @@ class User < ApplicationRecord
 
   def allowed_to_create_new_game?
     is_admin? || plays.count < 4
+  end
+
+  def allowed_to_create_tournament_new_game?
+    is_admin? || (allowed_to_create_new_game? && Setting.first.is_tournament_time? && tournament_data_confirmed?)
   end
 
   def allowed_to_archive_game?(play)
@@ -117,9 +122,13 @@ class User < ApplicationRecord
       errors.add(:avatar, "jest za duży (max 1MB)")
     end
 
-    acceptable_types = [ "image/jpeg", "image/png", "image/webp" ]
+    acceptable_types = %w[image/jpeg image/png image/webp]
     unless acceptable_types.include?(avatar.content_type)
       errors.add(:avatar, "musi być JPEG, PNG lub WEBP")
     end
+  end
+
+  def tournament_data_confirmed?
+    tournament_data.status == "approved"
   end
 end

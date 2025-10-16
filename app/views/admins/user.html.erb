@@ -92,7 +92,15 @@
               <tbody>
               <% @user.plays.active.each do |play| %>
                 <tr class="color-background-on-hover">
-                  <td><%= play.name || play.id %></td>
+                  <td>
+                    <% if play.is_tournament? %>
+                      <span class="tag is-success is-light">Turniejowa</span>
+                    <% else %>
+                      <span class="tag is-light">Rozgrzewkowa</span>
+                    <% end %>
+                    <br>
+                    <%= play.name || play.id %>
+                  </td>
                   <td>
                     <% play.users.each do |u| %>
                       <% if u == @user %>
@@ -114,6 +122,13 @@
           <div class="is-hidden-desktop">
             <% @user.plays.active.each do |play| %>
               <div class="box color-background-on-hover mb-3">
+                <p style="text-align: center">
+                  <% if play.is_tournament? %>
+                    <span class="tag is-success is-light">Turniejowa</span>
+                  <% else %>
+                    <span class="tag is-light">Rozgrzewkowa</span>
+                  <% end %>
+                </p>
                 <p><strong>Id:</strong> <%= play.name || play.id %></p>
                 <p><strong>Gracze:</strong>
                   <% play.users.each do |u| %>
@@ -154,7 +169,15 @@
               <tbody>
               <% @user.plays.done.each do |play| %>
                 <tr class="color-background-on-hover">
-                  <td><%= play.name || play.id %></td>
+                  <td>
+                    <% if play.is_tournament? %>
+                      <span class="tag is-success is-light">Turniejowa</span>
+                    <% else %>
+                      <span class="tag is-light">Rozgrzewkowa</span>
+                    <% end %>
+                    <br>
+                    <%= play.name || play.id %>
+                  </td>
                   <td>
                     <% play.users.each do |u| %>
                       <% if u == @user %>
@@ -184,6 +207,13 @@
           <div class="is-hidden-desktop">
             <% @user.plays.done.each do |play| %>
               <div class="box color-background-on-hover mb-3">
+                <p style="text-align: center">
+                  <% if play.is_tournament? %>
+                    <span class="tag is-success is-light">Turniejowa</span>
+                  <% else %>
+                    <span class="tag is-light">Rozgrzewkowa</span>
+                  <% end %>
+                </p>
                 <p><strong>Id:</strong> <%= play.name || play.id %></p>
                 <p><strong>Gracze:</strong>
                   <% play.users.each do |u| %>

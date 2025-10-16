@@ -15,6 +15,15 @@
          data-menu-target="menu"
          data-fullscreen-target="sidebar">
 
+    <p style="text-align: center">
+      <span class="has-text-grey is-size-7">Rodzaj gry:</span>
+      <% if @play.is_tournament? %>
+        <span class="tag is-success is-light">Turniejowa</span>
+      <% else %>
+        <span class="tag is-light">Rozgrzewkowa</span>
+      <% end %>
+    </p>
+
     <p class="subtitle is-5 has-text-centered mt-4 mb-4">
       <%= @play.name_of_current_month %>
     </p>
