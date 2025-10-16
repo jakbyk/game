@@ -1,7 +1,9 @@
 <nav class="navbar is-light" data-controller="navbar">
   <div class="container">
     <div class="navbar-brand">
-      <%= link_to "Gra o Polskę", root_path, class: "navbar-item has-text-weight-bold" %>
+      <%= link_to root_path, class: "navbar-item has-text-weight-bold" do %>
+        <img src="<%= asset_path("logo_2.png") %>" />
+      <% end %>
 
       <a role="button"
          class="navbar-burger"
@@ -17,6 +19,11 @@
 
     <div class="navbar-menu" data-navbar-target="menu">
       <div class="navbar-end">
+        <div class="navbar-item">
+          <%= link_to pages_tournament_path, class: "button is-light" do %>
+            <%= icon_tag("fire", options: { class: "menu-icon" }) %> Turnej
+          <% end %>
+        </div>
         <% if logged_in? %>
           <div class="navbar-item">
             <%= link_to game_home_path, class: "button is-light" do %>

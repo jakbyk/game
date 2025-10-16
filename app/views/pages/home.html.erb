@@ -1,7 +1,15 @@
 <section class="section">
   <div class="container">
-    <h1 class="title is-2 has-text-centered">Gra o Polskę</h1>
-
+    <div class="columns">
+      <div class="column is-12 has-text-centered">
+        <img src="<%= asset_path("logo.png") %>" style="max-height: 100vh"/>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column is-12 has-text-centered">
+        <img src="<%= asset_path("plakat_glowna.jpg") %>" style="max-height: 100vh"/>
+      </div>
+    </div>
     <div class="content">
       <%= raw @content %>
     </div>

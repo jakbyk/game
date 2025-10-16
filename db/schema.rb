@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_27_153500) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_16_083108) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -226,6 +226,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_27_153500) do
     t.bigint "budget_reserve"
     t.jsonb "regions_satisfaction", default: "{\"PL32\":11,\"PL22\":11,\"PL28\":11,\"PL20\":11,\"PL14\":11,\"PL04\":11,\"PL30\":11,\"PL08\":11,\"PL02\":11,\"PL16\":11,\"PL24\":11,\"PL10\":11,\"PL26\":11,\"PL12\":11,\"PL18\":11,\"PL06\":11}"
     t.integer "minutes_for_voting", default: 0
+    t.boolean "is_tournament", default: false
     t.index ["archived_by_id"], name: "index_plays_on_archived_by_id"
   end
 
@@ -250,6 +251,28 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_27_153500) do
     t.text "how_to_play"
     t.text "contact"
     t.text "main_page"
+    t.datetime "tournament_start", precision: nil
+    t.datetime "tournament_end", precision: nil
+  end
+
+  create_table "tournament_data", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "status"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "phone"
+    t.boolean "over_18"
+    t.string "parent_first_name"
+    t.string "parent_last_name"
+    t.string "school_address"
+    t.string "school_name"
+    t.string "parent_email"
+    t.string "parent_phone_number"
+    t.string "additional_info"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_tournament_data_on_user_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -295,4 +318,5 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_27_153500) do
   add_foreign_key "plays", "users", column: "archived_by_id"
   add_foreign_key "responses", "contact_messages"
   add_foreign_key "responses", "users"
+  add_foreign_key "tournament_data", "users"
 end

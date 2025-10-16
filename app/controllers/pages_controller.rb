@@ -43,4 +43,34 @@ class PagesController < ApplicationController
     @plays = Play.rank
     @almost_done = Play.next_rank
   end
+
+  def tournament
+    puts "gjsiufjsdkfapsjiodflash"
+    flash_data = flash[:data]
+    flash_data = flash_data.transform_keys(&:to_sym) if flash_data.is_a?(Hash)
+    puts flash_data.inspect
+    puts flash_data[:additional_info].inspect if flash_data
+    @current_user = current_user
+    @data = { first_name: nil, last_name: nil, email: nil, phone: nil, over_18: false, parent_first_name: nil, parent_last_name: nil, school_address: nil, school_name: nil, parent_email: nil, parent_phone_number: nil, additional_info: nil }
+    if flash_data
+      @data[:first_name] = flash_data[:first_name] if flash_data[:first_name]
+      @data[:last_name] = flash_data[:last_name] if flash_data[:last_name]
+      @data[:email] = flash_data[:email] if flash_data[:email]
+      @data[:phone] = flash_data[:phone] if flash_data[:phone]
+      @data[:over_18] = true if flash_data[:over_18]
+      @data[:parent_first_name] = flash_data[:parent_first_name] if flash_data[:parent_first_name]
+      @data[:parent_last_name] = flash_data[:parent_last_name] if flash_data[:parent_last_name]
+      @data[:school_address] = flash_data[:school_address] if flash_data[:school_address]
+      @data[:school_name] = flash_data[:school_name] if flash_data[:school_name]
+      @data[:parent_email] = flash_data[:parent_email] if flash_data[:parent_email]
+      @data[:parent_phone_number] = flash_data[:parent_phone_number] if flash_data[:parent_phone_number]
+      @data[:additional_info] = flash_data[:additional_info] if flash_data[:additional_info]
+    end
+
+    if @current_user
+      @data[:email] = @current_user.email if @data[:email] == nil
+      @data[:first_name] = @current_user.first_name if @data[:first_name] == nil
+      @data[:last_name] = @current_user.last_name if @data[:last_name] == nil
+    end
+  end
 end

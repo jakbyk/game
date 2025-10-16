@@ -188,6 +188,10 @@ p.is-danger {
   color: $danger;
 }
 
+p.is-info {
+  color: $info;
+}
+
 span.is-danger {
   color: $danger;
 }
@@ -510,6 +514,10 @@ body.fullscreen-mode {
 
 .mobile-slide-menu.is-active {
   transform: translateX(0);
+}
+
+.fit-content {
+  width: fit-content;
 }
 
 @media (max-width: 1023px) {

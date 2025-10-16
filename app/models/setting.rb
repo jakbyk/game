@@ -13,6 +13,10 @@ class Setting < ApplicationRecord
     end
   end
 
+  def is_tournament_time?
+    tournament_start.beginning_of_day < DateTime.now && DateTime.now < tournament_end.end_of_day
+  end
+
   private
 
   def only_one_can_exist

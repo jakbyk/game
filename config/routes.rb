@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   get "pages/how_to_play"
   get "pages/contact"
   get "pages/ranking"
+  get "pages/tournament"
+  post "tournament_registration/create"
+  get "tournament_registration/:id/approve", to: "tournament_registration#approve", as: "tournament_registration_approve"
   root "pages#home"
   resources :users, only: [ :new, :create ] do
     collection do
@@ -80,6 +83,10 @@ Rails.application.routes.draw do
   post "admin/contact/:id/mark_readed", to: "admins#mark_readed", as: :admin_contact_mark_readed
   post "admin/contact/:id/mark_un_readed", to: "admins#mark_un_readed", as: :admin_contact_mark_un_readed
   post "admin/contact/:id/make_response", to: "admins#make_response", as: :admin_contact_make_response
+  get "admin/tournament_registrations", to: "admins#tournament_registrations", as: :admin_tournament_registrations
+  get "admin/tournament_registrations/:id", to: "admins#tournament_registration", as: :admin_tournament_registration
+  delete "admin/tournament_registrations/:id", to: "admins#tournament_registration_remove", as: :admin_tournament_registration_remove
+  patch "admin/tournament_registrations/:id", to: "admins#tournament_registration_approve", as: :admin_tournament_registration_approve
 
   namespace :admin do
     resources :events, only: [ :index, :edit, :update, :create, :new ]

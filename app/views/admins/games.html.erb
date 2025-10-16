@@ -23,7 +23,15 @@
         <tbody>
         <% @plays.each do |play| %>
           <tr class="color-background-on-hover">
-            <td><%= play.name || play.id %></td>
+            <td>
+              <% if play.is_tournament? %>
+                <span class="tag is-success is-light">Turniejowa</span>
+              <% else %>
+                <span class="tag is-light">Rozgrzewkowa</span>
+              <% end %>
+              <br>
+              <%= play.name || play.id %>
+            </td>
             <td>
               <% play.users.each do |u| %>
                 <p><%= link_to u.name, admin_user_path(u) %></p>
@@ -41,6 +49,14 @@
     <div class="is-hidden-desktop">
       <% @plays.each do |play| %>
         <div class="box mb-3">
+          <p style="text-align: center">
+            <% if play.is_tournament? %>
+              <span class="tag is-success is-light">Turniejowa</span>
+            <% else %>
+              <span class="tag is-light">Rozgrzewkowa</span>
+            <% end %>
+          </p>
+
           <p><strong>Id:</strong> <%= play.name || play.id %></p>
 
           <p><strong>Gracze:</strong></p>

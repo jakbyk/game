@@ -6,4 +6,8 @@ module ApplicationHelper
     css_styles = size ? "width: #{size}px; height: #{size}px;" : nil
     content_tag(:span, inline_svg_tag(path, options.merge(class: classes)), class: "icon #{classes}", style: css_styles)
   end
+
+  def p_tag(name, classes:)
+    content_tag(:p, name, class: "#{classes}")
+  end
 end

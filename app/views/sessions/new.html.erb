@@ -2,7 +2,7 @@
   <div class="container">
     <h1 class="title is-3 has-text-centered">Logowanie</h1>
 
-    <%= form_with model: @user, url: login_path, method: :post, data: { turbo: true }, class: "box container is-max-desktop" do |f| %>
+    <%= form_with model: @user, url: login_path, method: :post, data: { turbo: false }, class: "box container is-max-desktop" do |f| %>
       <div class="field">
         <label class="label">Email</label>
         <div class="control">

@@ -105,6 +105,36 @@ class AdminsController < ApplicationController
     redirect_to admin_contacts_path, warning: "Coś poszło nie tak"
   end
 
+  def tournament_registrations
+    @status = params[:status] || "await_approve"
+    @registrations = TournamentData.where(status: @status)
+  end
+
+  def tournament_registration
+    @registration = TournamentData.find_by(id: params[:id])
+    redirect_to admin_tournament_registrations_path, alert: "Nie znaleziono zgłoszenia" unless @registration
+  end
+
+  def tournament_registration_remove
+    @registration = TournamentData.find_by(id: params[:id])
+    redirect_to admin_tournament_registrations_path, alert: "Nie znaleziono zgłoszenia" unless @registration
+    if @registration.destroy
+      redirect_to admin_tournament_registrations_path, notice: "Usunięto zgłoszenie do turnieju"
+    else
+      redirect_to admin_tournament_registrations_path, alert: "Nie udało się usunąć zgłoszenia"
+    end
+  end
+
+  def tournament_registration_approve
+    @registration = TournamentData.find_by(id: params[:id])
+    redirect_to admin_tournament_registrations_path, alert: "Nie znaleziono zgłoszenia" unless @registration
+    if @registration.update(status: "approved")
+      redirect_to admin_tournament_registrations_path, notice: "Zaakceptowano zgłoszenie"
+    else
+      redirect_to admin_tournament_registrations_path, alert: "Nie udało się zaakceptować zgłoszenia"
+    end
+  end
+
   private
 
   def settings_params
@@ -116,6 +146,8 @@ class AdminsController < ApplicationController
       :how_to_play,
       :contact,
       :main_page,
+      :tournament_start,
+      :tournament_end,
       social_satisfaction_levels: [ :threshold, :text ]
     )
   end

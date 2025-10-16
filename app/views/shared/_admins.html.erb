@@ -33,6 +33,11 @@
         <% end %>
       </li>
       <li>
+        <%= link_to admin_tournament_registrations_path, class: "button is-light is-flex is-vcentered" do %>
+          <%= icon_tag("document", options: { class: "menu-icon" }) %>Zgłoszenia do turnieju
+        <% end %>
+      </li>
+      <li>
         <%= link_to admin_users_path, class: "button is-light is-flex is-vcentered" do %>
           <%= icon_tag("user-group", options: { class: "menu-icon" }) %>Użytkownicy
         <% end %>
