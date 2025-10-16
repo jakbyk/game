@@ -7,7 +7,8 @@
       <% if @play.budget_reserve >= 0 %>
         <h2 class="title is-5 has-text-centered">Rezerwa budżetowa: <%= @play.decorate.formatted_budget_reserve %></h2>
       <% else %>
-        <h2 class="title is-5 has-text-centered">Zadłużenie budżetu: <span class="is-danger"><%= @play.decorate.formatted_budget_reserve %></span></h2>
+        <h2 class="title is-5 has-text-centered">Zadłużenie budżetu:
+          <span class="is-danger"><%= @play.decorate.formatted_budget_reserve %></span></h2>
       <% end %>
       <% unless params["map_id"].blank? %>
         <p class="has-text-centered">
@@ -19,7 +20,7 @@
       <div data-map-target="wrapper"></div>
       <div id="tooltip" class="tooltip"></div>
     </div>
-    <div class="column is-12-mobile is-6-desktop" style="overflow: auto;" data-map-target="newsColumn">
+    <div class="column is-12-mobile is-6-desktop" style="overflow: auto; position: relative" data-map-target="newsColumn">
       <div class="mt-6 mb-2">
         <% if @region_name %>
           <p class="has-text-centered is-size-4">Wiadomości z <%= @region_name %></p>
@@ -27,7 +28,10 @@
           <p class="has-text-centered is-size-4">Wiadomości z Polski</p>
         <% end %>
       </div>
-      <div>
+      <% img_url = asset_url("komputer.png") %>
+      <div style="background-image: url('<%= img_url %>'); width: 100%; height: 100%; background-size: cover; position: absolute;">
+      </div>
+      <div style="position: absolute;margin-top: 5.2em;margin-left: 5.8em;width: 33em;height: 18.8em;overflow: scroll;">
         <% @play_events.each do |play_event| %>
           <%= render 'event', play_event: play_event %>
         <% end %>
