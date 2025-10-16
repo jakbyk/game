@@ -1,0 +1,149 @@
+<%= render 'shared/admins' do %>
+  <section class="section">
+    <h2 class="title is-5 has-text-centered">
+      Zgłoszenie do turnieju
+    </h2>
+    <div class="columns color-background-on-hover">
+      <div class="column is-6">
+        Użytkownik
+      </div>
+      <div class="column is-6">
+        <%= link_to profile_path(@registration.user) do %>
+          <%= @registration.user.first_name %> <%= @registration.user.last_name %>
+        <% end %>
+      </div>
+    </div>
+    <div class="columns color-background-on-hover">
+      <div class="column is-6">
+        Email użytkownika
+      </div>
+      <div class="column is-6">
+        <%= link_to admin_user_path(@registration.user) do %>
+          <%= @registration.user.email %>
+        <% end %>
+      </div>
+    </div>
+    <div class="columns color-background-on-hover">
+      <div class="column is-6">
+        Data zgłoszenia
+      </div>
+      <div class="column is-6">
+        <%= @registration.created_at.strftime("%d-%m-%Y %H:%M:%S") %>
+      </div>
+    </div>
+    <div class="columns color-background-on-hover">
+      <div class="column is-6">
+        Ostatnia aktualizacja zgłoszenia
+      </div>
+      <div class="column is-6">
+        <%= @registration.updated_at.strftime("%d-%m-%Y %H:%M:%S") %>
+      </div>
+    </div>
+    <div class="columns color-background-on-hover">
+      <div class="column is-6">
+        Status zgłoszenia
+      </div>
+      <div class="column is-6">
+        <%= "Oczekuje na potwierdzenie rodzica" if @registration.status == "await_parent" %>
+        <%= "Oczekuje na potwierdzenie administratora" if @registration.status == "await_approve" %>
+        <%= "Zaakceptowane" if @registration.status == "approved" %>
+      </div>
+    </div>
+    <div class="columns color-background-on-hover">
+      <div class="column is-6">
+        Czy powyżej 18 lat?
+      </div>
+      <div class="column is-6">
+        <%= @registration.over_18 ? "Tak" : "Nie" %>
+      </div>
+    </div>
+    <div class="columns color-background-on-hover">
+      <div class="column is-6">
+        Telefon użytkownika
+      </div>
+      <div class="column is-6">
+        <%= @registration.phone %>
+      </div>
+    </div>
+    <div class="columns color-background-on-hover">
+      <div class="column is-6">
+        Imię i nazwisko rodzica
+      </div>
+      <div class="column is-6">
+        <%= @registration.parent_first_name %> <%= @registration.parent_last_name %>
+      </div>
+    </div>
+    <div class="columns color-background-on-hover">
+      <div class="column is-6">
+        Email rodzica
+      </div>
+      <div class="column is-6">
+        <%= @registration.parent_email %>
+      </div>
+    </div>
+    <div class="columns color-background-on-hover">
+      <div class="column is-6">
+        Numer telefonu rodzica
+      </div>
+      <div class="column is-6">
+        <%= @registration.parent_phone_number %>
+      </div>
+    </div>
+    <div class="columns color-background-on-hover">
+      <div class="column is-6">
+        Nazwa szkoły
+      </div>
+      <div class="column is-6">
+        <%= @registration.school_name %>
+      </div>
+    </div>
+    <div class="columns color-background-on-hover">
+      <div class="column is-6">
+        Adres szkoły
+      </div>
+      <div class="column is-6">
+        <%= @registration.school_address %>
+      </div>
+    </div>
+    <div class="columns color-background-on-hover">
+      <div class="column is-6">
+        Dodatkowe informacje
+      </div>
+      <div class="column is-6">
+        <%= @registration.additional_info %>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column is-6">
+        <%= button_to admin_tournament_registration_remove_path(id: @registration.id),
+                      method: :delete,
+                      class: "button is-danger",
+                      data: {
+                        turbo: false,
+                        controller: "confirm",
+                        confirm_target: "confirm",
+                        message: "Czy na pewno chcesz usunąć to zgłoszenie?",
+                        action: "confirm#confirm"
+                      } do %>
+          Odrzuć i usuń zgłoszenie
+        <% end %>
+      </div>
+      <div class="column is-6">
+        <% if @registration.status == "await_parent" %>
+          <%= button_to tournament_registration_approve_path(@registration.id),
+                        method: :get,
+                        class: "button is-warning" do %>
+            Podpisz w imieniu rodzica
+          <% end %>
+        <% end %>
+        <% if @registration.status == "await_approve" %>
+          <%= button_to admin_tournament_registration_approve_path(id: @registration.id),
+                        method: :patch,
+                        class: "button is-success" do %>
+            Zaakceptuj zgłoszenie
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </section>
+<% end %>

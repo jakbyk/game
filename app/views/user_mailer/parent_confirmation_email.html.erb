@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px; margin: 0;">
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+  <tr>
+    <td align="center">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+        <tr>
+          <td style="padding: 30px; text-align: center; background-color: #3273dc; color: white;">
+            <h1 style="margin: 0; font-size: 24px;">Gra o Polskę</h1>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 30px;">
+            <h2 style="color: #363636; margin-top: 0;">Otrzymaliśmy zgłoszenie do turnieju Gra o Polskę</h2>
+            <p>Szczegóły projektu można odnaleźć w <a href="<%= @regulation_url %>" target="_blank">regulaminie</a> i <a href="<%= @info_url %>" target="_blank">polityce przetwarzania danych osobowych</a></p>
+            <p>Do projektu zgłosił/a się: <%= @user.first_name %> <%= @user.last_name %></p>
+            <p>Wskazano także, że jesteś jego/jej opiekunem prawnym i nazywasz się <%= @user.tournament_data.parent_first_name %> <%= @user.tournament_data.parent_last_name %>, zaś twój telefon kontaktowy to <%= @user.tournament_data.parent_phone_number %></p>
+            <p style="margin-bottom: 30px;">Kliknij poniżej, aby potwierdzić poprawność danych kontaktowych, zapoznanie z <a href="<%= @regulation_url %>" target="_blank">regulaminem</a> i <a href="<%= @info_url %>" target="_blank">polityką przetwarzania danych osobowych</a>  oraz, że zgodzasz się na udział dziecka w darmowym turnieju:</p>
+
+            <p style="text-align: center; margin: 40px 0;">
+              <a href="<%= @url %>"
+                 style="display: inline-block; background-color: #3273dc; color: white; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 4px;">
+                Potwierdzam
+              </a>
+            </p>
+
+            <p>Jeśli te dane nie są poprawne, prosimy o pominięcie tego maila.</p>
+
+            <p style="color: #7a7a7a; font-size: 12px; margin-top: 30px;">
+              Ten link wygaśnie po pewnym czasie lub po użyciu. Jeśli nie są to poprawne dane, prosimy o zignorowanie tej wiadomości.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
