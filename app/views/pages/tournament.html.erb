@@ -96,10 +96,10 @@
             </div>
           </div>
           <div data-tournament-toggle-target="tournamentFieldsOver" class="<%= "is-hidden" unless @data[:over_18] %>">
-            <div class="field">
-              <%= f.label :phone, "Numer telefonu", class: "has-text-weight-bold" %>
-              <%= f.text_field :phone, class: "input", value: @data[:phone], placeholder: "Wpisz swój numer telefonu", oninvalid: "this.setCustomValidity('Proszę podać numer telefonu.')", oninput: "setCustomValidity('')" %>
-            </div>
+          </div>
+          <div class="field">
+            <%= f.label :phone, "Numer telefonu", class: "has-text-weight-bold" %>
+            <%= f.text_field :phone, class: "input", value: @data[:phone], placeholder: "Wpisz swój numer telefonu", oninvalid: "this.setCustomValidity('Proszę podać numer telefonu.')", oninput: "setCustomValidity('')", required: true %>
           </div>
           <div class="field">
             <% if @current_user %>
