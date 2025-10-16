@@ -16,9 +16,7 @@ class TournamentRegistrationController < ApplicationController
       return redirect_to pages_tournament_path, alert: "Musisz podać email rodzica" unless params[:parent_email].present?
       return redirect_to pages_tournament_path, alert: "Musisz podać numer telefonu rodzica" unless params[:parent_phone_number].present?
     end
-    if params[:over_18]
-      return redirect_to pages_tournament_path, alert: "Musisz podać numer telefonu" unless params[:phone].present?
-    end
+    return redirect_to pages_tournament_path, alert: "Musisz podać numer telefonu" unless params[:phone].present?
     return redirect_to pages_tournament_path, alert: "Musisz podać nazwę szkoły" unless params[:school_name].present?
     return redirect_to pages_tournament_path, alert: "Musisz podać adres szkoły" unless params[:school_address].present?
     if params[:password].present? || params[:password_confirmation].present?
