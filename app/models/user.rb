@@ -109,6 +109,10 @@ class User < ApplicationRecord
     is_admin? && email === "jakbyk@wp.pl"
   end
 
+  def could_join_tournament?
+    tournament_data&.status == "approved"
+  end
+
   private
 
   def generate_confirmation_token

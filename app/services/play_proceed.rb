@@ -165,13 +165,9 @@ class PlayProceed
   def check_budget_reserve_influence
     if @play.budget_reserve < 0
       change = calculate_satisfaction_reduction(@play.budget_reserve.abs)
-      puts "fgndsuigfbdsihifjosd"
-      puts "fgndsuigfbdsihifjosd change: #{change}"
       new_satisfaction = @play.social_satisfaction.to_f
-      puts "fgndsuigfbdsihifjosd new_satisfaction: #{new_satisfaction}"
       new_satisfaction -= change
       new_satisfaction = new_satisfaction.round(5).clamp(0, 99.99)
-      puts "fgndsuigfbdsihifjosd new_satisfaction: #{new_satisfaction}"
       if new_satisfaction < 10
         @play.update!(finished_at: Time.now)
       end

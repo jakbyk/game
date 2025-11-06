@@ -19,6 +19,7 @@ class TournamentRegistrationController < ApplicationController
     return redirect_to pages_tournament_path, alert: "Musisz podać numer telefonu" unless params[:phone].present?
     return redirect_to pages_tournament_path, alert: "Musisz podać nazwę szkoły" unless params[:school_name].present?
     return redirect_to pages_tournament_path, alert: "Musisz podać adres szkoły" unless params[:school_address].present?
+    return redirect_to pages_tournament_path, alert: "Musisz podać dane opiekuna ze strony szkoły" unless params[:teacher_data].present?
     if params[:password].present? || params[:password_confirmation].present?
       return redirect_to pages_tournament_path, alert: "Podano dwa różne hasła" unless params[:password] == params[:password_confirmation]
     end
@@ -62,7 +63,7 @@ class TournamentRegistrationController < ApplicationController
   private
 
   def set_data
-    @data = { first_name: nil, last_name: nil, email: nil, phone: nil, over_18: false, parent_first_name: nil, parent_last_name: nil, school_address: nil, school_name: nil, parent_email: nil, parent_phone_number: nil, additional_info: nil }
+    @data = { first_name: nil, last_name: nil, email: nil, phone: nil, over_18: false, parent_first_name: nil, parent_last_name: nil, school_address: nil, school_name: nil, parent_email: nil, parent_phone_number: nil, additional_info: nil, teacher_data: nil }
     @data[:first_name] = params[:first_name] if params[:first_name]
     @data[:last_name] = params[:last_name] if params[:last_name]
     @data[:email] = params[:email] if params[:email]
@@ -75,6 +76,7 @@ class TournamentRegistrationController < ApplicationController
     @data[:parent_email] = params[:parent_email] if params[:parent_email]
     @data[:parent_phone_number] = params[:parent_phone_number] if params[:parent_phone_number]
     @data[:additional_info] = params[:additional_info] if params[:additional_info]
+    @data[:teacher_data] = params[:teacher_data] if params[:teacher_data]
   end
 
   def find_or_create_user

@@ -153,6 +153,10 @@
             <%= f.text_field :school_address, class: "input", value: @data[:school_address], placeholder: "Wpisz adres szkoły", oninvalid: "this.setCustomValidity('Proszę podać adres szkoły.')", oninput: "setCustomValidity('')", required: true %>
           </div>
           <div class="field">
+            <%= f.label :teacher_data, "Dane opiekuna ze strony szkoły", class: "has-text-weight-bold" %>
+            <%= f.text_area :teacher_data, class: "input", value: @data[:teacher_data], placeholder: "Imię, nazwisko, telefon oraz e-mail", oninvalid: "this.setCustomValidity('Proszę wypełnić to pole.')", oninput: "setCustomValidity('')", required: true %>
+          </div>
+          <div class="field">
             <%= f.label :additional_info, "Dodatkowe informacje (np. dot. potrzeb związanych z niepełnosprawnością)" %>
             <%= f.text_field :additional_info, class: "input", value: @data[:additional_info], placeholder: "Pole nie obowiązkowe" %>
           </div>

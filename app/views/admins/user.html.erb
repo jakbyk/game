@@ -61,6 +61,17 @@
         <p><strong>Zgoda na regulamin:</strong>
           <%= @user.time_of_acceptance_of_the_regulations ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %>
         </p>
+        <p><strong>Czy może grać w turnieju:</strong>
+          <%= @user.could_join_tournament? ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %>
+        </p>
+        <p><strong>Czy złożył podanie do turnieju:</strong>
+          <%= @user.tournament_data.present? ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %>
+        </p>
+        <% if @user.tournament_data.present? %>
+        <p><%= link_to admin_tournament_registration_path(@user.tournament_data) do %></p>
+            Pokaż zgłoszenie do turnieju
+          <% end %>
+        <% end %>
       </div>
 
       <div class="box mb-5">

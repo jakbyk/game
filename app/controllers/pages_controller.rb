@@ -45,11 +45,8 @@ class PagesController < ApplicationController
   end
 
   def tournament
-    puts "gjsiufjsdkfapsjiodflash"
     flash_data = flash[:data]
     flash_data = flash_data.transform_keys(&:to_sym) if flash_data.is_a?(Hash)
-    puts flash_data.inspect
-    puts flash_data[:additional_info].inspect if flash_data
     @current_user = current_user
     @data = { first_name: nil, last_name: nil, email: nil, phone: nil, over_18: false, parent_first_name: nil, parent_last_name: nil, school_address: nil, school_name: nil, parent_email: nil, parent_phone_number: nil, additional_info: nil }
     if flash_data
