@@ -15,6 +15,7 @@ class User < ApplicationRecord
   has_one_attached :avatar
 
   validates :name, :first_name, :last_name, presence: true
+  validates :name, :first_name, :last_name, :email, length: { maximum: 50 }
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :name, uniqueness: true
   validates :time_of_acceptance_of_information_on_the_processing_of_personal, presence: true
