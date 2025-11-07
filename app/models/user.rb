@@ -50,7 +50,7 @@ class User < ApplicationRecord
   end
 
   def allowed_to_create_new_game?
-    is_admin? || plays.count < 4
+    is_admin? || plays.active.count < 4
   end
 
   def allowed_to_create_tournament_new_game?
