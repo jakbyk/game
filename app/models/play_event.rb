@@ -44,6 +44,10 @@ class PlayEvent < ApplicationRecord
     end
   end
 
+  def is_positive_to_player?
+    Event.positive.include?(event)
+  end
+
   private
 
   def change_value_in_play

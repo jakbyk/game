@@ -2,6 +2,7 @@ class PlayProceed
   def initialize(play)
     @play = play
     @last_10_events_ids = @play.play_events.map(&:event_id).uniq[0..10]
+    @previous_positive_events_ids = @play.play_events.select(&:is_positive_to_player?).map(&:event_id)
   end
 
   def proceed
@@ -16,15 +17,15 @@ class PlayProceed
   end
 
   def make_new_events(month)
-    rand(3..6).times do
-      draw_event_for_next_month(month)
+    rand(3..6).times do |i|
+      draw_event_for_next_month(month, take_negative: i < 4)
     end
   end
 
   private
 
-  def draw_event_for_next_month(month)
-    event = take_event
+  def draw_event_for_next_month(month, take_negative: false)
+    event = take_event(take_negative: take_negative)
     return unless event
 
     positive, negative = calculate_potentials(event)
@@ -38,11 +39,14 @@ class PlayProceed
     )
   end
 
-  def take_event
+  def take_event(take_negative: false)
     event = nil
+    if @play.social_satisfaction > 60 && take_negative
+      event = Event.take_negative
+    end
     while event == nil
       new_event = Event.take_random
-      unless @last_10_events_ids.include?(new_event&.id)
+      if !@last_10_events_ids.include?(new_event&.id) && !@previous_positive_events_ids.include?(new_event&.id)
         event = new_event
         @last_10_events_ids << new_event&.id
       end

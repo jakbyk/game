@@ -9,6 +9,7 @@ RSpec.describe Play, type: :model do
   before do
     BudgetCategory.seed
     events_data.each do |event|
+      event["id"] = nil
       Event.new(event).save
     end
   end
@@ -26,19 +27,31 @@ RSpec.describe Play, type: :model do
         end
       end
       play.proceed
-      puts "=========================================================="
-      puts play.current_month
-      puts play.social_satisfaction
     end
   end
 
   it "should be a play" do
-    user = User.new(password: "12345678", password_confirmation: "12345678", email: "test@example.com", first_name: "Tester", last_name: "Tester", name: "Tester", time_of_acceptance_of_information_on_the_processing_of_personal: DateTime.now, time_of_acceptance_of_the_regulations: DateTime.now)
-    user.save
-    play = Play.new
-    play.users << user
-    play.save
-    finish_positive_play(play)
-    expect(play.valid?).to be true
+    100.times do |i|
+      user = User.create!(
+        password: "12345678",
+        password_confirmation: "12345678",
+        email: "test#{i}@example.com",
+        first_name: "Tester",
+        last_name: "Tester",
+        name: "Tester#{i}",
+        time_of_acceptance_of_information_on_the_processing_of_personal: DateTime.now,
+        time_of_acceptance_of_the_regulations: DateTime.now
+      )
+
+      play = Play.create!
+      play.users << user
+
+      finish_positive_play(play)
+
+      positive_event_ids = play.play_events.select(&:is_positive_to_player?).map(&:event_id)
+
+      expect(positive_event_ids).to eq(positive_event_ids.uniq)
+      expect(play.reload.social_satisfaction).to_not eq(99.99)
+    end
   end
 end

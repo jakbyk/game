@@ -12,6 +12,18 @@ class Event < ApplicationRecord
   validate :validate_reserve_section
   validate :validate_content
 
+  scope :positive, -> {
+    where("(COALESCE(budget_reserve_change, 0) - COALESCE(budget_change, 0)) > 0")
+  }
+
+  scope :negative, -> {
+    where("(COALESCE(budget_reserve_change, 0) - COALESCE(budget_change, 0)) < 0")
+  }
+
+  scope :really_negative, -> {
+    where("(COALESCE(budget_reserve_change, 0) - COALESCE(budget_change, 0)) < -1000")
+  }
+
   has_many :play_events, dependent: :destroy
 
   def self.take_random
@@ -22,6 +34,19 @@ class Event < ApplicationRecord
     cumulative = 0
 
     Event.find_each do |event|
+      cumulative += event.frequency
+      return event if cumulative >= threshold
+    end
+  end
+
+  def self.take_negative
+    total = Event.really_negative.sum(:frequency)
+    return nil if total == 0
+
+    threshold = rand(1..total)
+    cumulative = 0
+
+    Event.really_negative.find_each do |event|
       cumulative += event.frequency
       return event if cumulative >= threshold
     end

@@ -72,11 +72,19 @@
       <div class="columns">
         <div class="column is-12 has-text-centered">
           <%#= button_to new_tournament_play_plays_path, method: :get, class: "button is-success", data: { turbo: false } do %>
-<!--            <%#= icon_tag("plus", options: { class: "menu-icon" }) %> Stwórz grę turniejową-->
+          <!--            <%#= icon_tag("plus", options: { class: "menu-icon" }) %> Stwórz grę turniejową-->
           <%# end %>
         </div>
       </div>
     <% end %>
+    <div class="columns">
+      <div class="column is-12 has-second-background-color has-text-centered">
+        <p><b>Dziennik aktualizacji</b></p>
+        <p>W ramach gry została zmiejszona dostępna rezerwa budżetowa do 500 milionów zł oraz wprowadzono mechanizmy
+          balansujące rozgrywkę.</p>
+        <p>Spróbuj swoich sił w ramach nowej gry klikając link poniżej.</p>
+      </div>
+    </div>
     <div class="columns">
       <div class="column is-12 has-text-centered">
         <%= button_to plays_path, method: :post, class: "button is-#{current_user.allowed_to_create_tournament_new_game? || @plays.any? ? 'light' : 'success'}", data: { turbo: false } do %>

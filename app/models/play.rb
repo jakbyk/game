@@ -43,8 +43,9 @@ class Play < ApplicationRecord
                          .or(where.not(finished_at: nil))
                          .order(id: :desc)
   }
-  scope :rank, -> { where.not(finished_at: nil).where(current_month: 48).order(social_satisfaction: :desc).limit(10) }
-  scope :next_rank, -> { where.not(id: rank.select(:id)).order(current_month: :desc, social_satisfaction: :desc).limit(10) }
+  scope :rank, -> { where.not(finished_at: nil).where(current_month: 48).where(created_at: DateTime.new(2025, 11, 10, 19, 20)..).order(social_satisfaction: :desc).limit(10) }
+  scope :next_rank, -> { where.not(id: rank.select(:id)).where(created_at: DateTime.new(2025, 11, 10, 20, 0)..).order(current_month: :desc, social_satisfaction: :desc).limit(10) }
+  scope :old_rank, -> { where.not(id: rank.select(:id)).where.not(id: next_rank.select(:id)).order(current_month: :desc, social_satisfaction: :desc).limit(40) }
 
   validate :only_one_of_archived_or_finished
   validates :current_month, inclusion: { in: (0..48) }
@@ -140,7 +141,7 @@ class Play < ApplicationRecord
   end
 
   def set_budget_reserve
-    self.update(budget_reserve: 2_500_000)
+    self.update(budget_reserve: 500_000)
   end
 
   def provide_first_events
