@@ -47,6 +47,8 @@ Rails.application.routes.draw do
     get "preview_events", to: "plays#preview_events"
   end
 
+  get "json_events", to: "plays#json_events"
+
   resources :archived_plays, only: [ :index, :show ]
 
   resources :chats, only: [ :show ] do

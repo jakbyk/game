@@ -195,6 +195,11 @@ class PlaysController < ApplicationController
     @play_events = mocked_events
   end
 
+  def json_events
+    @events = Event.all
+    render json: @events
+  end
+
   private
 
   def set_play
