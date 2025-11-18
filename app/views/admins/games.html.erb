@@ -3,6 +3,13 @@
     <h2 class="title is-5 has-text-centered">Tabela rozgrywek</h2>
 
     <p class="has-text-centered mb-4">
+      <%= link_to admin_tournament_games_path, class: "button is-success" do %>
+        <%= icon_tag("fire", options: { class: "menu-icon" }) %>
+        Turniejowe rozgrywki
+      <% end %>
+    </p>
+
+    <p class="has-text-centered mb-4">
       <%= link_to admin_archived_games_path, class: "button is-light" do %>
         <%= icon_tag("archive-box", options: { class: "menu-icon" }) %>
         Zakończone rozgrywki
@@ -29,8 +36,11 @@
               <% else %>
                 <span class="tag is-light">Rozgrzewkowa</span>
               <% end %>
+              <% if play.chat&.messages&.any? %>
+                <span class="tag is-light">Aktywny chat</span>
+              <% end %>
               <br>
-              <%= play.name || play.id %>
+              <p><%= link_to admin_game_path(play) do %><%= play.name || play.id %><% end %></p>
             </td>
             <td>
               <% play.users.each do |u| %>
@@ -57,7 +67,7 @@
             <% end %>
           </p>
 
-          <p><strong>Id:</strong> <%= play.name || play.id %></p>
+          <p><strong>Id:</strong> <%= link_to admin_game_path(play) do %><%= play.name || play.id %><% end %></p>
 
           <p><strong>Gracze:</strong></p>
           <ul style="margin-left: 1rem;">

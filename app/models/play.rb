@@ -46,6 +46,7 @@ class Play < ApplicationRecord
   scope :rank, -> { where.not(finished_at: nil).where(current_month: 48).where(created_at: DateTime.new(2025, 11, 10, 19, 20)..).order(social_satisfaction: :desc).limit(10) }
   scope :next_rank, -> { where.not(id: rank.select(:id)).where(created_at: DateTime.new(2025, 11, 10, 19, 20)..).order(current_month: :desc, social_satisfaction: :desc).limit(10) }
   scope :old_rank, -> { where.not(id: rank.select(:id)).where.not(id: next_rank.select(:id)).order(current_month: :desc, social_satisfaction: :desc).limit(40) }
+  scope :tournament, -> { where(is_tournament: true) }
 
   validate :only_one_of_archived_or_finished
   validates :current_month, inclusion: { in: (0..48) }

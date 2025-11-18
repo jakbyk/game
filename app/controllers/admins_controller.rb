@@ -17,8 +17,17 @@ class AdminsController < ApplicationController
     @plays = Play.active
   end
 
+  def game
+    @play = Play.find_by(id: params[:id])
+    redirect_to admin_games_path, warning: "Brak takiej gry" unless @play
+  end
+
   def archived_games
     @plays = Play.done
+  end
+
+  def tournament_games
+    @plays = Play.tournament
   end
 
   def settings

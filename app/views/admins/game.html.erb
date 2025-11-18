@@ -1,0 +1,84 @@
+<%= render 'shared/admins' do %>
+  <section class="section">
+    <div class="container">
+      <div class="box mb-5 has-text-centered">
+        <% if @play.is_tournament? %>
+          <p><span class="tag is-success is-light">Turniejowa</span></p>
+        <% else %>
+          <p><span class="tag is-light">Rozgrzewkowa</span></p>
+        <% end %>
+        <p><%= @play.name || @play.id %></p>
+        <p><strong>Obecny miesiąc:</strong> <%= @play.name_of_current_month %></p>
+        <p><strong>Zadowolenie społeczne:</strong> <%= @play.social_satisfaction %>%</p>
+        <p><strong>Rezerwa budżetowa:</strong> <%= @play.decorate.formatted_budget_reserve %></p>
+
+        <p><strong>Rezultat:</strong>
+          <% if @play.result == "win" %>
+            <%= icon_tag("face-smile", options: { class: "is-success" }) %>
+          <% elsif @play.result == "defeat" %>
+            <%= icon_tag("face-frown", options: { class: "is-danger" }) %>
+          <% end %>
+          <%= @play.decorate.name_of_result %>
+        </p>
+      </div>
+      <div class="box mb-5">
+        <p class="has-text-centered"><strong>Gracze:</strong></p>
+        <% @play.users.each do |u| %>
+          <p><%= link_to admin_user_path(u) do %><%= u.name %>
+            <% end %></p>
+        <% end %>
+      </div>
+      <div class="box mb-5">
+        <p class="has-text-centered"><strong>Wydarzenia:</strong></p>
+        <table>
+          <% @play.play_events.each do |pe| %>
+            <tr>
+              <td>
+                <%= pe.decorate.name_of_month %>
+              </td>
+              <td>
+                <% outcome = pe.outcome %>
+                <% icon_name = outcome == "positive" ? "face-smile" : outcome == "negative" ? "face-frown" : "face-meh" %>
+                <% icon_class = outcome == "positive" ? "has-text-success" : outcome == "negative" ? "has-text-danger" : "has-text-grey" %>
+                <span class="icon <%= icon_class %> ml-2" style="flex-shrink: 0;"><%= icon_tag(icon_name) %></span>
+              </td>
+              <td>
+                <% if pe.event.budget_reserve_change != 0 %>
+                  <% if pe.event.need_increase_budget_reserve %>
+                    <span>+ <%= pe.event.decorate.formatted_budget_reserve_change %></span>
+                  <% else %>
+                    <span>- <%= pe.event.decorate.formatted_budget_reserve_change %></span>
+                  <% end %>
+                <% end %>
+              </td>
+              <td>
+                <% if pe.potential_increase_of_satisfaction %>
+                  <span class="tag <%= "is-success" if outcome == "positive" %>"><%= PlayEvent.name_of_potential(pe.potential_increase_of_satisfaction.to_i) %></span>
+                <% end %>
+                <% if pe.potential_decrease_of_satisfaction %>
+                  <span class="tag <%= "is-danger" if outcome == "negative" %>"><%= PlayEvent.name_of_potential(pe.potential_decrease_of_satisfaction.to_i) %></span>
+                <% end %>
+              </td>
+              <td>
+                <%= pe.event.title %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+      <% if current_user.is_super_admin? %>
+        <div class="box mb-5">
+          <% if @play.chat %>
+            <% if @play.chat.messages.any? %>
+              <%= render @play.chat.messages.order(:created_at), chat: @play.chat %>
+            <% else %>
+              <p>Brak wiadomości</p>
+            <% end %>
+          <% else %>
+            <p>Gra nie ma chatu</p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+<% end %>
