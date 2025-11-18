@@ -2,6 +2,8 @@ class User < ApplicationRecord
   has_secure_password
   before_create :generate_confirmation_token
   scope :online, -> { where("last_seen_at > ?", 12.seconds.ago) }
+  scope :email_confirmed, -> { where.not(confirmed_at: nil) }
+  scope :could_tournament, -> { joins(:tournament_data).where(tournament_data: { status: "approved" }) }
 
   has_many :play_users, dependent: :destroy
   has_many :plays, through: :play_users

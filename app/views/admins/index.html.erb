@@ -1,12 +1,85 @@
 <%= render 'shared/admins' do %>
   <section class="section">
     <div class="container">
-      <p>Liczba wszystkich gier: <%= Play.unscoped.count %></p>
-      <p>Liczba aktywnych gier: <%= Play.active.count %></p>
-      <p>Liczba zarchiwizowanych/poddanych gier: <%= Play.archived.count %></p>
-      <p>Liczba zakończonych gier: <%= Play.finished.count %></p>
-      <p>Liczba wygranych gier: <%= Play.won.count %></p>
-      <p>Liczba użytkowników: <%= User.count %></p>
+      <div class="columns">
+        <div class="column is-4 p-4">
+          <div class="columns">
+            <div class="column is-12 box has-text-centered">
+              <p>Ilość wszystkich użytkowników</p>
+              <p><b><%= User.count %></b></p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-4 p-4">
+          <div class="columns">
+            <div class="column is-12 box has-text-centered">
+              <p>Ilość użytkowników z potwierdzonym mailem</p>
+              <p><b><%= User.email_confirmed.count %></b></p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-4 p-4">
+          <div class="columns">
+            <div class="column is-12 box has-text-centered">
+              <p>Ilość użytkowników mogących grać w turnieju</p>
+              <p><b><%= User.could_tournament.count %></b></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="columns">
+        <div class="column is-4 p-4">
+          <div class="columns">
+            <div class="column is-12 box has-text-centered">
+              <p>Ilość wszystkich gier</p>
+              <p><b><%= Play.unscoped.count %></b></p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-4 p-4">
+          <div class="columns">
+            <div class="column is-12 box has-text-centered">
+              <p>Liczba aktywnych gier</p>
+              <p><b><%= Play.active.count %></b></p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-4 p-4">
+          <div class="columns">
+            <div class="column is-12 box has-text-centered">
+              <p>Liczba skończonych gier</p>
+              <p><b><%= Play.done.count %></b></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column is-4 p-4">
+          <div class="columns">
+            <div class="column is-12 box has-text-centered">
+              <p>Liczba przegranych gier</p>
+              <p><b><%= Play.lose.count %></b></p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-4 p-4">
+          <div class="columns">
+            <div class="column is-12 box has-text-centered">
+              <p>Liczba poddanych gier</p>
+              <p><b><%= Play.archived.count %></b></p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-4 p-4">
+          <div class="columns">
+            <div class="column is-12 box has-text-centered">
+              <p>Liczba wygranych gier</p>
+              <p><b><%= Play.won.count %></b></p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 <% end %>
