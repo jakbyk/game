@@ -66,6 +66,58 @@
           <% end %>
         </table>
       </div>
+      <div class="box mb-5">
+        <p class="has-text-centered"><strong>Zmiany budżetu:</strong></p>
+        <div class="table-container budget-table-container">
+          <table class="table is-fullwidth is-mobile-stack" style="border-collapse: separate; border-spacing: 0 6px;">
+            <thead>
+            <tr class="has-text-centered">
+              <th class="has-text-centered"><strong>Zgłaszający</strong></th>
+              <th class="has-text-centered"><strong>Nazwa</strong></th>
+              <th class="has-text-centered"><strong>Czy wdrożono</strong></th>
+              <th class="has-text-centered"><strong>Zmiana</strong></th>
+              <th class="has-text-centered"><strong>Zagłosowało za</strong></th>
+              <th class="has-text-centered"><strong>Zagłosowało przeciw</strong></th>
+            </tr>
+            </thead>
+            <% @play.game_budget_changes.each do |budget_change| %>
+              <tbody class="color-background-on-hover">
+              <tr style="padding-top: 6px; padding-bottom: 6px;">
+                <td class="has-text-centered">
+                  <%= link_to profile_path(budget_change.user), data: { turbo: false } do %>
+                    <%= budget_change.user.name %>
+                  <% end %>
+                </td>
+                <td class="has-text-centered"><strong><%= budget_change.name %></strong></td>
+                <td class="has-text-centered">
+                  <% if budget_change.is_votable %>
+                    <p>Aktywna</p>
+                  <% else %>
+                    <% if budget_change.was_implement? %>
+                      <%= icon_tag("hand-thumb-up", options: { class: "menu-icon is-success" }) %> Wdrożono
+                    <% else %>
+                      <%= icon_tag("hand-thumb-down", options: { class: "menu-icon is-danger" }) %> Nie wdrożono
+                    <% end %>
+                  <% end %>
+                </td>
+                <td class="is-flex is-vcentered is-justify-content-center">
+                  <% if budget_change.is_adding %>
+                    <%= icon_tag("plus-circle", options: { class: "is-success" }) %>
+                  <% else %>
+                    <%= icon_tag("minus-circle", options: { class: "is-danger" }) %>
+                  <% end %>
+                  <span class="ml-1"><%= budget_change.decorate.formatted_value %></span>
+                </td>
+                <td class="has-text-centered">
+                  <p title="<%= budget_change.votes_favor_names %>"><%= budget_change.votes_favor_count %></p></td>
+                <td class="has-text-centered">
+                  <p title="<%= budget_change.votes_against_names %>"><%= budget_change.votes_against_count %></p></td>
+              </tr>
+              </tbody>
+            <% end %>
+          </table>
+        </div>
+      </div>
       <% if current_user.is_super_admin? %>
         <div class="box mb-5">
           <% if @play.chat %>
