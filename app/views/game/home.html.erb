@@ -68,12 +68,12 @@
       </div>
     <% end %>
 
-    <% if current_user.allowed_to_create_tournament_new_game? %>
+    <% if Setting.first.is_tournament_time? || current_user.allowed_to_create_tournament_new_game? %>
       <div class="columns">
         <div class="column is-12 has-text-centered">
-          <%#= button_to new_tournament_play_plays_path, method: :get, class: "button is-success", data: { turbo: false } do %>
-          <!--            <%#= icon_tag("plus", options: { class: "menu-icon" }) %> Stwórz grę turniejową-->
-          <%# end %>
+          <%= button_to new_tournament_play_path, method: :get, class: "button is-success", data: { turbo: false } do %>
+                      <%= icon_tag("plus", options: { class: "menu-icon" }) %> Stwórz grę turniejową
+          <% end %>
         </div>
       </div>
     <% end %>

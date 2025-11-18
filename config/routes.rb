@@ -25,6 +25,8 @@ Rails.application.routes.draw do
   end
   get :online_users, to: "users#online"
 
+  get "new_tournament_play", to: "plays#new_tournament_play"
+
   resources :plays, only: [ :show, :create, :destroy ] do
     get "previous_events", to: "plays#previous_events"
     get "budgets_descriptions", to: "plays#budgets_descriptions"
@@ -44,6 +46,7 @@ Rails.application.routes.draw do
     get "online_users", to: "plays#online_users"
     post "make_leader", to: "plays#make_leader"
     delete "remove_player", to: "plays#remove_player"
+    delete "leave_game", to: "plays#leave_game"
     get "preview_events", to: "plays#preview_events"
   end
 

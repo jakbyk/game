@@ -1,0 +1,30 @@
+<section class="section">
+  <div class="container">
+    <% unless current_user.allowed_to_create_tournament_new_game? %>
+      <h1 class="title is-5 has-text-centered">Tworzenie gry turniejowej zablokowane.</h1>
+      <p class="has-text-centered">Obecnie nie możesz stworzyć nowej gry turniejowej, ponieważ:</p>
+      <br>
+      <% unless current_user.allowed_to_create_new_game? %>
+        <p>- Masz więcej niż 4 aktywne gry - tutaj zliczamy zarówno treningowe jak i rankingowe, więc dokończ je zanim
+          zaczniesz nową grę turniejową.</p>
+      <% end %>
+      <% unless @setting.is_tournament_time? %>
+        <p>- Teraz nie odbywa się turniej.
+          <% if @setting.tournament_start.beginning_of_day > DateTime.now %>Turniej się jeszcze nie rozpoczął, nastąpi
+            to <%= @setting.tournament_start.beginning_of_day.strftime("%d-%m-%Y") %>.
+            <% end %>
+          <% if @setting.tournament_start.end_of_day < DateTime.now %>Turniej zakończył
+            się <%= @setting.tournament_start.beginning_of_day.strftime("%d-%m-%Y") %>.
+          <% end %></p>
+      <% end %>
+      <% unless current_user.could_join_tournament? %>
+        <p>- Nie masz potwierdzonego zgłoszenia do turnieju.
+          <% if current_user.tournament_data %>
+            Twoje zgłoszenie czeka na weryfikację.
+          <% else %>
+            Możesz je wysłać <%= link_to "tutaj", pages_tournament_path, target: "_blank" %>.
+          <% end %></p>
+      <% end %>
+    <% end %>
+  </div>
+</section>

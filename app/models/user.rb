@@ -55,7 +55,7 @@ class User < ApplicationRecord
   end
 
   def allowed_to_create_tournament_new_game?
-    is_admin? || (allowed_to_create_new_game? && Setting.first.is_tournament_time? && tournament_data_confirmed?)
+    is_admin? || (allowed_to_create_new_game? && Setting.first.is_tournament_time? && could_join_tournament?)
   end
 
   def allowed_to_archive_game?(play)
@@ -131,9 +131,5 @@ class User < ApplicationRecord
     unless acceptable_types.include?(avatar.content_type)
       errors.add(:avatar, "musi być JPEG, PNG lub WEBP")
     end
-  end
-
-  def tournament_data_confirmed?
-    tournament_data.status == "approved"
   end
 end

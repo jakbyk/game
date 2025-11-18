@@ -2,7 +2,8 @@
   <% if @play.budget_reserve >= 0 %>
     <h2 class="title is-5 has-text-centered">Rezerwa budżetowa: <%= @play.decorate.formatted_budget_reserve %></h2>
   <% else %>
-    <h2 class="title is-5 has-text-centered">Zadłużenie budżetu: <span class="is-danger"><%= @play.decorate.formatted_budget_reserve %></span></h2>
+    <h2 class="title is-5 has-text-centered">Zadłużenie budżetu:
+      <span class="is-danger"><%= @play.decorate.formatted_budget_reserve %></span></h2>
   <% end %>
 
   <% if @players.any? %>
@@ -44,22 +45,22 @@
                                 } do %>
                     <%= icon_tag("academic-cap", options: { class: "menu-icon" }) %> Oddaj lidera
                   <% end %>
-                </td>
-                <td>
-                  <%= button_to play_remove_player_path(play_id: @play.id, user_id: player.id),
-                                method: :delete,
-                                class: "button is-light is-flex is-vcentered is-fullwidth is-danger",
-                                data: {
-                                  turbo: false,
-                                  controller: "confirm",
-                                  confirm_target: "confirm",
-                                  message: "Czy na pewno chcesz usunąć gracza #{player.name} z tej gry?",
-                                  action: "confirm#confirm"
-                                } do %>
-                    <%= icon_tag("trash", options: { class: "menu-icon" }) %> Usuń gracza
-                  <% end %>
+                  </td>
+                  <td>
+                    <%= button_to play_remove_player_path(play_id: @play.id, user_id: player.id),
+                                  method: :delete,
+                                  class: "button is-light is-flex is-vcentered is-fullwidth is-danger",
+                                  data: {
+                                    turbo: false,
+                                    controller: "confirm",
+                                    confirm_target: "confirm",
+                                    message: "Czy na pewno chcesz usunąć gracza #{player.name} z tej gry?",
+                                    action: "confirm#confirm"
+                                  } do %>
+                      <%= icon_tag("trash", options: { class: "menu-icon" }) %> Usuń gracza
+                    <% end %>
                 <% end %>
-              </td>
+                </td>
             <% end %>
           </tr>
         <% end %>
@@ -108,4 +109,23 @@
       <% end %>
     </div>
   <% end %>
+
+  <div class="columns">
+    <div class="column is-12 has-text-centered">
+      <% unless PlayUser.find_by(user_id: current_user.id, play_id: @play.id).is_leader? %>
+        <%= button_to play_leave_game_path(play_id: @play.id),
+                      method: :delete,
+                      class: "button is-light is-vcentered is-danger",
+                      data: {
+                        turbo: false,
+                        controller: "confirm",
+                        confirm_target: "confirm",
+                        message: "Czy na pewno chcesz odejść z tej gry?",
+                        action: "confirm#confirm"
+                      } do %>
+          <%= icon_tag("trash", options: { class: "menu-icon" }) %> Odejdź z gry
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 <% end %>

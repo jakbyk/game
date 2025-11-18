@@ -1,5 +1,5 @@
 class PlaysController < ApplicationController
-  before_action :set_play, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :invite_player, :accept_invitation, :online_users, :make_leader, :how_to_play, :settings, :update_settings, :remove_player, :preview_events, :previous_events ]
+  before_action :set_play, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :invite_player, :accept_invitation, :online_users, :make_leader, :how_to_play, :settings, :update_settings, :remove_player, :preview_events, :previous_events, :leave_game ]
   before_action :fetch_even_if_finished, only: [ :show ]
   before_action :fetch_finished, only: [ :result ]
   before_action :set_chat, only: [ :show, :budgets_descriptions, :budget_changes, :expenses, :players, :how_to_play, :previous_events ]
@@ -15,6 +15,7 @@ class PlaysController < ApplicationController
   before_action :player_exists, only: [ :budgets_descriptions, :destroy, :archive, :proceed, :expenses, :create_budget_change, :budget_changes, :budget_vote, :players, :result, :show, :how_to_play, :previous_events ]
   before_action :check_budget_vote, only: [ :budget_vote ]
   before_action :check_preview_events, only: [ :preview_events ]
+  before_action :require_login, only: [ :new_tournament_play ]
 
   def show
     redirect_to play_result_path(play_id: @play.id) if @play.is_finished?
@@ -126,7 +127,11 @@ class PlaysController < ApplicationController
       if pi.accept(current_user, @play)
         redirect_to play_path(@play), notice: "Witaj w grze"
       else
-        redirect_to game_home_path, alert: "Nie udało się dołączyć do gry"
+        if current_user.allowed_to_create_new_game?
+          redirect_to game_home_path, alert: "Nie udało się dołączyć do gry"
+        else
+          redirect_to game_home_path, alert: "Nie możesz dołączyć do większej ilości gier"
+        end
       end
     else
       redirect_to game_home_path, alert: "Nie znaleziono takiego zaproszenia"
@@ -166,6 +171,18 @@ class PlaysController < ApplicationController
     redirect_to play_players_path, alert: "Nie udało się usunąć gracza."
   end
 
+  def leave_game
+    if current_user
+      pu = PlayUser.find_by(user: current_user, play: @play)
+      unless pu.is_leader?
+        if pu.destroy
+          return redirect_to game_home_path, notice: "Opuszczono grę."
+        end
+      end
+    end
+    redirect_to play_players_path, alert: "Nie udało się opuścić gry."
+  end
+
   def how_to_play
     @content = Setting.first.how_to_play
   end
@@ -193,6 +210,21 @@ class PlaysController < ApplicationController
     end
 
     @play_events = mocked_events
+  end
+
+  def new_tournament_play
+    if current_user.allowed_to_create_tournament_new_game?
+      game = Play.create(is_tournament: true)
+
+      if game.save
+        PlayUser.create(play: game, user: current_user, is_leader: true)
+        redirect_to play_path(game), notice: "Twoja gra właśnie się zaczęła."
+      else
+        redirect_to root_path, alert: "Nie udało się utworzyć gry."
+      end
+    else
+      @setting = Setting.first
+    end
   end
 
   def json_events
@@ -232,7 +264,7 @@ class PlaysController < ApplicationController
   def check_allowed
     return if current_user.allowed_to_create_new_game?
 
-    redirect_to game_home_path, alert: "Możesz uczestniczyć maksymalnie w trzech grach naraz."
+    redirect_to game_home_path, alert: "Możesz uczestniczyć maksymalnie w czterech grach naraz."
   end
 
   def check_delete
