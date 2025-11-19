@@ -52,6 +52,19 @@ class Event < ApplicationRecord
     end
   end
 
+  def self.take_positive
+    total = Event.positive.sum(:frequency)
+    return nil if total == 0
+
+    threshold = rand(1..total)
+    cumulative = 0
+
+    Event.positive.find_each do |event|
+      cumulative += event.frequency
+      return event if cumulative >= threshold
+    end
+  end
+
   def positive_title?
     !wysiwyg_blank?(positive_title)
   end

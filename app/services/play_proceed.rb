@@ -18,6 +18,13 @@ class PlayProceed
   end
 
   def make_new_events(month)
+    all_positive_count = Event.positive.count
+    play_positive_count = @play.play_events.select(&:is_positive_to_player?).count
+    if month % 4 == 0 && play_positive_count < month / 4
+      if play_positive_count < all_positive_count
+        draw_event_for_next_month(month, take_positive: true)
+      end
+    end
     rand(3..6).times do |i|
       draw_event_for_next_month(month, take_negative: i < 4)
     end
@@ -25,8 +32,8 @@ class PlayProceed
 
   private
 
-  def draw_event_for_next_month(month, take_negative: false)
-    event = take_event(take_negative: take_negative)
+  def draw_event_for_next_month(month, take_negative: false, take_positive: false)
+    event = take_event(take_negative: take_negative, take_positive: take_positive)
     return unless event
 
     positive, negative = calculate_potentials(event)
@@ -40,10 +47,17 @@ class PlayProceed
     )
   end
 
-  def take_event(take_negative: false)
+  def take_event(take_negative: false, take_positive: false)
     event = nil
     if @play.reload.social_satisfaction > 60 && take_negative
       event = Event.take_negative
+    end
+    if take_positive
+      while event == nil
+        event = Event.take_positive
+        event = nil if @previous_positive_events_ids.include?(event&.id)
+        @previous_positive_events_ids << event.id if event
+      end
     end
     while event == nil
       new_event = Event.take_random
@@ -194,6 +208,7 @@ class PlayProceed
         if penalty > 30
           penalty = 30
         end
+        puts "penalty #{penalty} game_budget #{game_budget.name}"
         new_satisfaction -= penalty
       end
     end

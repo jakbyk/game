@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Play, type: :model do
+  include ActionView::Helpers::NumberHelper
+
   let(:events_data) do
     file_path = Rails.root.join('spec', 'support', 'data', 'events.json')
     JSON.parse(File.read(file_path))
@@ -31,6 +33,10 @@ RSpec.describe Play, type: :model do
   end
 
   it "should be a play" do
+    won = 0
+    defeat = 0
+    social_satisfaction_win = []
+    social_satisfaction_defeat = []
     100.times do |i|
       user = User.create!(
         password: "12345678",
@@ -47,8 +53,17 @@ RSpec.describe Play, type: :model do
       play.users << user
 
       finish_positive_play(play)
-
       positive_event_ids = play.play_events.select(&:is_positive_to_player?).map(&:event_id)
+
+      puts "Play #{i} done #{play.result} with #{play.social_satisfaction} on #{play.current_month} reserve #{number_with_delimiter(play.budget_reserve * 1_000, delimiter: " ") + " zł"} + #{positive_event_ids.count} positive"
+      won += 1 if play.result == "win"
+      defeat += 1 if play.result == "defeat"
+      social_satisfaction_win << play.social_satisfaction if play.result == "win"
+      social_satisfaction_defeat << "#{play.social_satisfaction} on #{play.current_month}" if play.result == "defeat"
+      if i%10==9
+        puts "#{social_satisfaction_win.count} #{social_satisfaction_win.inspect}"
+        puts "#{social_satisfaction_defeat.count} #{social_satisfaction_defeat.inspect}"
+      end
 
       expect(positive_event_ids).to eq(positive_event_ids.uniq)
       expect(play.reload.social_satisfaction).to_not eq(99.99)
