@@ -10,7 +10,7 @@ class PlayInvitation < ApplicationRecord
       self.destroy!
       return false
     end
-    return false unless user.allowed_to_create_tournament_new_game? && play.is_tournament?
+    return false if !user.allowed_to_create_tournament_new_game? && play.is_tournament?
     pu = PlayUser.create(play: play, user: user)
     if pu.save
       self.destroy!
