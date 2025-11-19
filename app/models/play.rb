@@ -54,6 +54,8 @@ class Play < ApplicationRecord
   validates :name, uniqueness: true, allow_blank: true
   validates :minutes_for_voting, inclusion: { in: [ 0, 5, 10, 15, 30, 60, 120, 240, 720, 1440, 2880 ] }
 
+  default_scope { order(created_at: :desc) }
+
   def archive(user)
     return unless user.is_admin? || play_users.find_by(user: user).is_leader
     update(archived_at: Time.now, archived_by: user)
