@@ -25,7 +25,8 @@
           r.</b> Nie trzeba brać udziału w turnieju w oba dni. Każda ze zgłoszonych osób powinna wziąć udział w grze
           przynajmniej w jeden z tych dni. Grę można również zakończyć wcześniej niż przed upływem dwóch dni lub zacząć
           w drugim dniu Turnieju. Gra nie może jednak trwać dłużej niż dwa dni we wskazanym okresie lub zacząć się
-          wcześniej. Gracze grają w grę w dowolnych wybranych przez siebie godzinach we wskazanych dniach i poświęcają na nią tyle czasu ile chcą.</p>
+          wcześniej. Gracze grają w grę w dowolnych wybranych przez siebie godzinach we wskazanych dniach i poświęcają
+          na nią tyle czasu ile chcą.</p>
         <br>
         <p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp;Więcej informacji o zasadach rekrutacji, przebiegu
           Turnieju, ustalania zwycięzców i nagrodach można znaleźć w Regulaminie. W przypadku problemów technicznych z
@@ -44,136 +45,147 @@
           Regulamin turnieju
         <% end %>
       </div>
+      <% if current_user&.tournament_data&.status == "approved" %>
+        <div class="column is-12">
+          <h2 class="title is-5 has-text-centered">Twój formularz zgłoszeniowy do turnieju został już zaakceptowany <span class="icon has-text-success ml-2" style="flex-shrink: 0;"><%= icon_tag("face-smile") %></span></h2>
+        </div>
+      <%  else %>
       <div class="column is-12">
         <h2 class="title is-5 has-text-centered">Formularz zgłoszeniowy</h2>
       </div>
       <div class="column is-12" data-controller="tournament-toggle">
-        <%= form_with url: tournament_registration_create_path, method: :post, data: { turbo: false } do |f| %>
-          <div class="control mt-2">
-            <label class="checkbox">
-              <%= f.check_box "accept_data_processing", { oninvalid: "this.setCustomValidity('Proszę zaznaczyć zgodę.')", oninput: "setCustomValidity('')", required: true } %>
-              <span>Zapoznałem się z <%= link_to "Zasadami Przetwarzania danych osobowych", pages_information_on_the_processing_of_personal_data_path, target: "_blank", rel: "noopener" %> i wyrażam zgodę na przetwarzanie.</span>
-            </label>
-          </div>
-          <div class="field is-flex is-align-items-center mb-2">
-            <label class="label mr-3">Zaznacz jeśli masz co najmniej 18 lat (JEŚLI NIE, BĘDZIEMY KONTAKTOWAĆ SIĘ O ZGODĘ
-              RODZICÓW)</label>
+        <%=  form_with url: tournament_registration_create_path, method: :post, data: { turbo: false } do |f|  %>
+        <div class="control mt-2">
+          <label class="checkbox">
+            <%=  f.check_box "accept_data_processing", { oninvalid: "this.setCustomValidity('Proszę zaznaczyć zgodę.')", oninput: "setCustomValidity('')", required: true }  %>
+            <span>Zapoznałem się z <%= link_to "Zasadami Przetwarzania danych osobowych", pages_information_on_the_processing_of_personal_data_path, target: "_blank", rel: "noopener" %>
+              i wyrażam zgodę na przetwarzanie.</span>
+          </label>
+        </div>
+        <div class="field is-flex is-align-items-center mb-2">
+          <label class="label mr-3">Zaznacz jeśli masz co najmniej 18 lat (JEŚLI NIE, BĘDZIEMY KONTAKTOWAĆ SIĘ O
+            ZGODĘ
+            RODZICÓW)</label>
 
-            <label class="switch">
-              <%= f.check_box "over_18", { checked: @data[:over_18], data: { action: "tournament-toggle#toggleTournament" } }, true, false %>
-              <span class="slider"></span>
-            </label>
+          <label class="switch">
+            <%=  f.check_box "over_18", { checked: @data[:over_18], data: { action: "tournament-toggle#toggleTournament" } }, true, false  %>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div data-tournament-toggle-target="tournamentFieldsBelow" class="<%=  "is - hidden" if @data[:over_18]  %>">
+          <div class="field">
+            <%=  f.label :parent_first_name, "Imię rodzica", class: "has-text-weight-bold"  %>
+            <%= f.text_field :parent_first_name, class: "input", required: true, value: @data[:parent_first_name], placeholder: "Wpisz imię rodzica", oninvalid: "this.setCustomValidity('Proszę podać imię rodzica.')", oninput: "setCustomValidity('')" %>
           </div>
-          <div data-tournament-toggle-target="tournamentFieldsBelow" class="<%= "is-hidden" if @data[:over_18] %>">
-            <div class="field">
-              <%= f.label :parent_first_name, "Imię rodzica", class: "has-text-weight-bold" %>
-              <%= f.text_field :parent_first_name, class: "input", required: true, value: @data[:parent_first_name], placeholder: "Wpisz imię rodzica", oninvalid: "this.setCustomValidity('Proszę podać imię rodzica.')", oninput: "setCustomValidity('')" %>
-            </div>
 
-            <div class="field">
-              <%= f.label :parent_last_name, "Nazwisko rodzica", class: "has-text-weight-bold" %>
-              <%= f.text_field :parent_last_name, class: "input", value: @data[:parent_last_name], placeholder: "Wpisz nazwisko rodzica", oninvalid: "this.setCustomValidity('Proszę podać nazwisko rodzica.')", oninput: "setCustomValidity('')" %>
-            </div>
+          <div class="field">
+            <%=  f.label :parent_last_name, "Nazwisko rodzica", class: "has-text-weight-bold"  %>
+            <%=  f.text_field :parent_last_name, class: "input", value: @data[:parent_last_name], placeholder: "Wpisz nazwisko rodzica", oninvalid: "this.setCustomValidity('Proszę podać nazwisko rodzica.')", oninput: "setCustomValidity('')"  %>
+          </div>
 
-            <div class="field">
-              <%= f.label :parent_phone_number, "Numer telefonu rodzica", class: "has-text-weight-bold" %>
-              <%= f.text_field :parent_phone_number, class: "input", value: @data[:parent_phone_number], placeholder: "Wpisz numer telefonu rodzica", oninvalid: "this.setCustomValidity('Proszę podać numer telefonu rodzica.')", oninput: "setCustomValidity('')" %>
-            </div>
+          <div class="field">
+            <%=  f.label :parent_phone_number, "Numer telefonu rodzica", class: "has-text-weight-bold"  %>
+            <%= f.text_field :parent_phone_number, class: "input", value: @data[:parent_phone_number], placeholder: "Wpisz numer telefonu rodzica", oninvalid: "this.setCustomValidity('Proszę podać numer telefonu rodzica.')", oninput: "setCustomValidity('')" %>
+          </div>
 
-            <div class="field">
-              <%= f.label :parent_email, "Adres email rodzica", class: "has-text-weight-bold" %>
-              <%= f.text_field :parent_email, class: "input", value: @data[:parent_email], placeholder: "Wpisz adres email rodzica", oninvalid: "this.setCustomValidity('Proszę podać adres email rodzica.')", oninput: "setCustomValidity('')" %>
-              <p class="is-info">Na ten adres przyjdzie wiadomość, która zawiera link do potwierdzenia zgody rodzica na
-                Twój udział w turnieju.</p>
-            </div>
-          </div>
-          <div data-tournament-toggle-target="tournamentFieldsOver" class="<%= "is-hidden" unless @data[:over_18] %>">
-          </div>
           <div class="field">
-            <%= f.label :phone, "Numer telefonu", class: "has-text-weight-bold" %>
-            <%= f.text_field :phone, class: "input", value: @data[:phone], placeholder: "Wpisz swój numer telefonu", oninvalid: "this.setCustomValidity('Proszę podać numer telefonu.')", oninput: "setCustomValidity('')", required: true %>
+            <%=  f.label :parent_email, "Adres email rodzica", class: "has-text-weight-bold"  %>
+            <%=  f.text_field :parent_email, class: "input", value: @data[:parent_email], placeholder: "Wpisz adres email rodzica", oninvalid: "this.setCustomValidity('Proszę podać adres email rodzica.')", oninput: "setCustomValidity('')"  %>
+            <p class="is-info">Na ten adres przyjdzie wiadomość, która zawiera link do potwierdzenia zgody rodzica
+              na
+              Twój udział w turnieju.</p>
           </div>
-          <div class="field">
-            <% if @current_user %>
-              <p>Imię: <b><%= @current_user.first_name %></b></p>
-            <% else %>
-              <%= f.label :first_name, "Imię", class: "has-text-weight-bold" %>
-              <%= f.text_field :first_name, class: "input", value: @data[:first_name], placeholder: "Wpisz swoje imię", oninvalid: "this.setCustomValidity('Proszę podać imię.')", oninput: "setCustomValidity('')", required: true %>
-            <% end %>
+        </div>
+        <div data-tournament-toggle-target="tournamentFieldsOver" class="<%=  "is - hidden" unless @data[:over_18]  %>">
+        </div>
+        <div class="field">
+          <%=  f.label :phone, "Numer telefonu", class: "has-text-weight-bold"  %>
+          <%=  f.text_field :phone, class: "input", value: @data[:phone], placeholder: "Wpisz swój numer telefonu", oninvalid: "this.setCustomValidity('Proszę podać numer telefonu.')", oninput: "setCustomValidity('')", required: true  %>
+        </div>
+        <div class="field">
+          <%  if @current_user %>
+          <p>Imię: <b><%=  @current_user.first_name  %></b></p>
+          <%  else  %>
+          <%= f.label :first_name, "Imię", class: "has-text-weight-bold" %>
+          <%=  f.text_field :first_name, class: "input", value: @data[:first_name], placeholder: "Wpisz swoje imię", oninvalid: "this.setCustomValidity('Proszę podać imię.')", oninput: "setCustomValidity('')", required: true  %>
+          <%  end  %>
+        </div>
+        <div class="field">
+          <%  if @current_user %>
+          <p>Nazwisko: <b><%=  @current_user.last_name  %></b></p>
+          <%  else  %>
+          <%= f.label :last_name, "Nazwisko", class: "has-text-weight-bold" %>
+          <%=  f.text_field :last_name, class: "input", value: @data[:last_name], placeholder: "Wpisz swoje nazwisko", oninvalid: "this.setCustomValidity('Proszę podać nazwisko.')", oninput: "setCustomValidity('')", required: true  %>
+          <%  end  %>
+        </div>
+        <div class="field">
+          <%  if @current_user %>
+          <p>Email: <b><%=  @current_user.email  %></b></p>
+          <%  else  %>
+          <%= f.label :email, "Email", class: "has-text-weight-bold" %>
+          <%=  f.text_field :email, class: "input", value: @data[:email], placeholder: "Wpisz swój adres email", oninvalid: "this.setCustomValidity('Proszę podać adres email.')", oninput: "setCustomValidity('')", required: true  %>
+          <p class="is-info">Na ten adres zostanie utworzone konto gracza po weryfikacji zgłoszenia.</p>
+          <%  end %>
+        </div>
+        <%  unless @current_user  %>
+        <div class="control">
+          <label class="checkbox">
+            <%=  f.check_box :accept_regulations, { oninvalid: "this.setCustomValidity('Proszę zaznaczyć zgodę.')", oninput: "setCustomValidity('')", required: true }  %>
+            <span>Zgoda na <%=  link_to "regulamin", pages_regulation_path, target: "_blank", rel: "noopener"  %></span>
+          </label>
+        </div>
+        <div class="field">
+          <label class="label">Nazwa użytkownika</label>
+          <div class="control">
+            <%=  f.text_field :name, class: "input", placeholder: "Wpisz nazwę użytkownika", required: true, oninvalid: "this.setCustomValidity('Proszę podać nazwę użytkownika.')", oninput: "setCustomValidity('')"  %>
           </div>
-          <div class="field">
-            <% if @current_user %>
-              <p>Nazwisko: <b><%= @current_user.last_name %></b></p>
-            <% else %>
-              <%= f.label :last_name, "Nazwisko", class: "has-text-weight-bold" %>
-              <%= f.text_field :last_name, class: "input", value: @data[:last_name], placeholder: "Wpisz swoje nazwisko", oninvalid: "this.setCustomValidity('Proszę podać nazwisko.')", oninput: "setCustomValidity('')", required: true %>
-            <% end %>
+        </div>
+        <div class="field">
+          <label class="label">Hasło</label>
+          <div class="control">
+            <%=  f.password_field :password, class: "input", placeholder: "********", required: true, oninvalid: "this.setCustomValidity('Proszę wypełnić to pole.')", oninput: "setCustomValidity('')"  %>
           </div>
-          <div class="field">
-            <% if @current_user %>
-              <p>Email: <b><%= @current_user.email %></b></p>
-            <% else %>
-              <%= f.label :email, "Email", class: "has-text-weight-bold" %>
-              <%= f.text_field :email, class: "input", value: @data[:email], placeholder: "Wpisz swój adres email", oninvalid: "this.setCustomValidity('Proszę podać adres email.')", oninput: "setCustomValidity('')", required: true %>
-              <p class="is-info">Na ten adres zostanie utworzone konto gracza po weryfikacji zgłoszenia.</p>
-            <% end %>
+        </div>
+        <div class="field">
+          <label class="label">Powtórz hasło</label>
+          <div class="control">
+            <%=  f.password_field :password_confirmation, class: "input", placeholder: "********", required: true, oninvalid: "this.setCustomValidity('Proszę wypełnić to pole.')", oninput: "setCustomValidity('')"  %>
           </div>
-          <% unless @current_user %>
-            <div class="control">
-              <label class="checkbox">
-                <%= f.check_box :accept_regulations, { oninvalid: "this.setCustomValidity('Proszę zaznaczyć zgodę.')", oninput: "setCustomValidity('')", required: true } %>
-                <span>Zgoda na <%= link_to "regulamin", pages_regulation_path, target: "_blank", rel: "noopener" %></span>
-              </label>
-            </div>
-            <div class="field">
-              <label class="label">Nazwa użytkownika</label>
-              <div class="control">
-                <%= f.text_field :name, class: "input", placeholder: "Wpisz nazwę użytkownika", required: true, oninvalid: "this.setCustomValidity('Proszę podać nazwę użytkownika.')", oninput: "setCustomValidity('')" %>
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Hasło</label>
-              <div class="control">
-                <%= f.password_field :password, class: "input", placeholder: "********", required: true, oninvalid: "this.setCustomValidity('Proszę wypełnić to pole.')", oninput: "setCustomValidity('')" %>
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Powtórz hasło</label>
-              <div class="control">
-                <%= f.password_field :password_confirmation, class: "input", placeholder: "********", required: true, oninvalid: "this.setCustomValidity('Proszę wypełnić to pole.')", oninput: "setCustomValidity('')" %>
-              </div>
-            </div>
-          <% end %>
-          <div class="field">
-            <%= f.label :school_name, "Nazwa szkoły", class: "has-text-weight-bold" %>
-            <%= f.text_field :school_name, class: "input", value: @data[:school_name], placeholder: "Wpisz nazwę szkoły", oninvalid: "this.setCustomValidity('Proszę podać nazwę szkoły.')", oninput: "setCustomValidity('')", required: true %>
+        </div>
+        <%  end  %>
+        <div class="field">
+          <%=  f.label :school_name, "Nazwa szkoły", class: "has-text-weight-bold"  %>
+          <%=  f.text_field :school_name, class: "input", value: @data[:school_name], placeholder: "Wpisz nazwę szkoły", oninvalid: "this.setCustomValidity('Proszę podać nazwę szkoły.')", oninput: "setCustomValidity('')", required: true  %>
+        </div>
+        <div class="field">
+          <%=  f.label :school_address, "Adres szkoły", class: "has-text-weight-bold"  %>
+          <%= f.text_field :school_address, class: "input", value: @data[:school_address], placeholder: "Wpisz adres szkoły", oninvalid: "this.setCustomValidity('Proszę podać adres szkoły.')", oninput: "setCustomValidity('')", required: true %>
+        </div>
+        <div class="field">
+          <%=  f.label :teacher_data, "Dane opiekuna ze strony szkoły", class: "has-text-weight-bold"  %>
+          <%=  f.text_area :teacher_data, class: "input", value: @data[:teacher_data], placeholder: "Imię, nazwisko, telefon oraz e-mail", oninvalid: "this.setCustomValidity('Proszę wypełnić to pole.')", oninput: "setCustomValidity('')", required: true  %>
+        </div>
+        <div class="field">
+          <%=  f.label :additional_info, "Dodatkowe informacje (np. dot. potrzeb związanych z niepełnosprawnością)"  %>
+          <%= f.text_field :additional_info, class: "input", value: @data[:additional_info], placeholder: "Pole nie obowiązkowe" %>
+        </div>
+        <div class="field mt-4 has-text-centered is-12 column">
+          <div class="control">
+            <%=  f.submit "Wyślij zgłoszenie do turnieju", class: "button is-success"  %>
           </div>
-          <div class="field">
-            <%= f.label :school_address, "Adres szkoły", class: "has-text-weight-bold" %>
-            <%= f.text_field :school_address, class: "input", value: @data[:school_address], placeholder: "Wpisz adres szkoły", oninvalid: "this.setCustomValidity('Proszę podać adres szkoły.')", oninput: "setCustomValidity('')", required: true %>
-          </div>
-          <div class="field">
-            <%= f.label :teacher_data, "Dane opiekuna ze strony szkoły", class: "has-text-weight-bold" %>
-            <%= f.text_area :teacher_data, class: "input", value: @data[:teacher_data], placeholder: "Imię, nazwisko, telefon oraz e-mail", oninvalid: "this.setCustomValidity('Proszę wypełnić to pole.')", oninput: "setCustomValidity('')", required: true %>
-          </div>
-          <div class="field">
-            <%= f.label :additional_info, "Dodatkowe informacje (np. dot. potrzeb związanych z niepełnosprawnością)" %>
-            <%= f.text_field :additional_info, class: "input", value: @data[:additional_info], placeholder: "Pole nie obowiązkowe" %>
-          </div>
-          <div class="field mt-4 has-text-centered is-12 column">
-            <div class="control">
-              <%= f.submit "Wyślij zgłoszenie do turnieju", class: "button is-success" %>
-            </div>
-          </div>
-        <% end %>
+        </div>
+        <%  end  %>
       </div>
       <div class="column is-12 has-text-centered">
-        <p>W przypadku problemów technicznych można również pobrać i wydrukować formularz zgłoszeniowy z pliku poniżej.</p>
-        <%= link_to asset_path("Formularz-zgłoszeniowy-do-Turnieju-GOP.pdf"), target: "_blank", class: "button is-light" do %>
-          Formularz do pobrania
-        <% end %>
-        <p>Formularz należy podpisać i wysłać mailowo na stowarzyszenie.novum@gmail.com (skan, zdjęcie) lub na adres siedziby Organizatora do 21.11.2025r. (w przypadku wysyłki pocztą lub kurierem liczy się data wpływu).</p>
+        <p>W przypadku problemów technicznych można również pobrać i wydrukować formularz zgłoszeniowy z pliku
+          poniżej.</p>
+        <%=  link_to asset_path("Formularz-zgłoszeniowy-do-Turnieju-GOP.pdf"), target: "_blank", class: "button is-light" do  %>
+        Formularz do pobrania
+        <%  end  %>
+        <p>Formularz należy podpisać i wysłać mailowo na stowarzyszenie.novum@gmail.com (skan, zdjęcie) lub na adres
+          siedziby Organizatora do 21.11.2025r. (w przypadku wysyłki pocztą lub kurierem liczy się data wpływu).</p>
       </div>
+      <%  end %>
     </div>
   </div>
 </section>
