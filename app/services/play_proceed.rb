@@ -183,11 +183,14 @@ class PlayProceed
   def check_budget_downgrade_influence
     new_satisfaction = @play.reload.social_satisfaction.to_f
     @play.reload.game_budget_categories.each do |game_budget|
-      expected = game_budget.expected_value.to_f
-      current = game_budget.current_value.to_f
+      expected = game_budget.reload.expected_value.to_f
+      current = game_budget.reload.current_value.to_f
       if current < expected
         missing = expected - current
         penalty = (missing / 1000) * 0.01
+        if penalty < 0.1
+          penalty = 0.0
+        end
         if penalty > 30
           penalty = 30
         end
