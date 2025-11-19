@@ -1,6 +1,18 @@
 <% outcome = play_event.outcome %>
-<% icon_name = outcome == "positive" ? "face-smile" : outcome == "negative" ? "face-frown" : "face-meh" %>
-<% icon_class = outcome == "positive" ? "has-text-success" : outcome == "negative" ? "has-text-danger" : "has-text-grey" %>
+<% icon_name = if outcome == "positive"
+                 "face-smile"
+               elsif outcome == "negative"
+                 "face-frown"
+               else
+                 "face-meh"
+               end %>
+<% icon_class = if outcome == "positive"
+                  "has-text-success"
+                elsif outcome == "negative"
+                  "has-text-danger"
+                else
+                  "has-text-grey"
+                end %>
 <% description = case outcome
                  when "positive" then play_event.event.positive_description
                  when "negative" then play_event.event.negative_description

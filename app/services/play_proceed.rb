@@ -8,6 +8,7 @@ class PlayProceed
   def proceed
     current_month = @play.current_month
     check_budget_reserve_influence
+    check_budget_downgrade_influence
     resolve_previous_events(current_month)
     make_new_events(current_month + 1)
     proceed_play_to_next_month
@@ -41,7 +42,7 @@ class PlayProceed
 
   def take_event(take_negative: false)
     event = nil
-    if @play.social_satisfaction > 60 && take_negative
+    if @play.reload.social_satisfaction > 60 && take_negative
       event = Event.take_negative
     end
     while event == nil
@@ -132,7 +133,7 @@ class PlayProceed
   end
 
   def calculate_satisfaction
-    new_satisfaction = @play.social_satisfaction.to_f
+    new_satisfaction = @play.reload.social_satisfaction.to_f
     full_budget = @play.game_budget_categories.sum(&:expected_value)
     impact_multiplier = 5
     positive_impact, negative_impact = calculate_impacts
@@ -169,7 +170,7 @@ class PlayProceed
   def check_budget_reserve_influence
     if @play.budget_reserve < 0
       change = calculate_satisfaction_reduction(@play.budget_reserve.abs)
-      new_satisfaction = @play.social_satisfaction.to_f
+      new_satisfaction = @play.reload.social_satisfaction.to_f
       new_satisfaction -= change
       new_satisfaction = new_satisfaction.round(5).clamp(0, 99.99)
       if new_satisfaction < 10
@@ -177,6 +178,20 @@ class PlayProceed
       end
       @play.update!(social_satisfaction: new_satisfaction)
     end
+  end
+
+  def check_budget_downgrade_influence
+    new_satisfaction = @play.reload.social_satisfaction.to_f
+    @play.reload.game_budget_categories.each do |game_budget|
+      expected = game_budget.expected_value.to_f
+      current = game_budget.current_value.to_f
+      if current < expected
+        missing = expected - current
+        penalty = (missing / 1000) * 0.01
+        new_satisfaction -= penalty
+      end
+    end
+    @play.update!(social_satisfaction: new_satisfaction)
   end
 
   def calculate_satisfaction_reduction(n)

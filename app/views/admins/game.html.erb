@@ -38,8 +38,20 @@
               </td>
               <td>
                 <% outcome = pe.outcome %>
-                <% icon_name = outcome == "positive" ? "face-smile" : outcome == "negative" ? "face-frown" : "face-meh" %>
-                <% icon_class = outcome == "positive" ? "has-text-success" : outcome == "negative" ? "has-text-danger" : "has-text-grey" %>
+                <% icon_name = if outcome == "positive"
+                                 "face-smile"
+                               elsif outcome == "negative"
+                                 "face-frown"
+                               else
+                                 "face-meh"
+                               end %>
+                <% icon_class = if outcome == "positive"
+                                  "has-text-success"
+                                elsif outcome == "negative"
+                                  "has-text-danger"
+                                else
+                                  "has-text-grey"
+                                end %>
                 <span class="icon <%= icon_class %> ml-2" style="flex-shrink: 0;"><%= icon_tag(icon_name) %></span>
               </td>
               <td>
