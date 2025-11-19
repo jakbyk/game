@@ -5,6 +5,50 @@
     </h2>
     <div class="container">
       <div class="columns">
+        <div class="column is-12 has-text-centered">
+          <%= button_to admin_approved_tournament_registrations_path,
+                        method: :get,
+                        class: "button" do %>
+            Maile zgłoszonych do gry
+          <% end %>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column is-12 has-text-centered">
+          <%= button_to admin_all_tournament_registrations_path,
+                        method: :get,
+                        class: "button" do %>
+            Wszystkie zgłoszenia
+          <% end %>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column is-4 has-text-centered">
+          <%= button_to admin_all_tournament_registrations_path,
+                        method: :get,
+                        params: { status: "await_approve" },
+                        class: "button" do %>
+            Wszystkie oczekujące na zatwierdzenie
+          <% end %>
+        </div>
+        <div class="column is-4 has-text-centered">
+          <%= button_to admin_all_tournament_registrations_path,
+                        method: :get,
+                        params: { status: "await_parent" },
+                        class: "button" do %>
+            Wszystkie oczekujące na rodzica
+          <% end %>
+        </div>
+        <div class="column is-4 has-text-centered">
+          <%= button_to admin_all_tournament_registrations_path,
+                        method: :get,
+                        params: { status: "approved" },
+                        class: "button" do %>
+            Wszystkie zaakceptowane
+          <% end %>
+        </div>
+      </div>
+      <div class="columns">
         <div class="column is-4">
           <%= button_to admin_tournament_registrations_path,
                         method: :get,

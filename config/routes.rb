@@ -92,6 +92,8 @@ Rails.application.routes.draw do
   post "admin/contact/:id/mark_un_readed", to: "admins#mark_un_readed", as: :admin_contact_mark_un_readed
   post "admin/contact/:id/make_response", to: "admins#make_response", as: :admin_contact_make_response
   get "admin/tournament_registrations", to: "admins#tournament_registrations", as: :admin_tournament_registrations
+  get "admin/all_tournament_registrations", to: "admins#all_tournament_registrations", as: :admin_all_tournament_registrations
+  get "admin/approved_tournament_registrations", to: "admins#approved_tournament_registrations", as: :admin_approved_tournament_registrations
   get "admin/tournament_registrations/:id", to: "admins#tournament_registration", as: :admin_tournament_registration
   delete "admin/tournament_registrations/:id", to: "admins#tournament_registration_remove", as: :admin_tournament_registration_remove
   patch "admin/tournament_registrations/:id", to: "admins#tournament_registration_approve", as: :admin_tournament_registration_approve

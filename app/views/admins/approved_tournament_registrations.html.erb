@@ -1,0 +1,8 @@
+<%= render 'shared/admins' do %>
+  <section class="section">
+    <% @registrations.each_with_index do |registration, index| %>
+      <% email = registration.email || registration.user.email %>
+      <%= ", " if index > 0 %><%= email %>
+    <% end %>
+  </section>
+<% end %>

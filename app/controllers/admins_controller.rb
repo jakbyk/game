@@ -119,6 +119,19 @@ class AdminsController < ApplicationController
     @registrations = TournamentData.where(status: @status)
   end
 
+  def all_tournament_registrations
+    @status = params[:status]
+    if @status
+      @registrations = TournamentData.where(status: @status)
+    else
+      @registrations = TournamentData.all
+    end
+  end
+
+  def approved_tournament_registrations
+    @registrations = TournamentData.where(status: "approved")
+  end
+
   def tournament_registration
     @registration = TournamentData.find_by(id: params[:id])
     redirect_to admin_tournament_registrations_path, alert: "Nie znaleziono zgłoszenia" unless @registration
