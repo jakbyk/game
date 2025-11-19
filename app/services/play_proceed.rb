@@ -188,6 +188,9 @@ class PlayProceed
       if current < expected
         missing = expected - current
         penalty = (missing / 1000) * 0.01
+        if penalty > 30
+          penalty = 30
+        end
         new_satisfaction -= penalty
       end
     end
