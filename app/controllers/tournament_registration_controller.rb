@@ -26,27 +26,40 @@ class TournamentRegistrationController < ApplicationController
     @user = find_or_create_user
     return redirect_to pages_tournament_path, alert: "Nie udało się znaleźć/stworzyć użytkownika" unless @user
     @data[:status] = @data[:over_18] ? "await_approve" : "await_parent"
-    td = TournamentData.new(@data)
-    td.user = @user
-    if td.save
-      flash[:data] = nil
-      if current_user
-        if @data[:over_18]
-          redirect_to pages_tournament_path, notice: "Zgłoszenie zostało wysłane."
+    if @user.tournament_data
+      td = @user&.tournament_data
+      if td&.status != "approved"
+        if td&.update(@data)
+          redirect_to pages_tournament_path, notice: "Zgłoszenie zostało zaktualizowane."
         else
-          UserMailer.parent_confirmation_email(@user).deliver_later
-          redirect_to pages_tournament_path, notice: "Zgłoszenie zostało wysłane. Powiadom rodzica, by sprawdził skrzynkę mailową."
+          redirect_to pages_tournament_path, alert: "Nie udało się zgłosić do turnieju"
         end
       else
-        if @data[:over_18]
-          redirect_to pages_tournament_path, notice: "Zgłoszenie zostało wysłane. Sprawdź swoją skrzynkę mailową."
-        else
-          UserMailer.parent_confirmation_email(@user).deliver_later
-          redirect_to pages_tournament_path, notice: "Zgłoszenie zostało wysłane. Sprawdź swoją skrzynkę mailową i powiadom rodzica, by zrobił to samo."
-        end
+        redirect_to pages_tournament_path, warning: "Zgłoszenie zostało już zaakceptowane."
       end
     else
-      redirect_to pages_tournament_path, alert: "Nie udało się zgłosić do turnieju"
+      td = TournamentData.new(@data)
+      td.user = @user
+      if td.save
+        flash[:data] = nil
+        if current_user
+          if @data[:over_18]
+            redirect_to pages_tournament_path, notice: "Zgłoszenie zostało wysłane."
+          else
+            UserMailer.parent_confirmation_email(@user).deliver_later
+            redirect_to pages_tournament_path, notice: "Zgłoszenie zostało wysłane. Powiadom rodzica, by sprawdził skrzynkę mailową."
+          end
+        else
+          if @data[:over_18]
+            redirect_to pages_tournament_path, notice: "Zgłoszenie zostało wysłane. Sprawdź swoją skrzynkę mailową."
+          else
+            UserMailer.parent_confirmation_email(@user).deliver_later
+            redirect_to pages_tournament_path, notice: "Zgłoszenie zostało wysłane. Sprawdź swoją skrzynkę mailową i powiadom rodzica, by zrobił to samo."
+          end
+        end
+      else
+        redirect_to pages_tournament_path, alert: "Nie udało się zgłosić do turnieju"
+      end
     end
   end
 
