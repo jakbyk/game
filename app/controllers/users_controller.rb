@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :authenticate_admin!, only: [ :add_tester, :remove_tester, :add_admin, :remove_admin ]
-  before_action :set_user, only: [ :add_tester, :remove_tester, :add_admin, :remove_admin ]
+  before_action :authenticate_admin!, only: [ :add_tester, :remove_tester, :add_admin, :remove_admin, :abusive ]
+  before_action :set_user, only: [ :add_tester, :remove_tester, :add_admin, :remove_admin, :abusive ]
   before_action :authenticate_super_admin!, only: [ :add_admin, :remove_admin ]
   def new
     @user = User.new
@@ -62,6 +62,16 @@ class UsersController < ApplicationController
   def remove_admin
     @user.update(is_admin: false)
     redirect_to admin_user_path(@user), notice: "Usunięto status testera"
+  end
+
+  def abusive
+    if @user.update(name: @user.id.to_s)
+      redirect_to admin_user_path(@user), notice: "Nazwa użytkownika została zaktualizowana"
+    else
+      new_name = @user.id.to_s + ("a".."z").sort_by { rand }[0, 8].join
+      @user.update(name: new_name)
+      redirect_to admin_user_path(@user), notice: "Nazwa użytkownika została zaktualizowana"
+    end
   end
 
   private

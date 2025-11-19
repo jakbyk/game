@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       delete :remove_tester
       post :add_admin
       delete :remove_admin
+      patch :abusive
     end
   end
   get :online_users, to: "users#online"

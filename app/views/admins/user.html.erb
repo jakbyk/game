@@ -3,6 +3,20 @@
     <div class="container">
       <% if current_user.is_admin && !@user.is_admin %>
         <div class="box mb-5 has-text-centered">
+          <%= button_to abusive_user_path(@user),
+                        method: :patch,
+                        class: "button is-light is-vcentered is-danger",
+                        data: {
+                          turbo: false,
+                          controller: "confirm",
+                          confirm_target: "confirm",
+                          message: "Czy na pewno nazwa #{@user.name} jest obraźliwa?",
+                          action: "confirm#confirm"
+                        } do %>
+            <%= icon_tag("trash", options: { class: "menu-icon" }) %> Obraźliwa nazwa użytkownika
+          <% end %>
+        </div>
+        <div class="box mb-5 has-text-centered">
           <% if @user.is_tester %>
             <%= button_to remove_tester_user_path(@user),
                           method: :delete,
@@ -68,9 +82,9 @@
           <%= @user.tournament_data.present? ? icon_tag("check-circle", options: { class: "is-success" }) : icon_tag("x-circle", options: { class: "is-danger" }) %>
         </p>
         <% if @user.tournament_data.present? %>
-        <p><%= link_to admin_tournament_registration_path(@user.tournament_data) do %></p>
-            Pokaż zgłoszenie do turnieju
-          <% end %>
+          <p><%= link_to admin_tournament_registration_path(@user.tournament_data) do %></p>
+              Pokaż zgłoszenie do turnieju
+            <% end %>
         <% end %>
       </div>
 
@@ -110,7 +124,8 @@
                       <span class="tag is-light">Rozgrzewkowa</span>
                     <% end %>
                     <br>
-                    <p><%= link_to admin_game_path(play) do %><%= play.name || play.id %><% end %></p>
+                    <p><%= link_to admin_game_path(play) do %><%= play.name || play.id %>
+                      <% end %></p>
                   </td>
                   <td>
                     <% play.users.each do |u| %>
@@ -140,7 +155,8 @@
                     <span class="tag is-light">Rozgrzewkowa</span>
                   <% end %>
                 </p>
-                <p><strong>Id:</strong> <%= link_to admin_game_path(play) do %><%= play.name || play.id %><% end %></p>
+                <p><strong>Id:</strong> <%= link_to admin_game_path(play) do %><%= play.name || play.id %>
+                  <% end %></p>
                 <p><strong>Gracze:</strong>
                   <% play.users.each do |u| %>
                     <% if u == @user %>
@@ -187,7 +203,8 @@
                       <span class="tag is-light">Rozgrzewkowa</span>
                     <% end %>
                     <br>
-                    <p><%= link_to admin_game_path(play) do %><%= play.name || play.id %><% end %></p>
+                    <p><%= link_to admin_game_path(play) do %><%= play.name || play.id %>
+                      <% end %></p>
                   </td>
                   <td>
                     <% play.users.each do |u| %>
@@ -225,7 +242,8 @@
                     <span class="tag is-light">Rozgrzewkowa</span>
                   <% end %>
                 </p>
-                <p><strong>Id:</strong> <%= link_to admin_game_path(play) do %><%= play.name || play.id %><% end %></p>
+                <p><strong>Id:</strong> <%= link_to admin_game_path(play) do %><%= play.name || play.id %>
+                  <% end %></p>
                 <p><strong>Gracze:</strong>
                   <% play.users.each do |u| %>
                     <% if u == @user %>
