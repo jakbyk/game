@@ -14,7 +14,7 @@ class AdminsController < ApplicationController
   end
 
   def games
-    @plays = Play.active
+    @plays = Play.active.reorder(updated_at: :desc)
   end
 
   def game
@@ -23,7 +23,7 @@ class AdminsController < ApplicationController
   end
 
   def archived_games
-    @plays = Play.done
+    @plays = Play.done.reorder(updated_at: :desc)
   end
 
   def tournament_games
