@@ -44,9 +44,9 @@ class Play < ApplicationRecord
                          .order(id: :desc)
   }
   scope :lose, -> { where.not(finished_at: nil).where(archived_at: nil).where("current_month <?", 48).order(id: :desc) }
-  scope :rank, -> { where.not(finished_at: nil).where(current_month: 48).where(created_at: DateTime.new(2025, 11, 19, 15, 40)..).order(social_satisfaction: :desc).limit(10) }
-  scope :next_rank, -> { where.not(id: rank.select(:id)).where(created_at: DateTime.new(2025, 11, 19, 15, 40)..).order(current_month: :desc, social_satisfaction: :desc).limit(10) }
-  scope :old_rank, -> { where.not(id: rank.select(:id)).where.not(id: next_rank.select(:id)).order(current_month: :desc, social_satisfaction: :desc).limit(40) }
+  scope :rank, -> { where.not(finished_at: nil).where(current_month: 48).where(created_at: DateTime.new(2025, 11, 19, 15, 40)..).reorder(social_satisfaction: :desc).limit(10) }
+  scope :next_rank, -> { where.not(id: rank.select(:id)).where(created_at: DateTime.new(2025, 11, 19, 15, 40)..).reorder(current_month: :desc, social_satisfaction: :desc).limit(10) }
+  scope :old_rank, -> { where.not(id: rank.select(:id)).where.not(id: next_rank.select(:id)).reorder(current_month: :desc, social_satisfaction: :desc).limit(40) }
   scope :tournament, -> { where(is_tournament: true) }
 
   validate :only_one_of_archived_or_finished
