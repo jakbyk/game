@@ -15,6 +15,18 @@
          data-menu-target="menu"
          data-fullscreen-target="sidebar">
 
+    <% if Setting.first.is_tournament_time? %>
+      <% if @play.is_tournament? %>
+        <div id="game-info" class="is-fullwidth tag is-success is-light has-text-centered">
+          To jest gra turniejowa. <br> Życzymy powodzenia!
+        </div>
+      <% else %>
+        <div id="game-info" class="is-fullwidth tag is-danger is-light">
+          W tym czasie trwa turniej. To jest gra rozgrzewkowa, która nie wchodzi w jego skład.
+        </div>
+      <% end %>
+    <% end %>
+
     <p style="text-align: center">
       <span class="has-text-grey is-size-7">Rodzaj gry:</span>
       <% if @play.is_tournament? %>

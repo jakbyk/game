@@ -10,11 +10,11 @@
       <% end %>
       <% unless @setting.is_tournament_time? %>
         <p>- Teraz nie odbywa się turniej.
-          <% if @setting.tournament_start.beginning_of_day > DateTime.now %>Turniej się jeszcze nie rozpoczął, nastąpi
-            to <%= @setting.tournament_start.beginning_of_day.strftime("%d-%m-%Y") %>.
-            <% end %>
-          <% if @setting.tournament_start.end_of_day < DateTime.now %>Turniej zakończył
-            się <%= @setting.tournament_start.beginning_of_day.strftime("%d-%m-%Y") %>.
+          <% if @setting.tournament_start_time > @setting.local_time %>Turniej się jeszcze nie rozpoczął, nastąpi
+            to <%= @setting.tournament_start_time.strftime("%d-%m-%Y %HH:%MM:%SS") %>.
+          <% end %>
+          <% if @setting.tournament_end_time < @setting.local_time %>Turniej zakończył
+            się <%= @setting.tournament_end_time.strftime("%d-%m-%Y %HH:%MM:%SS") %>.
           <% end %></p>
       <% end %>
       <% unless current_user.could_join_tournament? %>

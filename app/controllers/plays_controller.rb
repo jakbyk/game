@@ -280,9 +280,14 @@ class PlaysController < ApplicationController
   end
 
   def check_proceed
-    return if current_user.allowed_to_proceed_game?(@play)
+    if @play.is_tournament? && @play.users.count < 2
+      redirect_to play_players_path(@play), alert: "W grze turniejowej musi brać udział minimum 2 graczy"
+    else
 
-    redirect_to play_path(@play), alert: "Nie jesteś leaderem gry."
+      return if current_user.allowed_to_proceed_game?(@play)
+
+      redirect_to play_path(@play), alert: "Nie jesteś leaderem gry."
+    end
   end
 
   def check_create_budget_change

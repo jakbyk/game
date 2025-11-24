@@ -7,6 +7,106 @@
     </div>
 
     <div class="content">
+      <% if Setting.first.tournament_has_started? %>
+        <h1 class="title is-3 has-text-centered">Ranking turnieju*</h1>
+        <p class="is-7 has-text-grey has-text-centered">* jest to ranking generowany automatycznie, a finalne wyniki turnieju zostaną podane po weryfikacji zgodności zgłoszonych gier z <%= link_to pages_regulation_path, target: "_blank" do %>regulaminem<% end %>.</p>
+
+        <% if @ranked.any? && @ranked.count > 2 %>
+          <% podium = @ranked.first(3) %>
+          <% rest = @ranked.drop(3).first(7) %>
+
+          <div class="columns is-variable is-4 is-vcentered has-text-centered mb-6">
+            <% podium.each_with_index do |play, index| %>
+              <div class="column">
+                <div class="card has-background-light">
+                  <div class="card-content">
+                    <p class="has-text-centered">
+                      <img src="<%= asset_path("medals/#{index + 1}.png") %>" style="width: 64px; height: 64px;"/>
+                    </p>
+                    <p class="title is-4">
+                      <%= "#{index + 1} miejsce" %>
+                    </p>
+                    <p class="has-text-centered">
+                      <%= play.name_of_current_month %>
+                    </p>
+                    <p class="has-text-centered has-text-grey is-7 is-paddingless is-marginless">
+                      Zadowolenie społeczne:
+                    </p>
+                    <p class="subtitle is-5 has-text-success">
+                      <strong><%= play.social_satisfaction.round(2) %>%</strong>
+                    </p>
+                    <p class="has-text-centered has-text-grey is-7 is-paddingless is-marginless">
+                      Stan gry:
+                    </p>
+                    <p class="has-text-centered">
+                      <%= play.decorate.name_of_result %>
+                    </p>
+                    <% if play.name %>
+                      <p class="has-text-centered has-text-grey is-7 is-paddingless is-marginless">
+                        Nazwa drużyny:
+                      </p>
+                      <p class="is-size-4 has-text-weight-semibold"><%= play.name %></p>
+                    <% end %>
+                    <p class="is-size-6 has-text-weight-semibold mb-2">Gracze:</p>
+                    <% play.users.each do |user| %>
+                      <p class="has-text-centered is-marginless">
+                        <%= link_to profile_path(user) do %>
+                          <%= user.name %>
+                        <% end %>
+                      </p>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <% if rest.any? %>
+            <div class="box">
+              <h2 class="title is-5">Kolejne miejsca</h2>
+              <table class="table is-fullwidth">
+                <thead>
+                <tr>
+                  <th>Miejsce</th>
+                  <th>Obecny miesiąc gry</th>
+                  <th>Wynik (%)</th>
+                  <th>Stan gry</th>
+                  <th>Nazwa drużyny/gracze</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% rest.each_with_index do |play, index| %>
+                  <tr class="color-background-on-hover">
+                    <td><%= index + 4 %></td>
+                    <td><%= play.name_of_current_month %></td>
+                    <td><%= play.social_satisfaction.round(2) %>%</td>
+                    <td>
+                      <%= play.decorate.name_of_result %>
+                    </td>
+                    <td>
+                      <% if play.name %>
+                        <p><%= play.name %></p>
+                      <% else %>
+                        <p>
+                          <% play.users.each_with_index do |user, i| %>
+                            <% if i > 0 %>,
+                            <% end %>
+                            <%= link_to profile_path(user) do %>
+                              <%= user.name %>
+                            <% end %>
+                          <% end %>
+                        </p>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% end %>
+        <% end %>
+        <h1 class="title is-5 has-text-centered">Ranking gier rozgrzewkowych</h1>
+      <% end %>
       <% if @plays.any? && @plays.count > 2 %>
         <% podium = @plays.first(3) %>
         <% rest = @plays.drop(3).first(7) %>

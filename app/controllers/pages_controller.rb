@@ -40,6 +40,7 @@ class PagesController < ApplicationController
   end
 
   def ranking
+    @ranked = Play.ranked
     @plays = Play.rank
     @almost_done = Play.next_rank
     @old_rank = Play.old_rank

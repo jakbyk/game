@@ -411,6 +411,12 @@ div.background-danger {
   }
 }
 
+#game-info {
+  white-space: pre-wrap;
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
 #tooltip {
   position: absolute;
   background: #333;

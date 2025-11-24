@@ -14,7 +14,23 @@ class Setting < ApplicationRecord
   end
 
   def is_tournament_time?
-    tournament_start.beginning_of_day < DateTime.now && DateTime.now < tournament_end.end_of_day
+    tournament_start_time < local_time && local_time < tournament_end_time
+  end
+
+  def tournament_has_started?
+    tournament_start_time < local_time
+  end
+
+  def tournament_start_time
+    tournament_start.in_time_zone("Europe/Warsaw").change(hour: 12, min: 0, sec: 0)
+  end
+
+  def tournament_end_time
+    tournament_end.in_time_zone("Europe/Warsaw").change(hour: 20, min: 0, sec: 0)
+  end
+
+  def local_time
+    DateTime.now.in_time_zone("Europe/Warsaw")
   end
 
   private
