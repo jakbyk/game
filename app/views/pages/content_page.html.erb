@@ -9,6 +9,13 @@
             <iframe width="560" height="315" src="https://www.youtube.com/embed/TWYWnWtecLw?si=4UbFmqYnNexsgjfN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           </div>
         </div>
+        <div class="columns">
+          <div class="column is-12 has-text-centered">
+            <%= link_to asset_path("Konspekt-zajęć-Gra-o-Polskę.pdf"), target: "_blank", class: "button is-success" do %>
+              Konspekt zajęć Gra o Polskę
+            <% end %>
+          </div>
+        </div>
       <% end %>
       <%= raw @content %>
       <% if @title == "Jak grać?" %>

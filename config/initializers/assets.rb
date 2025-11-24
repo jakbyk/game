@@ -10,4 +10,4 @@ Rails.application.config.assets.version = "1.0"
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
 # Rails.application.config.assets.precompile += %w[ admin.js admin.css ]
-Rails.application.config.assets.precompile += %w[ Instrukcja-dodawania-wydarzeń-w-Grze-o-Polskę.pdf Formularz-zgłoszeniowy-do-Turnieju-GOP.pdf Regulamin-Turnieju-Gra-o-Polskę.pdf ]
+Rails.application.config.assets.precompile += %w[ Instrukcja-dodawania-wydarzeń-w-Grze-o-Polskę.pdf Formularz-zgłoszeniowy-do-Turnieju-GOP.pdf Regulamin-Turnieju-Gra-o-Polskę.pdf Konspekt-zajęć-Gra-o-Polskę.pdf ]
