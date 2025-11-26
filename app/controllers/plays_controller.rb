@@ -282,8 +282,9 @@ class PlaysController < ApplicationController
   def check_proceed
     if @play.is_tournament? && @play.users.count < 2
       redirect_to play_players_path(@play), alert: "W grze turniejowej musi brać udział minimum 2 graczy"
+    elsif @play.is_tournament? && !Setting.first.is_tournament_time?
+      redirect_to play_players_path(@play), alert: "Obecnie nie trwa turniej, odbywa on się od #{Setting.first.tournament_start_time.strftime("%d-%m-%Y %H:%M:%S")} do #{Setting.first.tournament_end_time.strftime("%d-%m-%Y %H:%M:%S")}"
     else
-
       return if current_user.allowed_to_proceed_game?(@play)
 
       redirect_to play_path(@play), alert: "Nie jesteś leaderem gry."
