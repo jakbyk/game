@@ -78,6 +78,7 @@ Rails.application.routes.draw do
   get "admin/games/:id", to: "admins#game", as: :admin_game
   get "admin/archived_games", to: "admins#archived_games", as: :admin_archived_games
   get "admin/tournament_games", to: "admins#tournament_games", as: :admin_tournament_games
+  get "admin/tournament_result", to: "admins#tournament_result", as: :admin_tournament_result
   get "admin/settings", to: "admins#settings", as: :admin_settings
   get "admin/changes", to: "admins#changes", as: :admin_changes
   get "admin/archived_changes", to: "admins#archived_changes", as: :admin_archived_changes

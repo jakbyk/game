@@ -34,6 +34,9 @@
                   <%= icon_tag("face-frown", options: { class: "is-danger" }) %>
                 <% end %>
                 <%= play.decorate.name_of_result %>
+                <% if play.is_tournament? %>
+                  <p><strong>Miejsce w turnieju:</strong> <%= Play.full_ranked.index(play) + 1 %></p>
+                <% end %>
               </td>
             </tr>
           <% end %>
@@ -63,6 +66,9 @@
               <% end %>
               <%= play.decorate.name_of_result %>
             </p>
+            <% if play.is_tournament? %>
+              <p><strong>Miejsce w turnieju:</strong> <%= Play.full_ranked.index(play) + 1 %></p>
+            <% end %>
           </div>
         <% end %>
       </div>

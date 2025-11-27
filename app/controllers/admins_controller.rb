@@ -30,6 +30,10 @@ class AdminsController < ApplicationController
     @plays = Play.tournament
   end
 
+  def tournament_result
+    @plays = Play.full_ranked
+  end
+
   def settings
     if Setting.any?
       @settings = Setting.first

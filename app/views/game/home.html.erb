@@ -18,6 +18,7 @@
               <td>
                 <% if play.is_tournament? %>
                   <span class="tag is-success is-light">Turniejowa</span>
+                  <br><strong>Miejsce w turnieju:</strong> <%= Play.full_ranked.index(play) + 1 %>
                 <% else %>
                   <span class="tag is-light">Rozgrzewkowa</span>
                 <% end %>
@@ -48,6 +49,9 @@
                 <span class="tag is-light">Rozgrzewkowa</span>
               <% end %>
             </p>
+            <% if play.is_tournament? %>
+              <p><strong>Miejsce w turnieju:</strong> <%= Play.full_ranked.index(play) + 1 %></p>
+            <% end %>
             <p><strong>Numer gry:</strong> <%= play.name || play.id %></p>
             <p><strong>Miesiąc gry:</strong> <%= play.name_of_current_month %></p>
             <p><strong>Ilość graczy:</strong> <%= play.users.count %></p>
