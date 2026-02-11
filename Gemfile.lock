@@ -126,7 +126,7 @@ GEM
       logger (~> 1.5)
     coderay (1.1.3)
     concurrent-ruby (1.3.6)
-    connection_pool (3.0.2)
+    connection_pool (2.5.5)
     crass (1.0.6)
     cssbundling-rails (1.4.3)
       railties (>= 6.0.0)
@@ -515,6 +515,7 @@ DEPENDENCIES
   brakeman
   bulma-rails
   capybara
+  connection_pool (~> 2.4)
   cssbundling-rails
   debug
   devise-i18n
@@ -534,7 +535,7 @@ DEPENDENCIES
   puma (>= 5.0)
   rails (~> 7.2.2, >= 7.2.2.1)
   rails_12factor
-  redis
+  redis (~> 5.4)
   rspec-rails
   rubocop-rails-omakase
   sassc-rails

@@ -74,6 +74,7 @@ gem "inline_svg"
 gem "devise-i18n"
 gem "devise-i18n-views"
 gem "rails_12factor", group: :production
-gem "redis"
+gem "redis", "~> 5.4"
 gem "aws-sdk-s3", group: :production
 gem "mail"
+gem "connection_pool", "~> 2.4"

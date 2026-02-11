@@ -63,7 +63,7 @@
     <orderEntry type="library" scope="PROVIDED" name="childprocess (v5.1.0, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="coderay (v1.1.3, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="concurrent-ruby (v1.3.6, RVM: ruby-3.3.7) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="connection_pool (v3.0.2, RVM: ruby-3.3.7) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="connection_pool (v2.5.5, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.6, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="cssbundling-rails (v1.4.3, RVM: ruby-3.3.7) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="dartsass-rails (v0.5.1, RVM: ruby-3.3.7) [gem]" level="application" />
