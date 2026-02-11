@@ -1,4 +1,5 @@
 require "active_support/core_ext/integer/time"
+require "uri"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -122,7 +123,7 @@ Rails.application.configure do
   config.action_mailer.logger.level = Logger::DEBUG
 
   config.cache_store = :redis_cache_store, {
-    url: ENV.fetch("REDIS_URL"),
+    url: URI.parse(ENV.fetch("REDIS_URL")),
     pool: {
       size: Integer(ENV.fetch("RAILS_MAX_THREADS", 5)),
       timeout: 5
