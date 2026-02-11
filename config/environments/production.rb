@@ -123,7 +123,7 @@ Rails.application.configure do
   config.action_mailer.logger.level = Logger::DEBUG
 
   config.cache_store = :redis_cache_store, {
-    url: URI.parse(ENV.fetch("REDIS_URL")),
+    url: ENV.fetch("REDIS_URL"),
     pool: {
       size: Integer(ENV.fetch("RAILS_MAX_THREADS", 5)),
       timeout: 5
