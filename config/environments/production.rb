@@ -122,5 +122,5 @@ Rails.application.configure do
   config.action_mailer.logger = Logger.new(STDOUT)
   config.action_mailer.logger.level = Logger::DEBUG
 
-  config.cache_store = :memory_store
+  config.cache_store = :null_store
 end
