@@ -123,6 +123,10 @@ Rails.application.configure do
 
   config.cache_store = :redis_cache_store, {
     url: ENV.fetch("REDIS_URL"),
+    pool: {
+      size: Integer(ENV.fetch("RAILS_MAX_THREADS", 5)),
+      timeout: 5
+    },
     connect_timeout: 5,
     read_timeout: 1,
     write_timeout: 1,
