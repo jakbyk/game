@@ -120,4 +120,12 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: "graopolske.pl" }
   config.action_mailer.logger = Logger.new(STDOUT)
   config.action_mailer.logger.level = Logger::DEBUG
+
+  config.cache_store = :redis_cache_store, {
+    url: ENV.fetch("REDIS_URL"),
+    connect_timeout: 5,
+    read_timeout: 1,
+    write_timeout: 1,
+    reconnect_attempts: 2
+  }
 end
